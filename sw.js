@@ -2,7 +2,6 @@ importScripts('version.js');
 const CACHE_NAME = 'VisuGPX.Pos'+VERSION;
 const ASSETS = [
   'apple-touch-icon.png',
-  'emplacements.css',
   'favicon.ico',
   'favicon-16x16.png',
   'favicon-32x32.png',
