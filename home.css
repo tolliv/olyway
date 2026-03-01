@@ -48,3 +48,26 @@ body
   padding: 5px 10px;      /* Optionnel : donne un peu d'espace au texte */
   cursor: pointer;
 }
+
+#DivVersionBarre
+{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 18px;
+  text-align: center;
+  font-size: 0.9em;
+}
+#TxtVersionActuelle
+{
+  background-color: black;
+  color: white;
+}
+
+#TxtVersionFuture
+{
+  background-color: #080;
+  color: white;
+}

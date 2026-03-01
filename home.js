@@ -47,6 +47,9 @@ if ('serviceWorker' in navigator)
 //----- Gestionnaires d'événements DOM -----
 document.addEventListener('DOMContentLoaded', function()
 {
+  // Version actuelle écran HOME
+  pid('TxtVersionActuelle').innerHTML = "Version " + VERSION;
+
   // Affichage de l'écran HOME
   AfficherEcranHOME();
 });
