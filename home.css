@@ -43,11 +43,24 @@ body
 {
   color: #888;
   background-color: #000;
-  border: 1px solid #444; /* Ajoute un contour fin gris foncé */
-  border-radius: 4px;     /* Optionnel : arrondit légèrement les angles */
-  padding: 5px 10px;      /* Optionnel : donne un peu d'espace au texte */
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
 }
+
+.classBouton
+{
+  flex: 1;
+  font-size: 2rem;
+  background-color: #000;
+  color: white;
+  border: 1px solid #FFF;
+  height: 33%;
+  width: 98%;
+  margin: 3px;
+}
+
 
 #DivVersionBarre
 {
@@ -71,3 +84,4 @@ body
   background-color: #080;
   color: white;
 }
+

@@ -18,16 +18,18 @@
 
 <!----- ECRAN HOME ----->
 <link rel='stylesheet' type='text/css' href='home.css'>
-<div id="scrHome" style="display: none;">
-  <div style="margin: 20px;">
-    <button id="btnWakeLock" onclick="toggleWakeLock()">OFF</button>
-  </div>
-  <br>
-  <div id='DivVersionBarre'>
+<div id="scrHome" style="display: flex; flex-direction: column; height: 100vh; margin: 0;">
+  <!-- <button id="btnWakeLock" onclick="toggleWakeLock()" style="flex: 1; font-size: 2rem;">OFF</button> -->
+  <button class='classBouton' id='btnAction1'>BOUTON 1</button>
+
+  <button class='classBouton' id='btnAction2'>BOUTON 2</button>
+
+  <div id='DivVersionBarre' style="position: absolute; bottom: 0; width: 100%; text-align: center; pointer-events: none;">
     <span id='TxtVersionActuelle'></span>
     <span id='TxtVersionFuture'></span>
   </div>
 </div>
+
 <script src="version.js"></script>
 <script src="home.js"></script>
 </body>
