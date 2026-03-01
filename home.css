@@ -22,21 +22,12 @@ body
   margin: 0;
 }
 
-/* Style pour l'écran Home */
-#scrHome {
-    overflow: hidden;
-    background-color: #000;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Utilise toute la hauteur de la vue */
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+#scrHome
+{
+    flex-direction: column; /* Aligne les boutons verticalement */
+    padding-top: 20px;      /* Réserve l'espace de 20px en haut */
+    box-sizing: border-box; /* Garantit que le padding est inclus dans les 100vh */
+    justify-content: space-around; /* Répartit l'espace entre les boutons */
 }
 
 #btnWakeLock
@@ -51,21 +42,24 @@ body
 
 .classBouton
 {
-  flex: 1;
-  font-size: 2rem;
+  font-size: 35px;
   background-color: #000;
   color: white;
   border: 1px solid #FFF;
-  height: 33%;
-  width: 98%;
+  height: 30%;
   margin: 3px;
+  flex: 1;
+  width: 98%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 
 #DivVersionBarre
 {
   position: fixed;
-  bottom: 0px;
+  top: 0px;
   left: 0px;
   right: 0px;
   width: 100%;
