@@ -25,7 +25,7 @@ body
 /* Style pour l'écran Home */
 #scrHome {
     overflow: hidden;
-    background-color: black;
+    background-color: #000;
     color: white;
     display: flex;
     justify-content: center;
@@ -37,4 +37,14 @@ body
     position: fixed;
     top: 0;
     left: 0;
+}
+
+#btnWakeLock
+{
+  color: #888;
+  background-color: #000;
+  border: 1px solid #444; /* Ajoute un contour fin gris foncé */
+  border-radius: 4px;     /* Optionnel : arrondit légèrement les angles */
+  padding: 5px 10px;      /* Optionnel : donne un peu d'espace au texte */
+  cursor: pointer;
 }
