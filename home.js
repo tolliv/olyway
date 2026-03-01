@@ -12,7 +12,6 @@ let gNewVersion = "";
 //--------------------------------------------------------------------------------------------------
 
 //----- Installation du Service Worker -----
-/* TODO
 if ('serviceWorker' in navigator)
 {
   // updateViaCache: 'none' force le navigateur à ignorer son cache HTTP
@@ -44,7 +43,6 @@ if ('serviceWorker' in navigator)
   {
   });
 }
-*/
 
 //----- Gestionnaires d'événements DOM -----
 document.addEventListener('DOMContentLoaded', function()
