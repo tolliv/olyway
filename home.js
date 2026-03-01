@@ -54,9 +54,11 @@ document.addEventListener('DOMContentLoaded', function()
   AfficherEcranHOME();
 });
 
-// Réactivation automatique si on revient sur la PWA
-document.addEventListener('visibilitychange', async () => {
-  if (wakeLock !== null && document.visibilityState === 'visible') {
+//----- Wake Lock -----
+document.addEventListener('visibilitychange', async () =>
+{
+  if (wakeLock !== null && document.visibilityState === 'visible')
+  {
     wakeLock = await navigator.wakeLock.request('screen');
   }
 });
@@ -111,27 +113,38 @@ function openFullscreen()
 //--------------------------------------------------------------------------------------------------
 let wakeLock = null;
 
-async function toggleWakeLock() {
+async function toggleWakeLock()
+{
   const btn = document.getElementById('btnWakeLock');
 
-  if (wakeLock === null) {
-    // Activer le Wake Lock
+  // Activer le Wake Lock
+  if (wakeLock === null)
+  {
     try {
-      if ('wakeLock' in navigator) {
+      if ('wakeLock' in navigator)
+      {
         wakeLock = await navigator.wakeLock.request('screen');
         btn.textContent = "ON";
-
-        wakeLock.addEventListener('release', () => {
+        openFullscreen();
+        wakeLock.addEventListener('release', () =>
+        {
           console.log('Wake Lock libéré');
         });
-      } else {
+      }
+      else
+      {
         alert("Votre navigateur ne supporte pas le maintien de l'écran.");
       }
-    } catch (err) {
+    }
+    catch (err)
+    {
       console.error(`${err.name}, ${err.message}`);
     }
-  } else {
-    // Désactiver le Wake Lock
+  }
+
+  // Désactiver le Wake Lock
+  else
+  {
     wakeLock.release()
       .then(() => {
         wakeLock = null;
