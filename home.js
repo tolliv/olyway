@@ -95,6 +95,7 @@ function openFullscreen()
   {
     elem.requestFullscreen();
   }
+
   /* Safari / iOS */
   else if (elem.webkitRequestFullscreen)
   {
@@ -105,6 +106,29 @@ function openFullscreen()
   else if (elem.msRequestFullscreen)
   {
     elem.msRequestFullscreen();
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Quitter le plein écran
+//--------------------------------------------------------------------------------------------------
+function closeFullscreen()
+{
+  if (document.exitFullscreen)
+  {
+    document.exitFullscreen();
+  }
+
+  /* Safari / iOS */
+  else if (document.webkitExitFullscreen)
+  {
+    document.webkitExitFullscreen();
+  }
+
+  /* IE11 */
+  else if (document.msExitFullscreen)
+  {
+    document.msExitFullscreen();
   }
 }
 
@@ -149,6 +173,7 @@ async function toggleWakeLock()
       .then(() => {
         wakeLock = null;
         btn.textContent = "OFF";
+        closeFullscreen();
       });
   }
 }
