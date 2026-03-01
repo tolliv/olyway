@@ -1,0 +1,40 @@
+/* Body */
+html, body
+{
+  overscroll-behavior-y: contain;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Empêche le défilement pendant le plein écran */
+}
+
+body
+{
+  overscroll-behavior-y: contain;
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+  font-weight: normal;
+  font-stretch: normal;
+  font-size: 14px;
+  color-scheme: dark; /* Changé en dark pour correspondre au fond noir */
+  margin: 0;
+}
+
+/* Style pour l'écran Home */
+#scrHome {
+    overflow: hidden;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Utilise toute la hauteur de la vue */
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
