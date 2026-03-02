@@ -40,6 +40,15 @@ body
   cursor: pointer;
 }
 
+
+.classTitre
+{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 35px;
+}
+
 .classBouton
 {
   font-size: 35px;
