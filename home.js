@@ -80,14 +80,13 @@ function pid(id)
 function AfficherEcranHOME()
 {
   console.log("Démarrage Olyway");
-
-  // Affichage écran
   pid('scrHome').style.display = 'block';
 }
 
 //--------------------------------------------------------------------------------------------------
 // Plein écran
 //--------------------------------------------------------------------------------------------------
+let gFullScreen = false;
 function openFullscreen()
 {
   let elem = document.documentElement;
@@ -107,6 +106,7 @@ function openFullscreen()
   {
     elem.msRequestFullscreen();
   }
+  gFullScreen = true;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -130,6 +130,8 @@ function closeFullscreen()
   {
     document.msExitFullscreen();
   }
+
+  gFullScreen = false;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -178,10 +180,19 @@ async function toggleWakeLock()
   }
 }
 
-
-
-
+//==================================================================================================
+// Changement d'écrans
+//==================================================================================================
 function ButPrincipalEnregistrer()
 {
-  openFullscreen();
+  if (!gFullScreen)
+    openFullscreen();
+  else
+    closeFullscreen();
+}
+
+function ButPrincipalInfos()
+{
+  pid('scrHome').style.display = 'none';
+  AfficherEcranINFOS();
 }
