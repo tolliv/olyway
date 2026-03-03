@@ -48,7 +48,7 @@ if ('serviceWorker' in navigator)
 document.addEventListener('DOMContentLoaded', function()
 {
   // Version actuelle écran HOME
-  pid('TxtVersionActuelle').innerHTML = "Version " + VERSION;
+//  pid('TxtVersionActuelle').innerHTML = "Version " + VERSION;
 
   // Affichage de l'écran HOME
   AfficherEcranHOME();
@@ -180,3 +180,8 @@ async function toggleWakeLock()
 
 
 
+
+function ButPrincipalEnregistrer()
+{
+  openFullscreen();
+}

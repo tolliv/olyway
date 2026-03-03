@@ -21,14 +21,13 @@
 <div id="scrHome" style="display: flex; flex-direction: column; height: 100vh; margin: 0;">
   <!-- <button id="btnWakeLock" onclick="toggleWakeLock()" style="flex: 1; font-size: 2rem;">OFF</button> -->
   <div class='classTitre'>Ecran PRINCIPAL</div>
-  <button class='classBouton' id='btnHomeTrace'><span style='font-size: 2em;'>E</span>NREGISTRER</button>
-  <button class='classBouton' id='btnAction2'><span style='font-size: 2em;'>T</span>RACES</button>
-  <button class='classBouton' id='btnAction3'><span style='font-size: 2em;'>I</span>NFORMATIONS</button>
-
-  <div id='DivVersionBarre' style="position: absolute; bottom: 0; width: 100%; text-align: center; pointer-events: none;">
-    <span id='TxtVersionActuelle'></span>
-    <span id='TxtVersionFuture'></span>
-  </div>
+  <button class='classBouton' id='btnHomeTrace' onclick='ButPrincipalEnregistrer();'>ENREGISTRER</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='btnAction2'>TRACES</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='btnAction3'>INFORMATIONS</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='btnAction4'>COMMANDE</button>
 </div>
 
 <script src="version.js"></script>
