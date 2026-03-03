@@ -1,4 +1,5 @@
 @echo off
+call date.bat
 set msg=Auto-update %date% %time%
 c:\git\bin\git status
 c:\git\bin\git add .
