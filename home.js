@@ -208,8 +208,32 @@ async function AttenteFinSpeech()
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranPrincipal()
 {
-  Speech("écran principal");
+  if (gInterfaceSon) Speech("écran principal");
   pid('EcranPrincipal').style.display = 'block';
+}
+
+//--------------------------------------------------------------------------------------------------
+// Activer ou non le son sur l'interface
+//--------------------------------------------------------------------------------------------------
+let gInterfaceSon = true;
+function EcranPrincipalVoixClick()
+{
+  if (gInterfaceSon == true)
+  {
+    Speech("voix désactivée")
+    pid('EcranPrincipalVoix').innerHTML = "VOIX INACTIVE";
+    pid('EcranPrincipalVoix').style.backgroundColor = "#000";
+    pid('EcranPrincipalVoix').style.color = "#FFF";
+    gInterfaceSon = false;
+  }
+  else
+  {
+    Speech("voix activée")
+    pid('EcranPrincipalVoix').innerHTML = "VOIX ACTIVE";
+    pid('EcranPrincipalVoix').style.backgroundColor = "#0F0";
+    pid('EcranPrincipalVoix').style.color = "#000";
+    gInterfaceSon = true;
+  }
 }
 
 
@@ -221,7 +245,7 @@ function AfficherEcranPrincipal()
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranTraces()
 {
-  Speech("écran traces");
+  if (gInterfaceSon) Speech("écran traces");
   pid('EcranPrincipal').style.display = 'none';
   pid('EcranTraces').style.display = 'block';
 }
@@ -235,7 +259,7 @@ function AfficherEcranTraces()
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranEnregistrer()
 {
-  Speech("écran enregistrer");
+  if (gInterfaceSon) Speech("écran enregistrer");
   pid('EcranPrincipal').style.display = 'none';
   pid('EcranEnregistrer').style.display = 'block';
 }
@@ -252,7 +276,7 @@ let gInfosParam = "VERSION"; // Valeur par défaut
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranInfos()
 {
-  Speech("écran infos");
+  if (gInterfaceSon) Speech("écran infos");
   pid('EcranPrincipal').style.display = 'none';
   pid('EcranInfos').style.display = 'block';
   AfficherInfosParam();
