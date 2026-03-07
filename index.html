@@ -17,18 +17,18 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel='stylesheet' type='text/css' href='home.css'>
   <title>Olyway</title>
   <meta charset="UTF-8">
 </head>
 <body>
 
+<link rel='stylesheet' type='text/css' href='home.css'>
 <script src="version.js"></script>
 
 <!----- ECRAN DEMARRAGE ----->
 <div id='EcranDemarrage'>
   <img id='ImgLogo' src="icon-192.png">
-  <span id='TxtOliway'>Oliway</span>
+  <span id='TxtOliway'>Olyway</span>
 </div>
 
 <!----- ECRAN PRINCIPAL ----->
@@ -72,7 +72,7 @@
   <div class='classTitre'>Écran INFOS</div>
   <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
   <div class='classEspace'></div>
-  <button class='classTexte' id='TxtInfosValeur' onclick=''></button>
+  <button class='classTexte' id='TxtInfosValeur'></button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
@@ -82,13 +82,25 @@
 <!----- Ecran SUIVRE ----->
 <div id='EcranSuivre' style='display: none;'>
   <div class='classTitre'>Écran SUIVRE</div>
-  <button class='classTexte'></button>
+  <button class='classTexte' id='TxtSuivreParam'></button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>SUIVRE</button>
+  <button class='classBouton' onclick=''>DÉMARRER</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>CRÉER</button>
+  <button class='classBouton' onclick=''>RÉGLAGES</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
+</div>
+
+<!----- Ecran CREER ----->
+<div id='EcranCreer' style='display: none;'>
+  <div class='classTitre'>Écran CRÉER</div>
+  <button class='classBouton' onclick=''>ENREGISTRER</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>IMPORTER</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''></button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
 </div>
 
 <!----- Ecran ENREGISTRER ----->
@@ -103,7 +115,28 @@
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
+<!----- Ecran DEMARRER ----->
+<div id='EcranDemarrer' style='display: none;'>
+  <div class='classTitre'>Écran DÉMARRER</div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+</div>
+
+
 <script src="home.js"></script>
+<script src="EcranCreer.js"></script>
+<script src="EcranEnregistrer.js"></script>
+<script src="EcranInfos.js"></script>
+<script src="EcranItineraires.js"></script>
+<script src="EcranPrincipal.js"></script>
+<script src="EcranSuivre.js"></script>
+<script src="EcranTraces.js"></script>
+
 <!-- <script src="download.js"></script> -->
 <!-- <button id="btnWakeLock" onclick="toggleWakeLock()" style="flex: 1; font-size: 2rem;">OFF</button> -->
 

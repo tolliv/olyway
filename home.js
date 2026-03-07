@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', async function()
 function pid(id)
 {
   const element = document.getElementById(id);
-  if (id == null)
-    console.log("ID NULL (" + id + ")");
-  return element;
+  if (element == null)
+    console.log("'"+ id + "' introuvable !");
+  return(element);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function sleep(ms)
 {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return(new Promise(resolve => setTimeout(resolve, ms)));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -204,7 +204,8 @@ async function AttenteFinSpeech()
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
-const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos", "EcranSuivre"];
+const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos", "EcranSuivre",
+                      "EcranCreer", "EcranDemarrer"];
 function AfficherEcran(pEcran)
 {
   for (let i = 0; i < gListeEcrans.length; i++)
@@ -219,129 +220,16 @@ function AfficherEcran(pEcran)
 
 
 
-//==================================================================================================
-// Ecran ITINERAIRES
-//==================================================================================================
-const gItinerairesListe = [
-{nom: "QUARTIER", distance: 4.2, date: "07/03/2026"},
-{nom: "LEGENDES", distance: 8.2, date: "13/06/2025"},
-];
-
-let gItineraireIndex = 0;
-
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranItineraires()
-{
-  if (gInterfaceSon) Speech("écran itinéraires");
-  AfficherEcran("EcranItineraires");
-  AfficherItinerairesParam(gItineraireIndex);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Afficher les itinéraires
-//--------------------------------------------------------------------------------------------------
-function AfficherItinerairesParam(pIndex)
-{
-  pid('ButItinerairesNom').innerHTML = gItinerairesListe[pIndex].nom + " >";
-}
-
-//--------------------------------------------------------------------------------------------------
-// Choix itinéaire suivant
-//--------------------------------------------------------------------------------------------------
-function ButItinerairesNomClick()
-{
-  gItineraireIndex = (gItineraireIndex + 1) % gItinerairesListe.length;
-  AfficherItinerairesParam(gItineraireIndex);
-}
 
 
 
-//==================================================================================================
-// Ecran TRACES
-//==================================================================================================
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranTraces()
-{
-  if (gInterfaceSon) Speech("écran traces");
-  AfficherEcran("EcranTraces");
-}
 
 
 
-//==================================================================================================
-// Ecran ENREGISTRER
-//==================================================================================================
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranEnregistrer()
-{
-  if (gInterfaceSon) Speech("écran enregistrer");
-  AfficherEcran("EcranEnregistrer");
-}
 
 
 
-//==================================================================================================
-// Ecran INFOS
-//==================================================================================================
-const gInfosParamListe = ["VERSION", "AUTEURS"];
-let gInfosParam = "VERSION"; // Valeur par défaut
-
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranInfos()
-{
-  if (gInterfaceSon) Speech("écran infos");
-  AfficherEcran("EcranInfos");
-  AfficherInfosParam();
-}
-
-//--------------------------------------------------------------------------------------------------
-// Afficher les paramètres
-//--------------------------------------------------------------------------------------------------
-function AfficherInfosParam()
-{
-  // Liste des paramètres
-  switch(gInfosParam)
-  {
-    case "VERSION":
-        pid('TxtInfosParam').innerHTML = "VERSION >";
-        pid('TxtInfosValeur').innerHTML = VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
-      break;
-    case "AUTEURS":
-        pid('TxtInfosParam').innerHTML = "AUTEURS >";
-        pid('TxtInfosValeur').innerHTML = "tolliv & frneko";
-      break;
-  }
-}
-
-//--------------------------------------------------------------------------------------------------
-// Paramètre suivant
-//--------------------------------------------------------------------------------------------------
-function TxtInfosParamClick()
-{
-  let lIndex = gInfosParamListe.indexOf(gInfosParam);
-  lIndex = (lIndex + 1) % gInfosParamListe.length;
-  gInfosParam = gInfosParamListe[lIndex];
-  AfficherInfosParam();
-}
 
 
 
-//==================================================================================================
-// Ecran SUIVRE
-//==================================================================================================
 
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranSuivre()
-{
-  AfficherEcran("EcranSuivre");
-}

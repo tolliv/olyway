@@ -122,6 +122,12 @@ body
   height: 22dvh;
 }
 
+/* Transforme les \n en sauts de ligne visuels */
+#TxtSuivreParam
+{
+    white-space: pre-line;
+}
+
 /* Espace entre 2 boutons */
 .classEspace
 {
