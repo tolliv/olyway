@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', async function()
   console.log("Version = ", VERSION);
 
   Speech("Bienvenue sur Olyway");
-//  await AttenteFinSpeech(); // DEBUG supprimer commentaire si release
+  await AttenteFinSpeech(); // DEBUG supprimer commentaire si release
 
   // Affichage de l'écran Principal
   pid('EcranDemarrage').style.display = 'none';
   AfficherEcran("EcranPrincipal");
 
-  AfficherEcranEnregistrer(); // DEBUG supprimer commentaire si release
+//  AfficherEcranEnregistrer(); // DEBUG mettre en commentaire si release
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -136,17 +136,13 @@ let wakeLock = null;
 // Fonction pour ACTIVER le Wake Lock
 async function ActiverWakeLock()
 {
-  const btn = document.getElementById('btnWakeLock');
-
   try
   {
     if ('wakeLock' in navigator) {
       if (wakeLock === null) {
         wakeLock = await navigator.wakeLock.request('screen');
-        btn.textContent = "ON";
-        openFullscreen();
-
-        wakeLock.addEventListener('release', () => {
+        wakeLock.addEventListener('release', () =>
+        {
           console.log('Wake Lock libéré');
         });
       }
@@ -158,14 +154,13 @@ async function ActiverWakeLock()
   }
   catch (err)
   {
-    console.error(`${err.name}, ${err.message}`);
+    console.error("Wake Lock Error");
   }
 }
 
 // Fonction pour DÉSACTIVER le Wake Lock
 async function DesactiverWakeLock()
 {
-  const btn = document.getElementById('btnWakeLock');
 
   if (wakeLock !== null)
   {
@@ -173,12 +168,10 @@ async function DesactiverWakeLock()
     {
       await wakeLock.release();
       wakeLock = null;
-      btn.textContent = "OFF";
-      closeFullscreen();
     }
     catch (err)
     {
-      console.error(`Erreur lors de la libération : ${err.message}`);
+      console.error("Wake Unlock Error");
     }
   }
 }

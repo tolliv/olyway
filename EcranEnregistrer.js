@@ -17,7 +17,7 @@ function AfficherEcranEnregistrer()
 //--------------------------------------------------------------------------------------------------
 function ButtonEnregistrerDemarrerClick()
 {
-//  ActiverWakeLock();
+  ActiverWakeLock();
   openFullscreen(); // DEBUG supprimer commentaire si release
   AfficherEcran("EcranEnregistrement");
 }
@@ -55,6 +55,7 @@ function EnregistrementArreter()
     clearTimeout(gTimeoutReprendre);
     gTimeoutReprendre = null;
   }
+  DesactiverWakeLock();
   closeFullscreen();
   AfficherEcran("EcranItineraires");
 }
