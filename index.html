@@ -84,9 +84,9 @@
   <span class='classTitre'>Écran SUIVRE</span>
   <span  class='classTexte' id='TxtSuivreParam'></span>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>DÉMARRER</button>
-  <div class='classEspace'></div>
   <button class='classBouton' onclick=''>RÉGLAGES</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>DÉMARRER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
 </div>
@@ -94,7 +94,7 @@
 <!----- Ecran CREER ----->
 <div id='EcranCreer' style='display: none;'>
   <span class='classTitre'>Écran CRÉER</span>
-  <button class='classBouton' onclick=''>ENREGISTRER</button>
+  <button class='classBouton' onclick='AfficherEcranEnregistrer();'>ENREGISTRER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>IMPORTER</button>
   <div class='classEspace'></div>
@@ -105,14 +105,14 @@
 
 <!----- Ecran ENREGISTRER ----->
 <div id='EcranEnregistrer' style='display: none;'>
-  <span class='classTitre'>Écran ITINERAIRES</span>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <span class='classTitre'>Écran ENREGISTRER</span>
+  <button class='classBouton' onclick=''>RÉGLAGES</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <button class='classBouton' onclick='ButtonEnregistrerDemarrerClick();'>DÉMARRER</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
 </div>
 
 <!----- Ecran DEMARRER ----->
@@ -127,6 +127,18 @@
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
+<!----- Ecran ENREGISTREMENT ----->
+<div id='EcranEnregistrement' style='display: none;'>
+  <button id='BoutonEnregistrement' onclick='ButtonEnregistrementStopClick();'>O</button>
+</div>
+<!----- Ecran PAUSE ----->
+<div id='EcranPause' style='display: none;'>
+  <span class='classTexteReleves' id='TxtReleves'></span>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>PAUSE</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick='EnregistrementArreter();'>ARRÊTER</button>
+</div>
 
 <script src="home.js"></script>
 <script src="EcranCreer.js"></script>

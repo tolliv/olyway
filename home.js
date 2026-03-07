@@ -59,11 +59,13 @@ document.addEventListener('DOMContentLoaded', async function()
   console.log("Version = ", VERSION);
 
   Speech("Bienvenue sur Olyway");
-  await AttenteFinSpeech();
+//  await AttenteFinSpeech(); // DEBUG supprimer commentaire si release
 
   // Affichage de l'écran Principal
   pid('EcranDemarrage').style.display = 'none';
   AfficherEcran("EcranPrincipal");
+
+  AfficherEcranEnregistrer(); // DEBUG supprimer commentaire si release
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -110,16 +112,18 @@ function openFullscreen()
 //--------------------------------------------------------------------------------------------------
 function closeFullscreen()
 {
-  if (document.exitFullscreen)
-    document.exitFullscreen();
+  let elem = document;
+
+  if (elem.exitFullscreen)
+    elem.exitFullscreen();
 
   /* Safari / iOS */
-  else if (document.webkitExitFullscreen)
-    document.webkitExitFullscreen();
+  else if (elem.webkitExitFullscreen)
+    elem.webkitExitFullscreen();
 
   /* IE11 */
-  else if (document.msExitFullscreen)
-    document.msExitFullscreen();
+  else if (elem.msExitFullscreen)
+    elem.msExitFullscreen();
 
   gFullScreen = false;
 }
@@ -129,44 +133,53 @@ function closeFullscreen()
 //--------------------------------------------------------------------------------------------------
 let wakeLock = null;
 
-async function toggleWakeLock()
+// Fonction pour ACTIVER le Wake Lock
+async function ActiverWakeLock()
 {
   const btn = document.getElementById('btnWakeLock');
 
-  // Activer le Wake Lock
-  if (wakeLock === null)
+  try
   {
-    try {
-      if ('wakeLock' in navigator)
-      {
+    if ('wakeLock' in navigator) {
+      if (wakeLock === null) {
         wakeLock = await navigator.wakeLock.request('screen');
         btn.textContent = "ON";
         openFullscreen();
-        wakeLock.addEventListener('release', () =>
-        {
+
+        wakeLock.addEventListener('release', () => {
           console.log('Wake Lock libéré');
         });
       }
-      else
-      {
-        alert("Votre navigateur ne supporte pas le maintien de l'écran.");
-      }
+    }
+    else
+    {
+      alert("Votre navigateur ne supporte pas le maintien de l'écran.");
+    }
+  }
+  catch (err)
+  {
+    console.error(`${err.name}, ${err.message}`);
+  }
+}
+
+// Fonction pour DÉSACTIVER le Wake Lock
+async function DesactiverWakeLock()
+{
+  const btn = document.getElementById('btnWakeLock');
+
+  if (wakeLock !== null)
+  {
+    try
+    {
+      await wakeLock.release();
+      wakeLock = null;
+      btn.textContent = "OFF";
+      closeFullscreen();
     }
     catch (err)
     {
-      console.error(`${err.name}, ${err.message}`);
+      console.error(`Erreur lors de la libération : ${err.message}`);
     }
-  }
-
-  // Désactiver le Wake Lock
-  else
-  {
-    wakeLock.release()
-      .then(() => {
-        wakeLock = null;
-        btn.textContent = "OFF";
-        closeFullscreen();
-      });
   }
 }
 
@@ -204,18 +217,38 @@ async function AttenteFinSpeech()
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
-const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos", "EcranSuivre",
-                      "EcranCreer", "EcranDemarrer"];
+const gListeEcrans = ["EcranPrincipal",
+                          "EcranItineraires",
+                              "EcranSuivre",
+                                  /* EcranReglages */
+                                  /* EcranDemarrer */
+                              "EcranCreer",
+                                  "EcranEnregistrer",
+                                      /* EcranReglages */
+                                      "EcranEnregistrement",
+                                          "EcranPause",
+                          "EcranTraces",
+                          "EcranInfos",
+                      ];
 function AfficherEcran(pEcran)
 {
+  let lTrouve = false;
   for (let i = 0; i < gListeEcrans.length; i++)
   {
     const lNomEcran = gListeEcrans[i];
     if (lNomEcran === pEcran)
+    {
       pid(lNomEcran).style.display = 'block';
+      lTrouve = true;
+    }
     else
+    {
       pid(lNomEcran).style.display = 'none';
+    }
   }
+
+  if (!lTrouve)
+    console.log("Ecran introuvable : ", pEcran);
 }
 
 function InputChange(pTexte)
