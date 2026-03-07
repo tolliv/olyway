@@ -2,9 +2,15 @@
  Programme Olyway
  --------------------------------------------------------->
 
+
+<!-------------------------------------------------------
+ Programme Olyway
+ --------------------------------------------------------->
+
+
 <!----- HEADER ------------------------------------------->
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="manifest" href="manifest.json">
@@ -17,36 +23,59 @@
 <body>
 
 <script src="version.js"></script>
-
-<!----- ECRAN HOME ----->
 <link rel='stylesheet' type='text/css' href='home.css'>
-<div id='scrHome' style='display: none;'>
-  <!-- <button id="btnWakeLock" onclick="toggleWakeLock()" style="flex: 1; font-size: 2rem;">OFF</button> -->
+
+<!----- ECRAN PRINCIPAL ----->
+<div id='EcranPrincipal' style='display: none;'>
   <div class='classTitre'>Ecran PRINCIPAL</div>
-  <button class='classBouton' id='btnHomeTrace' onclick='ButPrincipalEnregistrer();'>ENREGISTRER</button>
+  <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction2'>TRACES</button>
+  <button class='classBouton' onclick='AfficherEcranEnregistrer();'>ENREGISTRER</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction3' onclick='ButPrincipalInfos();'>INFOS</button>
+  <button class='classBouton' onclick='AfficherEcranInfos();'>INFOS</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction4'>COMMANDE</button>
+  <button class='classBouton'>(vide)</button>
 </div>
-<script src="home.js"></script>
+
+<!----- Ecran TRACES ----->
+<div id='EcranTraces' style='display: none;'>
+  <div class='classTitre'>Ecran TRACES</div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick="pid('EcranTraces').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
+</div>
+
+<!----- Ecran ENREGISTRER ----->
+<div id='EcranEnregistrer' style='display: none;'>
+  <div class='classTitre'>Ecran ENREGISTRER</div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick="pid('EcranEnregistrer').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
+</div>
 
 <!----- Ecran INFOS ----->
-<link rel='stylesheet' type='text/css' href='infos.css'>
-<div id='scrInfos' style='display: none;'>
+<div id='EcranInfos' style='display: none;'>
   <div class='classTitre'>Ecran INFOS</div>
-  <button class='classBouton' id='btnAction1'></button>
+  <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction2'></button>
+  <button class='classTexte' id='TxtInfosValeur' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction3'></button>
+  <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='btnAction4' onclick='ButInfosRetour();'>RETOUR</button>
+  <button class='classBouton' onclick="pid('EcranInfos').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
 </div>
-<script src="infos.js"></script>
 
+<script src="home.js"></script>
+<!-- <script src="download.js"></script> -->
+<!-- <button id="btnWakeLock" onclick="toggleWakeLock()" style="flex: 1; font-size: 2rem;">OFF</button> -->
 
 </body>
 </html>

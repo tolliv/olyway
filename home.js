@@ -44,16 +44,6 @@ if ('serviceWorker' in navigator)
   });
 }
 
-//----- Gestionnaires d'événements DOM -----
-document.addEventListener('DOMContentLoaded', function()
-{
-  // Version actuelle écran HOME
-//  pid('TxtVersionActuelle').innerHTML = "Version " + VERSION;
-
-  // Affichage de l'écran HOME
-  AfficherEcranHOME();
-});
-
 //----- Wake Lock -----
 document.addEventListener('visibilitychange', async () =>
 {
@@ -61,6 +51,17 @@ document.addEventListener('visibilitychange', async () =>
   {
     wakeLock = await navigator.wakeLock.request('screen');
   }
+});
+
+//----- Gestionnaires d'événements DOM -----
+document.addEventListener('DOMContentLoaded', async function()
+{
+  console.log("Version = ", VERSION);
+
+  // Affichage de l'écran Principal
+  Speech("Bienvenue sur Olyway");
+  await AttenteFinSpeech();
+  AfficherEcranPrincipal();
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -75,12 +76,11 @@ function pid(id)
 }
 
 //--------------------------------------------------------------------------------------------------
-// Afficher l'écran Home
+// Fonction d'attente d'une durée
 //--------------------------------------------------------------------------------------------------
-function AfficherEcranHOME()
+function sleep(ms)
 {
-  console.log("Démarrage Olyway");
-  pid('scrHome').style.display = 'block';
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -91,21 +91,15 @@ function openFullscreen()
 {
   let elem = document.documentElement;
   if (elem.requestFullscreen)
-  {
     elem.requestFullscreen();
-  }
 
   /* Safari / iOS */
   else if (elem.webkitRequestFullscreen)
-  {
     elem.webkitRequestFullscreen();
-  }
 
   /* IE11 */
   else if (elem.msRequestFullscreen)
-  {
     elem.msRequestFullscreen();
-  }
   gFullScreen = true;
 }
 
@@ -115,21 +109,15 @@ function openFullscreen()
 function closeFullscreen()
 {
   if (document.exitFullscreen)
-  {
     document.exitFullscreen();
-  }
 
   /* Safari / iOS */
   else if (document.webkitExitFullscreen)
-  {
     document.webkitExitFullscreen();
-  }
 
   /* IE11 */
   else if (document.msExitFullscreen)
-  {
     document.msExitFullscreen();
-  }
 
   gFullScreen = false;
 }
@@ -180,19 +168,122 @@ async function toggleWakeLock()
   }
 }
 
-//==================================================================================================
-// Changement d'écrans
-//==================================================================================================
-function ButPrincipalEnregistrer()
+//--------------------------------------------------------------------------------------------------
+// Speech
+//--------------------------------------------------------------------------------------------------
+function Speech(texte)
 {
-  if (!gFullScreen)
-    openFullscreen();
+  // On vérifie si l'API est supportée
+  if ('speechSynthesis' in window)
+  {
+    // Arrête la lecture de la phrase en cours
+    window.speechSynthesis.cancel();
+    const message = new SpeechSynthesisUtterance(texte);
+    message.lang = 'fr-FR'; // Définit la langue en français
+    window.speechSynthesis.speak(message);
+  }
   else
-    closeFullscreen();
+  {
+    alert("Désolé, votre navigateur ne supporte pas la synthèse vocale.");
+  }
 }
 
-function ButPrincipalInfos()
+//--------------------------------------------------------------------------------------------------
+// Atttente fin de la lecture en cours
+//--------------------------------------------------------------------------------------------------
+async function AttenteFinSpeech()
 {
-  pid('scrHome').style.display = 'none';
-  AfficherEcranINFOS();
+  do
+  {
+    await sleep(100);
+  } while (window.speechSynthesis.speaking);
+}
+
+
+//==================================================================================================
+// Ecran Principal
+//==================================================================================================
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranPrincipal()
+{
+  Speech("écran principal");
+  pid('EcranPrincipal').style.display = 'block';
+}
+
+
+//==================================================================================================
+// Ecran TRACES
+//==================================================================================================
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranTraces()
+{
+  Speech("écran traces");
+  pid('EcranPrincipal').style.display = 'none';
+  pid('EcranTraces').style.display = 'block';
+}
+
+
+//==================================================================================================
+// Ecran ENREGISTRER
+//==================================================================================================
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranEnregistrer()
+{
+  Speech("écran enregistrer");
+  pid('EcranPrincipal').style.display = 'none';
+  pid('EcranEnregistrer').style.display = 'block';
+}
+
+
+//==================================================================================================
+// Ecran INFOS
+//==================================================================================================
+const gInfosParamListe = ["VERSION", "AUTEURS"];
+let gInfosParam = "VERSION"; // Valeur par défaut
+
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranInfos()
+{
+  Speech("écran infos");
+  pid('EcranPrincipal').style.display = 'none';
+  pid('EcranInfos').style.display = 'block';
+  AfficherInfosParam();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Afficher les paramètres
+//--------------------------------------------------------------------------------------------------
+function AfficherInfosParam()
+{
+  // Liste des paramètres
+  switch(gInfosParam)
+  {
+    case "VERSION":
+        pid('TxtInfosParam').innerHTML = "VERSION >";
+        pid('TxtInfosValeur').innerHTML = VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
+      break;
+    case "AUTEURS":
+        pid('TxtInfosParam').innerHTML = "AUTEURS >";
+        pid('TxtInfosValeur').innerHTML = "tolliv & frneko";
+      break;
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Paramètre suivant
+//--------------------------------------------------------------------------------------------------
+function TxtInfosParamClick()
+{
+  let lIndex = gInfosParamListe.indexOf(gInfosParam);
+  lIndex = (lIndex + 1) % gInfosParamListe.length;
+  gInfosParam = gInfosParamListe[lIndex];
+  AfficherInfosParam();
 }
