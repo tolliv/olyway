@@ -236,7 +236,7 @@ function EcranPrincipalVoixClick()
   if (gInterfaceSon == true)
   {
     Speech("voix désactivée")
-    pid('EcranPrincipalVoix').innerHTML = "VOIX INACTIVE";
+    pid('EcranPrincipalVoix').innerHTML = "VOIX DESACTIVEE";
     pid('EcranPrincipalVoix').style.backgroundColor = "#000";
     pid('EcranPrincipalVoix').style.color = "#FFF";
     gInterfaceSon = false;
@@ -244,7 +244,7 @@ function EcranPrincipalVoixClick()
   else
   {
     Speech("voix activée")
-    pid('EcranPrincipalVoix').innerHTML = "VOIX ACTIVE";
+    pid('EcranPrincipalVoix').innerHTML = "VOIX ACTIVEE";
     pid('EcranPrincipalVoix').style.backgroundColor = "#0F0";
     pid('EcranPrincipalVoix').style.color = "#000";
     gInterfaceSon = true;
@@ -256,6 +256,12 @@ function EcranPrincipalVoixClick()
 //==================================================================================================
 // Ecran ITINERAIRES
 //==================================================================================================
+const gItinerairesListe = [
+{ nom: "TOUR DU QUARTIER", distance: 4.2 },
+{ nom: "CHEMIN DES LEGENDES", distance: 8.2},
+];
+
+
 //--------------------------------------------------------------------------------------------------
 // Afficher l'écran
 //--------------------------------------------------------------------------------------------------
@@ -263,7 +269,10 @@ function AfficherEcranItineraires()
 {
   if (gInterfaceSon) Speech("écran itinéraires");
   AfficherEcran("EcranItineraires");
+  pid('TxtItinerairesNom').innerHTML = gItinerairesListe[0].nom;
+  pid('TxtItinerairesValeur').innerHTML = gItinerairesListe[0].distance + "km";
 }
+
 
 
 //==================================================================================================
