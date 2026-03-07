@@ -58,9 +58,10 @@ document.addEventListener('DOMContentLoaded', async function()
 {
   console.log("Version = ", VERSION);
 
-  // Affichage de l'écran Principal
   Speech("Bienvenue sur Olyway");
   await AttenteFinSpeech();
+
+  // Affichage de l'écran Principal
   pid('EcranDemarrage').style.display = 'none';
   AfficherEcran("EcranPrincipal");
 });
@@ -203,7 +204,7 @@ async function AttenteFinSpeech()
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
-const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos"];
+const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos", "EcranSuivre"];
 function AfficherEcran(pEcran)
 {
   for (let i = 0; i < gListeEcrans.length; i++)
@@ -216,52 +217,17 @@ function AfficherEcran(pEcran)
   }
 }
 
-//==================================================================================================
-// Ecran Principal
-//==================================================================================================
-//--------------------------------------------------------------------------------------------------
-// Afficher l'écran
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranPrincipal()
-{
-  if (gInterfaceSon) Speech("écran principal");
-  AfficherEcran("EcranPrincipal");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Activer ou non le son sur l'interface
-//--------------------------------------------------------------------------------------------------
-let gInterfaceSon = true;
-function EcranPrincipalVoixClick()
-{
-  if (gInterfaceSon == true)
-  {
-    Speech("voix désactivée")
-    pid('EcranPrincipalVoix').innerHTML = "VOIX DESACTIVEE";
-    pid('EcranPrincipalVoix').style.backgroundColor = "#000";
-    pid('EcranPrincipalVoix').style.color = "#FFF";
-    gInterfaceSon = false;
-  }
-  else
-  {
-    Speech("voix activée")
-    pid('EcranPrincipalVoix').innerHTML = "VOIX ACTIVEE";
-    pid('EcranPrincipalVoix').style.backgroundColor = "#0F0";
-    pid('EcranPrincipalVoix').style.color = "#000";
-    gInterfaceSon = true;
-  }
-}
-
 
 
 //==================================================================================================
 // Ecran ITINERAIRES
 //==================================================================================================
 const gItinerairesListe = [
-{ nom: "QUARTIER", distance: 4.2 },
-{ nom: "LEGENDES", distance: 8.2},
+{nom: "QUARTIER", distance: 4.2, date: "07/03/2026"},
+{nom: "LEGENDES", distance: 8.2, date: "13/06/2025"},
 ];
 
+let gItineraireIndex = 0;
 
 //--------------------------------------------------------------------------------------------------
 // Afficher l'écran
@@ -270,8 +236,24 @@ function AfficherEcranItineraires()
 {
   if (gInterfaceSon) Speech("écran itinéraires");
   AfficherEcran("EcranItineraires");
-  pid('TxtItinerairesNom').innerHTML = gItinerairesListe[0].nom + "<br>"+ gItinerairesListe[0].nom + " >";
-  pid('TxtItinerairesValeur').innerHTML = gItinerairesListe[0].distance + "km";
+  AfficherItinerairesParam(gItineraireIndex);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Afficher les itinéraires
+//--------------------------------------------------------------------------------------------------
+function AfficherItinerairesParam(pIndex)
+{
+  pid('ButItinerairesNom').innerHTML = gItinerairesListe[pIndex].nom + " >";
+}
+
+//--------------------------------------------------------------------------------------------------
+// Choix itinéaire suivant
+//--------------------------------------------------------------------------------------------------
+function ButItinerairesNomClick()
+{
+  gItineraireIndex = (gItineraireIndex + 1) % gItinerairesListe.length;
+  AfficherItinerairesParam(gItineraireIndex);
 }
 
 
@@ -348,4 +330,18 @@ function TxtInfosParamClick()
   lIndex = (lIndex + 1) % gInfosParamListe.length;
   gInfosParam = gInfosParamListe[lIndex];
   AfficherInfosParam();
+}
+
+
+
+//==================================================================================================
+// Ecran SUIVRE
+//==================================================================================================
+
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranSuivre()
+{
+  AfficherEcran("EcranSuivre");
 }

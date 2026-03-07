@@ -21,28 +21,41 @@ body
   margin: 0;
 }
 
-#EcranDemarrage {
-    display: flex;             /* Active Flexbox */
-    justify-content: center;   /* Centre horizontalement */
-    align-items: center;       /* Centre verticalement */
-    height: 100vh;             /* Prend 100% de la hauteur de la fenêtre */
-    width: 100vw;              /* Prend 100% de la largeur de la fenêtre */
-    position: fixed;           /* Reste fixe par rapport à l'écran */
-    top: 0;
-    left: 0;
-    background-color: #000;
+#EcranDemarrage
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre le groupe horizontalement */
+
+  z-index: 9999;
+  background-color: #000;
 }
 
-#EcranDemarrage img {
-    max-width: 50%;
-    height: auto;
+#ImgLogo
+{
+}
+
+#TxtOliway
+{
+  font-weight: bold;
+  font-size: 50px;
 }
 
 #scrHome
 {
   display: flex;
   flex-direction: column;
-/*  justify-content: space-around;*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;

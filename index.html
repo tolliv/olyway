@@ -17,46 +17,47 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel='stylesheet' type='text/css' href='home.css'>
   <title>Olyway</title>
   <meta charset="UTF-8">
 </head>
 <body>
 
 <script src="version.js"></script>
-<link rel='stylesheet' type='text/css' href='home.css'>
 
 <!----- ECRAN DEMARRAGE ----->
 <div id='EcranDemarrage'>
-  <img src="icon-192.png">
+  <img id='ImgLogo' src="icon-192.png">
+  <span id='TxtOliway'>Oliway</span>
 </div>
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <div class='classTitre'>Ecran PRINCIPAL</div>
-  <button class='classBouton' onclick='AfficherEcranItineraires();'>ITINERAIRES</button>
+  <div class='classTitre'>Écran PRINCIPAL</div>
+  <button class='classBouton' onclick='AfficherEcranItineraires();'>ITINÉRAIRES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranInfos();'>INFOS</button>
   <div class='classEspace'></div>
-  <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>VOIX ACTIVEE</button>
+  <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>VOIX ACTIVÉE</button>
 </div>
 
 <!----- Ecran ITINERAIRES ----->
 <div id='EcranItineraires' style='display: none;'>
-  <div class='classTitre'>Ecran ITINERAIRES</div>
-  <button class='classBouton' id='TxtItinerairesNom' onclick=''></button>
+  <div class='classTitre'>Écran ITINÉRAIRES</div>
+  <button class='classBouton' id='ButItinerairesNom' onclick='ButItinerairesNomClick()'></button>
   <div class='classEspace'></div>
-  <button class='classTexte' id='TxtItinerairesValeur' onclick=''></button>
+  <button class='classBouton' onclick='AfficherEcranSuivre()'>SUIVRE</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''></button>
+  <button class='classBouton' onclick='AfficherEcranCreer()'>CRÉER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
 <!----- Ecran TRACES ----->
 <div id='EcranTraces' style='display: none;'>
-  <div class='classTitre'>Ecran TRACES</div>
+  <div class='classTitre'>Écran TRACES</div>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>
@@ -68,7 +69,7 @@
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <div class='classTitre'>Ecran INFOS</div>
+  <div class='classTitre'>Écran INFOS</div>
   <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
   <div class='classEspace'></div>
   <button class='classTexte' id='TxtInfosValeur' onclick=''></button>
@@ -78,9 +79,21 @@
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
+<!----- Ecran SUIVRE ----->
+<div id='EcranSuivre' style='display: none;'>
+  <div class='classTitre'>Écran SUIVRE</div>
+  <button class='classTexte'></button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>SUIVRE</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>CRÉER</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+</div>
+
 <!----- Ecran ENREGISTRER ----->
 <div id='EcranEnregistrer' style='display: none;'>
-  <div class='classTitre'>Ecran ITINERAIRES</div>
+  <div class='classTitre'>Écran ITINERAIRES</div>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>
