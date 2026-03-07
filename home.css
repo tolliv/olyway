@@ -21,6 +21,23 @@ body
   margin: 0;
 }
 
+#EcranDemarrage {
+    display: flex;             /* Active Flexbox */
+    justify-content: center;   /* Centre horizontalement */
+    align-items: center;       /* Centre verticalement */
+    height: 100vh;             /* Prend 100% de la hauteur de la fenêtre */
+    width: 100vw;              /* Prend 100% de la largeur de la fenêtre */
+    position: fixed;           /* Reste fixe par rapport à l'écran */
+    top: 0;
+    left: 0;
+    background-color: #000;
+}
+
+#EcranDemarrage img {
+    max-width: 50%;
+    height: auto;
+}
+
 #scrHome
 {
   display: flex;

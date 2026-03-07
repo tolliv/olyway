@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async function()
   // Affichage de l'écran Principal
   Speech("Bienvenue sur Olyway");
   await AttenteFinSpeech();
+  pid('EcranDemarrage').style.display = 'none';
   AfficherEcran("EcranPrincipal");
 });
 
@@ -257,8 +258,8 @@ function EcranPrincipalVoixClick()
 // Ecran ITINERAIRES
 //==================================================================================================
 const gItinerairesListe = [
-{ nom: "TOUR DU QUARTIER", distance: 4.2 },
-{ nom: "CHEMIN DES LEGENDES", distance: 8.2},
+{ nom: "QUARTIER", distance: 4.2 },
+{ nom: "LEGENDES", distance: 8.2},
 ];
 
 
@@ -269,7 +270,7 @@ function AfficherEcranItineraires()
 {
   if (gInterfaceSon) Speech("écran itinéraires");
   AfficherEcran("EcranItineraires");
-  pid('TxtItinerairesNom').innerHTML = gItinerairesListe[0].nom;
+  pid('TxtItinerairesNom').innerHTML = gItinerairesListe[0].nom + "<br>"+ gItinerairesListe[0].nom + " >";
   pid('TxtItinerairesValeur').innerHTML = gItinerairesListe[0].distance + "km";
 }
 
