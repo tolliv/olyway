@@ -218,18 +218,8 @@ function AfficherEcran(pEcran)
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function InputChange(pTexte)
+{
+  pid('ButTraceBouton').innerHTML = pTexte;
+  pid('ButTraceSpan').innerHTML = pTexte;
+}

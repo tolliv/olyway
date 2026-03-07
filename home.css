@@ -149,6 +149,25 @@ body
   height: 1dvh;
 }
 
+/* Texte à saisir */
+.classInput
+{
+  display: flex;
+  align-items: center;      /* Centrer verticalement */
+  justify-content: center;  /* Centrer horizontalement */
+  text-align: center;       /* Centrer horizontalement si 2 lignes */
+  box-sizing: border-box;
+  border-radius: 15px;
+  font-size: 35px;
+  background-color: #000;
+  color: #FC6;
+  border: 1px solid #FC6;
+  padding: 0;
+  margin: 0px;
+  width: 100%;
+  height: 22vh;
+  height: 22dvh;
+}
 
 #btnWakeLock
 {

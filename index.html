@@ -33,7 +33,7 @@
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <div class='classTitre'>Écran PRINCIPAL</div>
+  <span class='classTitre'>Écran PRINCIPAL</span>
   <button class='classBouton' onclick='AfficherEcranItineraires();'>ITINÉRAIRES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
@@ -45,7 +45,7 @@
 
 <!----- Ecran ITINERAIRES ----->
 <div id='EcranItineraires' style='display: none;'>
-  <div class='classTitre'>Écran ITINÉRAIRES</div>
+  <span class='classTitre'>Écran ITINÉRAIRES</span>
   <button class='classBouton' id='ButItinerairesNom' onclick='ButItinerairesNomClick()'></button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranSuivre()'>SUIVRE</button>
@@ -57,22 +57,22 @@
 
 <!----- Ecran TRACES ----->
 <div id='EcranTraces' style='display: none;'>
-  <div class='classTitre'>Écran TRACES</div>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <span class='classTitre'>Écran TRACES</span>
+  <input class='classInput' id='ClassInput' oninput='InputChange(this.value);' type='text'>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <button class='classBouton' id='ButTraceBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <span class='classTexte' id='ButTraceSpan'>(vide)</span>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <div class='classTitre'>Écran INFOS</div>
+  <span class='classTitre'>Écran INFOS</span>
   <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
   <div class='classEspace'></div>
-  <button class='classTexte' id='TxtInfosValeur'></button>
+  <span class='classTexte' id='TxtInfosValeur'></span>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
@@ -81,8 +81,8 @@
 
 <!----- Ecran SUIVRE ----->
 <div id='EcranSuivre' style='display: none;'>
-  <div class='classTitre'>Écran SUIVRE</div>
-  <button class='classTexte' id='TxtSuivreParam'></button>
+  <span class='classTitre'>Écran SUIVRE</span>
+  <span  class='classTexte' id='TxtSuivreParam'></span>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>DÉMARRER</button>
   <div class='classEspace'></div>
@@ -93,7 +93,7 @@
 
 <!----- Ecran CREER ----->
 <div id='EcranCreer' style='display: none;'>
-  <div class='classTitre'>Écran CRÉER</div>
+  <span class='classTitre'>Écran CRÉER</span>
   <button class='classBouton' onclick=''>ENREGISTRER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>IMPORTER</button>
@@ -105,7 +105,7 @@
 
 <!----- Ecran ENREGISTRER ----->
 <div id='EcranEnregistrer' style='display: none;'>
-  <div class='classTitre'>Écran ITINERAIRES</div>
+  <span class='classTitre'>Écran ITINERAIRES</span>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>
@@ -117,7 +117,7 @@
 
 <!----- Ecran DEMARRER ----->
 <div id='EcranDemarrer' style='display: none;'>
-  <div class='classTitre'>Écran DÉMARRER</div>
+  <span class='classTitre'>Écran DÉMARRER</span>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>

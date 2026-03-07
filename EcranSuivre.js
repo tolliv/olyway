@@ -11,7 +11,7 @@ function AfficherEcranSuivre()
 
   // Afficher les informations de l'itinéraire
   pid('TxtSuivreParam').innerHTML  = gItinerairesListe[gItineraireIndex].nom + "\n";
-  pid('TxtSuivreParam').innerHTML += gItinerairesListe[gItineraireIndex].distance + " km , D+";
-  pid('TxtSuivreParam').innerHTML += gItinerairesListe[gItineraireIndex].DPlus + " m\n";
-  pid('TxtSuivreParam').innerHTML += gItinerairesListe[gItineraireIndex].date;
+  pid('TxtSuivreParam').innerHTML += gItinerairesListe[gItineraireIndex].distance + "km ";
+  pid('TxtSuivreParam').innerHTML += "D+" + gItinerairesListe[gItineraireIndex].DPlus + "m\n";
+  pid('TxtSuivreParam').innerHTML += "du " + gItinerairesListe[gItineraireIndex].date;
 }

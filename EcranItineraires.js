@@ -2,8 +2,8 @@
 // Ecran ITINERAIRES
 //==================================================================================================
 const gItinerairesListe = [
-{nom: "TOUR QUARTIER", distance: 4.2, date: "07/03/2026", DPlus: 123},
-{nom: "LÉGENDES", distance: 8.2, date: "13/06/2025", DPlus: 823},
+{nom: "TOUR QUARTIER", distance: 4.2, date: "07.03.2026", DPlus: 123},
+{nom: "LÉGENDES", distance: 8.2, date: "13.06.2025", DPlus: 823},
 ];
 
 let gItineraireIndex = 0;
