@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async function()
   // Affichage de l'écran Principal
   Speech("Bienvenue sur Olyway");
   await AttenteFinSpeech();
-  AfficherEcranPrincipal();
+  AfficherEcran("EcranPrincipal");
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -199,6 +199,21 @@ async function AttenteFinSpeech()
   } while (window.speechSynthesis.speaking);
 }
 
+//--------------------------------------------------------------------------------------------------
+// Afficher un seul écran d'une liste en masquant les autres
+//--------------------------------------------------------------------------------------------------
+const gListeEcrans = ["EcranPrincipal", "EcranItineraires", "EcranTraces", "EcranEnregistrer", "EcranInfos"];
+function AfficherEcran(pEcran)
+{
+  for (let i = 0; i < gListeEcrans.length; i++)
+  {
+    const lNomEcran = gListeEcrans[i];
+    if (lNomEcran === pEcran)
+      pid(lNomEcran).style.display = 'block';
+    else
+      pid(lNomEcran).style.display = 'none';
+  }
+}
 
 //==================================================================================================
 // Ecran Principal
@@ -209,7 +224,7 @@ async function AttenteFinSpeech()
 function AfficherEcranPrincipal()
 {
   if (gInterfaceSon) Speech("écran principal");
-  pid('EcranPrincipal').style.display = 'block';
+  AfficherEcran("EcranPrincipal");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -237,6 +252,20 @@ function EcranPrincipalVoixClick()
 }
 
 
+
+//==================================================================================================
+// Ecran ITINERAIRES
+//==================================================================================================
+//--------------------------------------------------------------------------------------------------
+// Afficher l'écran
+//--------------------------------------------------------------------------------------------------
+function AfficherEcranItineraires()
+{
+  if (gInterfaceSon) Speech("écran itinéraires");
+  AfficherEcran("EcranItineraires");
+}
+
+
 //==================================================================================================
 // Ecran TRACES
 //==================================================================================================
@@ -246,9 +275,9 @@ function EcranPrincipalVoixClick()
 function AfficherEcranTraces()
 {
   if (gInterfaceSon) Speech("écran traces");
-  pid('EcranPrincipal').style.display = 'none';
-  pid('EcranTraces').style.display = 'block';
+  AfficherEcran("EcranTraces");
 }
+
 
 
 //==================================================================================================
@@ -260,9 +289,9 @@ function AfficherEcranTraces()
 function AfficherEcranEnregistrer()
 {
   if (gInterfaceSon) Speech("écran enregistrer");
-  pid('EcranPrincipal').style.display = 'none';
-  pid('EcranEnregistrer').style.display = 'block';
+  AfficherEcran("EcranEnregistrer");
 }
+
 
 
 //==================================================================================================
@@ -277,8 +306,7 @@ let gInfosParam = "VERSION"; // Valeur par défaut
 function AfficherEcranInfos()
 {
   if (gInterfaceSon) Speech("écran infos");
-  pid('EcranPrincipal').style.display = 'none';
-  pid('EcranInfos').style.display = 'block';
+  AfficherEcran("EcranInfos");
   AfficherInfosParam();
 }
 

@@ -28,13 +28,25 @@
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
   <div class='classTitre'>Ecran PRINCIPAL</div>
-  <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
+  <button class='classBouton' onclick='AfficherEcranItineraires();'>ITINERAIRES</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranEnregistrer();'>ENREGISTRER</button>
+  <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranInfos();'>INFOS</button>
   <div class='classEspace'></div>
   <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>VOIX ACTIVE</button>
+</div>
+
+<!----- Ecran INITERAIRES ----->
+<div id='EcranItineraires' style='display: none;'>
+  <div class='classTitre'>Ecran ITINERAIRES</div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick=''>(vide)</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
 <!----- Ecran TRACES ----->
@@ -46,19 +58,7 @@
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick="pid('EcranTraces').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
-</div>
-
-<!----- Ecran ENREGISTRER ----->
-<div id='EcranEnregistrer' style='display: none;'>
-  <div class='classTitre'>Ecran ENREGISTRER</div>
-  <button class='classBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick="pid('EcranEnregistrer').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
 <!----- Ecran INFOS ----->
@@ -70,7 +70,7 @@
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick="pid('EcranInfos').style.display='none'; AfficherEcranPrincipal();">RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
 <script src="home.js"></script>
