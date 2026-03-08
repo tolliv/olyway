@@ -2,12 +2,11 @@
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
 
-const DEBUG = 1;
+const DEBUG = 0;
 
 //----- Variables globales -----
-let iSeuilPrecision;                  // Paramètre mémorisé
-let gTempsMaxLocalisation = 10;       // Paramètre mémorisé
-let gNewVersion = "";
+let iSeuilPrecision = 15;             // Paramètre mémorisé
+let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
 
 //--------------------------------------------------------------------------------------------------
 // Initialisations

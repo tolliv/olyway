@@ -43,7 +43,7 @@ function ButtonEnregistrerDemarrerClick()
   gChaineIndicateurEnregistrement = "O";
   gCounterIndicateurEnregistrement = 0;
   gStateEnregistrement = 'RUN';
-  if (gInterfaceSon) Speech("Ecran désactivé.");
+  StateMachineEnregistrement();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -81,7 +81,6 @@ function AfficheReleves()
 //--------------------------------------------------------------------------------------------------
 function ButtonEnregistrementStopClick()
 {
-  if (gInterfaceSon) Speech("Ecran réactivé.");
   AfficheReleves();
   AfficherEcran('EcranPause');
   gStateEnregistrement = 'PAUSE';
@@ -132,7 +131,7 @@ function StateMachineEnregistrement()
           gChaineIndicateurEnregistrement = "O";
           gCounterIndicateurEnregistrement = 0;
           gStateEnregistrement = 'RUN';
-          if (gInterfaceSon) Speech("Ecran désactivé.");
+          if (gInterfaceSon) Speech("Extinction de l'écran.");
         }
         break;
 
@@ -155,11 +154,12 @@ function StateMachineEnregistrement()
           pid('BoutonEnregistrement').innerHTML = "";
         break;
 
-      // Appui sur l'écran Enregistrement : Pause
+      // Pause suite à un appui sur l'écran
+      // On repasse en extinction de l'écran qu'au bout d'un certain temps et si pas de speech en cours
       case 'PAUSE':
         gCounterPause--;
         pid('TxtPauseInfos').innerHTML = gCounterPause;
-        if (gCounterPause <= 0)
+        if ((gCounterPause <= 0) && (!window.speechSynthesis.speaking))
         {
           AfficherEcran('EcranEnregistrement');
           gChaineIndicateurEnregistrement = "O";
