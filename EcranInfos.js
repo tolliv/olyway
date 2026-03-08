@@ -23,11 +23,11 @@ function AfficherInfosParam()
   switch(gInfosParam)
   {
     case "VERSION":
-        pid('TxtInfosParam').innerHTML = "VERSION >";
+        pid('TxtInfosParam').innerHTML = "VERSION (+)";
         pid('TxtInfosValeur').innerHTML = VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
       break;
     case "AUTEURS":
-        pid('TxtInfosParam').innerHTML = "AUTEURS >";
+        pid('TxtInfosParam').innerHTML = "AUTEURS (+)";
         pid('TxtInfosValeur').innerHTML = "tolliv & frneko";
       break;
   }

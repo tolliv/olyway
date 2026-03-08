@@ -9,9 +9,9 @@ function AfficherEcranSuivre()
 {
   AfficherEcran("EcranSuivre");
 
-  // Afficher les informations de l'itinéraire
-  pid('TxtSuivreParam').innerHTML  = gItinerairesListe[gItineraireIndex].nom + "\n";
-  pid('TxtSuivreParam').innerHTML += gItinerairesListe[gItineraireIndex].distance + "km ";
-  pid('TxtSuivreParam').innerHTML += "D+" + gItinerairesListe[gItineraireIndex].DPlus + "m\n";
-  pid('TxtSuivreParam').innerHTML += "du " + gItinerairesListe[gItineraireIndex].date;
+  // Afficher les informations de l'parcours
+  pid('TxtSuivreParam').innerHTML  = gParcoursListe[gParcoursIndex].nom + "\n";
+  pid('TxtSuivreParam').innerHTML += gParcoursListe[gParcoursIndex].distance + "km ";
+  pid('TxtSuivreParam').innerHTML += "D+" + gParcoursListe[gParcoursIndex].DPlus + "m\n";
+  pid('TxtSuivreParam').innerHTML += "du " + gParcoursListe[gParcoursIndex].date;
 }

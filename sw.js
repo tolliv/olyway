@@ -1,8 +1,15 @@
 importScripts('version.js');
-const CACHE_NAME = 'VisuGPX.Pos'+VERSION;
+const CACHE_NAME = 'Olyway'+VERSION;
 const ASSETS = [
   'apple-touch-icon.png',
   'download.js',
+  'EcranCreer.js',
+  'EcranEnregistrer.js',
+  'EcranInfos.js',
+  'EcranParcours.js',
+  'EcranPrincipal.js',
+  'EcranSuivre.js',
+  'EcranTraces.js',
   'favicon.ico',
   'favicon-16x16.png',
   'favicon-32x32.png',

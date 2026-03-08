@@ -2,6 +2,8 @@
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
 
+const DEBUG = 0
+
 //----- Variables globales -----
 let iSeuilPrecision;                  // Paramètre mémorisé
 let gTempsMaxLocalisation = 10;       // Paramètre mémorisé
@@ -59,13 +61,13 @@ document.addEventListener('DOMContentLoaded', async function()
   console.log("Version = ", VERSION);
 
   Speech("Bienvenue sur Olyway");
-  await AttenteFinSpeech(); // DEBUG supprimer commentaire si release
+  if (DEBUG == 0)  await AttenteFinSpeech();
 
   // Affichage de l'écran Principal
   pid('EcranDemarrage').style.display = 'none';
   AfficherEcran("EcranPrincipal");
 
-//  AfficherEcranEnregistrer(); // DEBUG mettre en commentaire si release
+  if (DEBUG == 1) AfficherEcranEnregistrer(); // Raccourci
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -211,7 +213,7 @@ async function AttenteFinSpeech()
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
 const gListeEcrans = ["EcranPrincipal",
-                          "EcranItineraires",
+                          "EcranParcours",
                               "EcranSuivre",
                                   /* EcranReglages */
                                   /* EcranDemarrer */

@@ -27,14 +27,14 @@
 
 <!----- ECRAN DEMARRAGE ----->
 <div id='EcranDemarrage'>
-  <img id='ImgLogo' src="icon-192.png">
+  <img id='ImgLogo' alt='Logo' src="icon-192.png">
   <span id='TxtOliway'>Olyway</span>
 </div>
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <span class='classTitre'>Écran PRINCIPAL</span>
-  <button class='classBouton' onclick='AfficherEcranItineraires();'>ITINÉRAIRES</button>
+  <span class='classTitre'>Écran Principal</span>
+  <button class='classBouton' onclick='AfficherEcranParcours();'>PARCOURS</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranTraces();'>TRACES</button>
   <div class='classEspace'></div>
@@ -43,10 +43,10 @@
   <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>VOIX ACTIVÉE</button>
 </div>
 
-<!----- Ecran ITINERAIRES ----->
-<div id='EcranItineraires' style='display: none;'>
-  <span class='classTitre'>Écran ITINÉRAIRES</span>
-  <button class='classBouton' id='ButItinerairesNom' onclick='ButItinerairesNomClick()'></button>
+<!----- Ecran PARCOURS ----->
+<div id='EcranParcours' style='display: none;'>
+  <span class='classTitre'>Écran Parcours</span>
+  <button class='classBouton' id='ButParcoursNom' onclick='ButParcoursNomClick()'></button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranSuivre()'>SUIVRE</button>
   <div class='classEspace'></div>
@@ -57,7 +57,7 @@
 
 <!----- Ecran TRACES ----->
 <div id='EcranTraces' style='display: none;'>
-  <span class='classTitre'>Écran TRACES</span>
+  <span class='classTitre'>Écran Traces</span>
   <input class='classInput' id='ClassInput' oninput='InputChange(this.value);' type='text'>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButTraceBouton' onclick=''>(vide)</button>
@@ -69,7 +69,7 @@
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <span class='classTitre'>Écran INFOS</span>
+  <span class='classTitre'>Écran Infos</span>
   <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
   <div class='classEspace'></div>
   <span class='classTexte' id='TxtInfosValeur'></span>
@@ -81,43 +81,43 @@
 
 <!----- Ecran SUIVRE ----->
 <div id='EcranSuivre' style='display: none;'>
-  <span class='classTitre'>Écran SUIVRE</span>
+  <span class='classTitre'>Écran Suivre</span>
   <span  class='classTexte' id='TxtSuivreParam'></span>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>RÉGLAGES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>DÉMARRER</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
 </div>
 
 <!----- Ecran CREER ----->
 <div id='EcranCreer' style='display: none;'>
-  <span class='classTitre'>Écran CRÉER</span>
+  <span class='classTitre'>Écran Créer</span>
   <button class='classBouton' onclick='AfficherEcranEnregistrer();'>ENREGISTRER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>IMPORTER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
 </div>
 
 <!----- Ecran ENREGISTRER ----->
 <div id='EcranEnregistrer' style='display: none;'>
-  <span class='classTitre'>Écran ENREGISTRER</span>
+  <span class='classTitre'>Écran Enregistrer</span>
   <button class='classBouton' onclick=''>RÉGLAGES</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='ButtonEnregistrerDemarrerClick();'>DÉMARRER</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''></button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranItineraires();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
 </div>
 
 <!----- Ecran DEMARRER ----->
 <div id='EcranDemarrer' style='display: none;'>
-  <span class='classTitre'>Écran DÉMARRER</span>
+  <span class='classTitre'>Écran Démarrer</span>
   <button class='classBouton' onclick=''>(vide)</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick=''>(vide)</button>
@@ -127,24 +127,25 @@
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
 </div>
 
-<!----- Ecran ENREGISTREMENT ----->
+<!----- Ecran ENREGISTREMENT (Full screen) ----->
 <div id='EcranEnregistrement' style='display: none;'>
-  <button id='BoutonEnregistrement' onclick='ButtonEnregistrementStopClick();'>O</button>
+  <button id='BoutonEnregistrement' onclick='ButtonEnregistrementStopClick();'></button>
 </div>
+
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
-  <span class='classTexteReleves' id='TxtReleves'></span>
-  <div class='classEspace'></div>
+  <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
   <button class='classBouton' onclick=''>PAUSE</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='EnregistrementArreter();'>ARRÊTER</button>
+  <span id='TxtPauseInfos' style='height: 1%;'></span>
 </div>
 
 <script src="home.js"></script>
 <script src="EcranCreer.js"></script>
 <script src="EcranEnregistrer.js"></script>
 <script src="EcranInfos.js"></script>
-<script src="EcranItineraires.js"></script>
+<script src="EcranParcours.js"></script>
 <script src="EcranPrincipal.js"></script>
 <script src="EcranSuivre.js"></script>
 <script src="EcranTraces.js"></script>
