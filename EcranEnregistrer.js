@@ -2,8 +2,13 @@
 // Ecran ENREGISTRER
 //==================================================================================================
 //----- Paramètres de configuration -----
-let gParamTempsPauseDebut = 1*4;  // PARAM
-let gParamTempsPause = 4*4;  // PARAM
+let gParamTempsPauseDebut = 4*10;  // PARAM
+let gParamTempsPause =      4*5;   // PARAM
+if (DEBUG == 1)
+{
+  gParamTempsPauseDebut = 4*1;
+  gParamTempsPause      = 4*1;
+}
 
 //----- Variables globales à cet écran -----
 let gTimeoutReprendre = null;
@@ -86,12 +91,8 @@ function ButRelevesEnregistrementClick()
 //--------------------------------------------------------------------------------------------------
 function EnregistrementArreter()
 {
-  if (gInterfaceSon) Speech("Enregistrement arrêté.");
-  if (gTimeoutReprendre !== null)
-  {
-    clearTimeout(gTimeoutReprendre);
-    gTimeoutReprendre = null;
-  }
+  gStateEnregistrement = 'ARRET';
+  if (gInterfaceSon) Speech("Arrêt de l'enregistrement.");
   DesactiverWakeLock();
   if (DEBUG == 0) closeFullscreen();
   AfficherEcran("EcranParcours");
