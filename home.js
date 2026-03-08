@@ -2,7 +2,7 @@
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
 
-const DEBUG = 0
+const DEBUG = 1;
 
 //----- Variables globales -----
 let iSeuilPrecision;                  // Paramètre mémorisé

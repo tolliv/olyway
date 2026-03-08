@@ -2,12 +2,12 @@
 // Ecran ENREGISTRER
 //==================================================================================================
 //----- Paramètres de configuration -----
-let gParamTempsPauseDebut = 4*10;  // PARAM
-let gParamTempsPause =      4*5;   // PARAM
+let gParamTempsPauseDebut = 4*15;  // PARAM
+let gParamTempsPause =      4*15;   // PARAM
 if (DEBUG == 1)
 {
-  gParamTempsPauseDebut = 4*1;
-  gParamTempsPause      = 4*1;
+  gParamTempsPauseDebut = 4*2;
+  gParamTempsPause      = 4*2;
 }
 
 //----- Variables globales à cet écran -----
@@ -39,11 +39,11 @@ function ButtonEnregistrerDemarrerClick()
   AttenteFinSpeech();
 
   // Puis lance la state machine
-  gStateEnregistrement = 'AFFICHAGE_DEBUT';
-  gCounterPause = gParamTempsPauseDebut;
-  StateMachineEnregistrement();
-  AfficherEcran("EcranPause");
-  AfficheReleves();
+  AfficherEcran('EcranEnregistrement');
+  gChaineIndicateurEnregistrement = "O";
+  gCounterIndicateurEnregistrement = 0;
+  gStateEnregistrement = 'RUN';
+  if (gInterfaceSon) Speech("Ecran désactivé.");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -55,14 +55,24 @@ function AfficheReleves()
   // Récupération des valeurs
   let lDuree = "1 heure 04 minutes";
   let lDistance = "2,83km";
+  let lHeure = "15 heures 34 minutes";
+  let lBatterie = "53%";
 
   // Texte pour l'affichage
-  let lAffichage = "DURÉE :\n" + lDuree + "\n\nDISTANCE :\n" + lDistance;
+  let lAffichage = "";
+  lAffichage += "DURÉE :\n" + lDuree + "\n\n";
+  lAffichage += "DISTANCE :\n" + lDistance + "\n\n";
+  lAffichage += "HEURE :\n" + lHeure + "\n\n";
+  lAffichage += "BATTERIE :\n" + lBatterie + "\n\n";
   pid('TxtReleves').innerHTML = lAffichage;
 
   // Texte pour le Speech
-  let lSpeech = "Durée " + lDuree + ". Distance " + lDistance;
-//  if (gInterfaceSon) Speech(lSpeech);
+  let lSpeech = "";
+  lSpeech += "Durée " + lDuree + "\n";
+  lSpeech += "Distance " + lDistance + "\n";
+  lSpeech += "Heure " + lHeure + "\n";
+  lSpeech += "Batterie " + lBatterie + "\n";
+  if (gInterfaceSon) Speech(lSpeech);
 }
 
 
