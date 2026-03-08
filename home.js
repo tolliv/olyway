@@ -58,14 +58,15 @@ document.addEventListener('DOMContentLoaded', async function()
 {
   console.log("Version = ", VERSION);
 
-  Speech("Bienvenue sur Olyway");
+  // Lancement
+  Speech("Bienvenue sur Olyway\n");
   if (DEBUG == 0)  await AttenteFinSpeech();
+  pid('EcranDemarrage').style.display = 'none';
 
   // Affichage de l'écran Principal
-  pid('EcranDemarrage').style.display = 'none';
-  AfficherEcran("EcranPrincipal");
+  AfficherEcranPrincipal();
 
-  if (DEBUG == 1) AfficherEcranEnregistrer(); // Raccourci
+  //AfficherEcranEnregistrement(); // DEBUG mettre en commentaire
 });
 
 //--------------------------------------------------------------------------------------------------
@@ -179,20 +180,29 @@ async function DesactiverWakeLock()
 //--------------------------------------------------------------------------------------------------
 // Speech
 //--------------------------------------------------------------------------------------------------
+let speechPromise = Promise.resolve();
+
 function Speech(texte)
 {
-  // On vérifie si l'API est supportée
   if ('speechSynthesis' in window)
   {
-    // Arrête la lecture de la phrase en cours
     window.speechSynthesis.cancel();
-    const message = new SpeechSynthesisUtterance(texte);
-    message.lang = 'fr-FR'; // Définit la langue en français
-    window.speechSynthesis.speak(message);
+
+    // On crée une nouvelle promesse qui se résoudra quand le texte sera fini
+    speechPromise = new Promise((resolve) =>
+    {
+      const message = new SpeechSynthesisUtterance(texte);
+      message.lang = 'fr-FR';
+
+      message.onend = () => resolve(); // Résolution normale
+      message.onerror = () => resolve(); // Éviter de bloquer en cas d'erreur
+
+      window.speechSynthesis.speak(message);
+    });
   }
   else
   {
-    alert("Désolé, votre navigateur ne supporte pas la synthèse vocale.");
+    alert("Synthèse vocale non supportée.");
   }
 }
 
@@ -201,27 +211,21 @@ function Speech(texte)
 //--------------------------------------------------------------------------------------------------
 async function AttenteFinSpeech()
 {
-  do
-  {
-    await sleep(100);
-  } while (window.speechSynthesis.speaking);
+  await sleep(1000);
+
+  // On attend simplement la fin de la promesse créée dans Speech()
+  await speechPromise;
 }
 
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
 const gListeEcrans = ["EcranPrincipal",
-                          "EcranParcours",
-                              "EcranSuivre",
-                                  /* EcranReglages */
-                                  /* EcranDemarrer */
-                              "EcranCreer",
-                                  "EcranEnregistrer",
-                                      /* EcranReglages */
-                                      "EcranEnregistrement",
-                                          "EcranPause",
-                          "EcranTraces",
-                          "EcranInfos",
+/* Suivre Parcours */     // TODO "EcranParcours",
+/* Nouveau Parcours */    "EcranDemarrer",
+                              "EcranEnregistrement",
+                                  "EcranPause",
+/* Informations */        "EcranInfos",
                       ];
 function AfficherEcran(pEcran)
 {
@@ -244,6 +248,8 @@ function AfficherEcran(pEcran)
     console.log("Ecran introuvable : ", pEcran);
 }
 
+
+// Instrumentation
 function InputChange(pTexte)
 {
   pid('ButTraceBouton').innerHTML = pTexte;

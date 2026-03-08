@@ -3,10 +3,6 @@
  --------------------------------------------------------->
 
 
-<!-------------------------------------------------------
- Programme Olyway
- --------------------------------------------------------->
-
 
 <!----- HEADER ------------------------------------------->
 <!DOCTYPE html>
@@ -33,98 +29,38 @@
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <span class='classTitre'>Écran Principal</span>
-  <button class='classBouton' onclick='AfficherEcranParcours();'>SUIVRE<br>PARCOURS</button>
+  <span class='classTitre'>Menu Principal</span>
+  <button class='classBouton' onclick=''>Suivre Parcours</button>
   <div class='classEspace'></div>
-  <button class='classTexte'></button>
+  <button class='classBouton' onclick='AfficherEcranEnregistrement();'>Nouveau Parcours</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranInfos();'>INFOS</button>
+  <button class='classTexte' onclick=''>vide</button>
   <div class='classEspace'></div>
-  <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>VOIX ACTIVÉE</button>
-</div>
-
-<!----- Ecran PARCOURS ----->
-<div id='EcranParcours' style='display: none;'>
-  <span class='classTitre'>Écran Parcours</span>
-  <button class='classBouton' id='ButParcoursNom' onclick='ButParcoursNomClick()'></button>
+  <button class='classBouton' onclick='AfficherEcranInfos();'>Informations</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranSuivre()'>SUIVRE</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranCreer()'>CRÉER</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
-</div>
-
-<!----- Ecran TRACES ----->
-<div id='EcranTraces' style='display: none;'>
-  <span class='classTitre'>Écran Traces</span>
-  <input class='classInput' id='ClassInput' oninput='InputChange(this.value);' type='text'>
-  <div class='classEspace'></div>
-  <button class='classBouton' id='ButTraceBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <span class='classTexte' id='ButTraceSpan'>(vide)</span>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+  <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>Voix activée</button>
 </div>
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <span class='classTitre'>Écran Infos</span>
-  <div class='classBouton' id='TxtInfosParam' onclick='TxtInfosParamClick();'></div>
+  <span class='classTitre'>Menu Informations</span>
+  <div class='classTexte' id='TxtInfosVersion'></div>
   <div class='classEspace'></div>
-  <span class='classTexte' id='TxtInfosValeur'></span>
+  <span class='classTexte' id='TxtInfosAuteurs'></span>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''></button>
+  <span class='classTexte'>vide</span>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
-</div>
-
-<!----- Ecran SUIVRE ----->
-<div id='EcranSuivre' style='display: none;'>
-  <span class='classTitre'>Écran Suivre</span>
-  <span  class='classTexte' id='TxtSuivreParam'></span>
+  <button class='classTexte'>vide</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>RÉGLAGES</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>DÉMARRER</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
-</div>
-
-<!----- Ecran CREER ----->
-<div id='EcranCreer' style='display: none;'>
-  <span class='classTitre'>Écran Créer</span>
-  <button class='classBouton' onclick='AfficherEcranEnregistrer();'>ENREGISTRER</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>IMPORTER</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''></button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
-</div>
-
-<!----- Ecran ENREGISTRER ----->
-<div id='EcranEnregistrer' style='display: none;'>
-  <span class='classTitre'>Écran Enregistrer</span>
-  <button class='classBouton' onclick=''>RÉGLAGES</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='ButtonEnregistrerDemarrerClick();'>DÉMARRER</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''></button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranParcours();'>RETOUR</button>
+  <button class='classBouton' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
 
 <!----- Ecran DEMARRER ----->
 <div id='EcranDemarrer' style='display: none;'>
-  <span class='classTitre'>Écran Démarrer</span>
-  <button class='classBouton' onclick=''>(vide)</button>
+  <span class='classTitre'>Menu Enregistrement</span>
+  <button class='classBouton' onclick='ButEnregistrementDemarrerClick();'>Démarrer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick=''>(vide)</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>RETOUR</button>
+  <button class='classBouton' onclick='ButEnregistrementAnnulerClick();'>Annuler</button>
 </div>
 
 <!----- Ecran ENREGISTREMENT (Full screen) ----->
@@ -135,7 +71,7 @@
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
   <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
-  <button class='classBouton' onclick='EnregistrementArreter();'>ARRÊTER</button>
+  <button class='classBouton' onclick='ButEnregistrementArreter();'>Arrêter</button>
   <span id='TxtPauseInfos' style='height: 1%;'></span>
 </div>
 

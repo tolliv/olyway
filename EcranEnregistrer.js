@@ -18,32 +18,52 @@ let gCounterPause = 0;
 let gCounterIndicateurEnregistrement = 0;
 let gChaineIndicateurEnregistrement = "";
 
+
 //--------------------------------------------------------------------------------------------------
-// Afficher l'écran
+// Afficher écran de démarrage pour demander confirmation ou non
 //--------------------------------------------------------------------------------------------------
-function AfficherEcranEnregistrer()
+function AfficherEcranEnregistrement()
 {
-  if (gInterfaceSon) Speech("écran enregistrer");
-  AfficherEcran("EcranEnregistrer");
+  if (gInterfaceSon) Speech("menu enregistrement");
+  AfficherEcran('EcranDemarrer');
 }
 
 //--------------------------------------------------------------------------------------------------
-// Enregistrer un nouvel parcours
+// Démarrage de l'enregistrement
 //--------------------------------------------------------------------------------------------------
-function ButtonEnregistrerDemarrerClick()
+function ButEnregistrementDemarrerClick()
 {
-  ActiverWakeLock();
-  if (DEBUG == 0) openFullscreen(); // DEBUG supprimer commentaire si release
+    ActiverWakeLock();
+    if (DEBUG == 0) openFullscreen(); // DEBUG supprimer commentaire si release
 
-  if (gInterfaceSon) Speech("Enregistrement démarré.");
-  AttenteFinSpeech();
+    if (gInterfaceSon) Speech("Enregistrement démarré.");
+    AttenteFinSpeech();
 
-  // Puis lance la state machine
-  AfficherEcran('EcranEnregistrement');
-  gChaineIndicateurEnregistrement = "O";
-  gCounterIndicateurEnregistrement = 0;
-  gStateEnregistrement = 'RUN';
-  StateMachineEnregistrement();
+    // Puis lance la state machine
+    AfficherEcran('EcranEnregistrement');
+    gChaineIndicateurEnregistrement = "O";
+    gCounterIndicateurEnregistrement = 0;
+    gStateEnregistrement = 'RUN';
+    StateMachineEnregistrement();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Annulation de l'enregistrement
+//--------------------------------------------------------------------------------------------------
+function ButEnregistrementAnnulerClick()
+{
+  AfficherEcranPrincipal();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Appui bouton pendant l'enregistrement
+//--------------------------------------------------------------------------------------------------
+function ButtonEnregistrementStopClick()
+{
+  AfficheReleves();
+  AfficherEcran('EcranPause');
+  gStateEnregistrement = 'PAUSE';
+  gCounterPause = gParamTempsPause;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -77,18 +97,7 @@ function AfficheReleves()
 
 
 //--------------------------------------------------------------------------------------------------
-// Appui bouton pendant l'enregistrement
-//--------------------------------------------------------------------------------------------------
-function ButtonEnregistrementStopClick()
-{
-  AfficheReleves();
-  AfficherEcran('EcranPause');
-  gStateEnregistrement = 'PAUSE';
-  gCounterPause = gParamTempsPause;
-}
-
-//--------------------------------------------------------------------------------------------------
-// Reinit timeout pause
+// Reinit timeout pause en cliquant sur l'écran des mesures
 //--------------------------------------------------------------------------------------------------
 function ButRelevesEnregistrementClick()
 {
@@ -98,13 +107,14 @@ function ButRelevesEnregistrementClick()
 //--------------------------------------------------------------------------------------------------
 // Arrêter l'enregistrement
 //--------------------------------------------------------------------------------------------------
-function EnregistrementArreter()
+function ButEnregistrementArreter()
 {
   gStateEnregistrement = 'ARRET';
-  if (gInterfaceSon) Speech("Arrêt de l'enregistrement.");
   DesactiverWakeLock();
   if (DEBUG == 0) closeFullscreen();
-  AfficherEcran("EcranParcours");
+  if (gInterfaceSon) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
+  AttenteFinSpeech();
+  AfficherEcranPrincipal();
 }
 
 //--------------------------------------------------------------------------------------------------
