@@ -37,7 +37,7 @@ function ButEnregistrementDemarrerClick()
     if (DEBUG == 0) openFullscreen(); // DEBUG supprimer commentaire si release
 
     if (gInterfaceSon) Speech("Enregistrement démarré.");
-    AttenteFinSpeech();
+    await AttenteFinSpeech();
 
     // Puis lance la state machine
     AfficherEcran('EcranEnregistrement');
@@ -113,7 +113,7 @@ function ButEnregistrementArreter()
   DesactiverWakeLock();
   if (DEBUG == 0) closeFullscreen();
   if (gInterfaceSon) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
-  AttenteFinSpeech();
+  await AttenteFinSpeech();
   AfficherEcranPrincipal();
 }
 
