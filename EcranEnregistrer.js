@@ -24,7 +24,7 @@ let gChaineIndicateurEnregistrement = "";
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranEnregistrement()
 {
-  if (gInterfaceSon) Speech("menu enregistrement");
+  if (gInterfaceSon) Speech("nouveau parcours");
   AfficherEcran('EcranDemarrer');
 }
 
@@ -34,7 +34,7 @@ function AfficherEcranEnregistrement()
 function ButEnregistrementDemarrerClick()
 {
     ActiverWakeLock();
-    if (DEBUG == 0) openFullscreen(); // DEBUG supprimer commentaire si release
+    // openFullscreen();
 
     if (gInterfaceSon) Speech("Enregistrement démarré.");
     AttenteFinSpeech();
@@ -111,7 +111,7 @@ function ButEnregistrementArreter()
 {
   gStateEnregistrement = 'ARRET';
   DesactiverWakeLock();
-  if (DEBUG == 0) closeFullscreen();
+  // closeFullscreen();
   if (gInterfaceSon) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
   AttenteFinSpeech();
   AfficherEcranPrincipal();

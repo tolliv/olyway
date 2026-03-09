@@ -59,8 +59,6 @@ document.addEventListener('DOMContentLoaded', async function()
   console.log("Version = ", VERSION);
 
   // Lancement
-  Speech("Bienvenue sur Olyway\n");
-//  if (DEBUG == 0)  await AttenteFinSpeech();
   pid('EcranDemarrage').style.display = 'none';
 
   // Affichage de l'écran Principal

@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranInfos()
 {
-  if (gInterfaceSon) Speech("menu informations");
+  if (gInterfaceSon) Speech("informations");
   AfficherInfosParam();
   AfficherEcran("EcranInfos");
 }

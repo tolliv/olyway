@@ -30,34 +30,30 @@
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
   <span class='classTitre'>Menu Principal</span>
-  <button class='classBouton' onclick=''>Suivre Parcours</button>
+  <button class='classBouton' id='ButSuivreParcours' onclick=''>Suivre<br>Parcours</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranEnregistrement();'>Nouveau Parcours</button>
+  <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranEnregistrement();'>Nouveau<br>Parcours</button>
   <div class='classEspace'></div>
-  <button class='classTexte' onclick=''>vide</button>
+  <button class='classBouton' id='ButReglages' onclick=''>Réglages</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranInfos();'>Informations</button>
+  <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
   <div class='classEspace'></div>
   <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>Voix activée</button>
 </div>
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <span class='classTitre'>Menu Informations</span>
+  <span class='classTitre'>Informations</span>
   <div class='classTexte' id='TxtInfosVersion'></div>
   <div class='classEspace'></div>
   <span class='classTexte' id='TxtInfosAuteurs'></span>
-  <div class='classEspace'></div>
-  <span class='classTexte'>vide</span>
-  <div class='classEspace'></div>
-  <button class='classTexte'>vide</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
 
 <!----- Ecran DEMARRER ----->
 <div id='EcranDemarrer' style='display: none;'>
-  <span class='classTitre'>Menu Enregistrement</span>
+  <span class='classTitre'>Nouveau Parcours</span>
   <button class='classBouton' onclick='ButEnregistrementDemarrerClick();'>Démarrer</button>
   <div class='classEspace'></div>
   <button class='classBouton' onclick='ButEnregistrementAnnulerClick();'>Annuler</button>
