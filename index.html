@@ -19,6 +19,9 @@
 <body>
 
 <link rel='stylesheet' type='text/css' href='home.css'>
+<link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
+<link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
+<link rel='stylesheet' type='text/css' href='EcranInfos.css'>
 <script src="version.js"></script>
 
 <!----- ECRAN DEMARRAGE ----->
@@ -37,26 +40,20 @@
   <button class='classBouton' id='ButReglages' onclick=''>Réglages</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
-  <div class='classEspace'></div>
-  <button class='classBouton' style='background-color: #0F0; color: #000;' id='EcranPrincipalVoix' onclick='EcranPrincipalVoixClick()'>Voix activée</button>
 </div>
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <span class='classTitre'>Informations</span>
-  <div class='classTexte' id='TxtInfosVersion'></div>
-  <div class='classEspace'></div>
-  <span class='classTexte' id='TxtInfosAuteurs'></span>
-  <div class='classEspace'></div>
-  <button class='classBouton' onclick='AfficherEcranPrincipal();'>Retour</button>
+  <div id='TxtInfos'></div>
+  <button class='classBouton' id='ButInfosRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
 
 <!----- Ecran DEMARRER ----->
 <div id='EcranDemarrer' style='display: none;'>
   <span class='classTitre'>Nouveau Parcours</span>
-  <button class='classBouton' onclick='ButEnregistrementDemarrerClick();'>Démarrer</button>
+  <button class='classBouton' id='ButEnregistrementDemarrer' onclick='ButEnregistrementDemarrerClick();'>Démarrer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' onclick='ButEnregistrementAnnulerClick();'>Annuler</button>
+  <button class='classBouton' id='ButEnregistrementAnnuler'onclick='ButEnregistrementAnnulerClick();'>Annuler</button>
 </div>
 
 <!----- Ecran ENREGISTREMENT (Full screen) ----->
@@ -67,8 +64,8 @@
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
   <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
-  <button class='classBouton' onclick='ButEnregistrementArreter();'>Arrêter</button>
   <span id='TxtPauseInfos' style='height: 1%;'></span>
+  <button class='classBouton' id='ButEnregistrementArreter' onclick='ButEnregistrementArreter();'>Arrêter</button>
 </div>
 
 <script src="home.js"></script>

@@ -17,8 +17,10 @@ function AfficherEcranInfos()
 //--------------------------------------------------------------------------------------------------
 function AfficherInfosParam()
 {
-  pid('TxtInfosVersion').innerHTML = "Version \n" + VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
-  pid('TxtInfosAuteurs').innerHTML = "Auteurs \ntolliv & frneko";
+  let lInfos = "";
+  lInfos += "Version \n" + VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10) + "\n\n";
+  lInfos += "Auteurs \ntolliv & frneko";
+  pid('TxtInfos').innerHTML = lInfos;
 }
 
 

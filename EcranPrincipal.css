@@ -1,0 +1,47 @@
+#ButSuivreParcours::before
+{
+  content: "▶️" / "";
+  font-size: 50px;
+}
+#ButSuivreParcours
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+}
+
+#ButNouveauParcours::before
+{
+  content: "🔴" / "";
+  font-size: 50px;
+}
+#ButNouveauParcours
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+}
+
+#ButReglages::before
+{
+  content: "⚙️" / "";
+  font-size: 50px;
+}
+#ButReglages
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+}
+
+#ButInfos::before
+{
+  content: "ℹ️" / "";
+  font-size: 50px;
+}
+#ButInfos
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+}

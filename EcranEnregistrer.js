@@ -16,7 +16,7 @@ let gRequestStopStateMachine = false;
 let gStateEnregistrement = 'ARRET';
 let gCounterPause = 0;
 let gCounterIndicateurEnregistrement = 0;
-let gChaineIndicateurEnregistrement = "";
+const gSymboleEnregistrement = "🔴";
 
 
 //--------------------------------------------------------------------------------------------------
@@ -41,9 +41,11 @@ function ButEnregistrementDemarrerClick()
 
     // Puis lance la state machine
     AfficherEcran('EcranEnregistrement');
-    gChaineIndicateurEnregistrement = "O";
+    gStateEnregistrement = 'EXTINCTION';
     gCounterIndicateurEnregistrement = 0;
-    gStateEnregistrement = 'RUN';
+    pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
+
+    // La machine d'état est démarré et le restera jusqu'à la fermeture de l'application
     StateMachineEnregistrement();
 }
 
@@ -62,7 +64,7 @@ function ButtonEnregistrementStopClick()
 {
   AfficheReleves();
   AfficherEcran('EcranPause');
-  gStateEnregistrement = 'PAUSE';
+  gStateEnregistrement = 'ALLUMAGE';
   gCounterPause = gParamTempsPause;
 }
 
@@ -131,50 +133,32 @@ function StateMachineEnregistrement()
       case 'ARRET':
         break;
 
-      // Affichage de l'écran Pause juste après démarrer
-      case 'AFFICHAGE_DEBUT':
+      // Mode RUN ou seul l'écran Enregistrement est affiché
+      case 'EXTINCTION':
+        gCounterIndicateurEnregistrement++;
+
+        if (gCounterIndicateurEnregistrement == 10)
+        {
+          pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
+        }
+
+        if (gCounterIndicateurEnregistrement == 15)
+        {
+          pid('BoutonEnregistrement').innerHTML = "";
+          gCounterIndicateurEnregistrement = 0;
+        }
+        break;
+
+      // Allumage de l'écran pause suite à un appui sur l'écran
+      // On repasse en extinction de l'écran qu'au bout d'un certain temps et si pas de speech en cours
+      case 'ALLUMAGE':
         gCounterPause--;
         pid('TxtPauseInfos').innerHTML = gCounterPause;
         if (gCounterPause <= 0)
         {
           AfficherEcran('EcranEnregistrement');
-          gChaineIndicateurEnregistrement = "O";
           gCounterIndicateurEnregistrement = 0;
-          gStateEnregistrement = 'RUN';
-          if (gInterfaceSon) Speech("Extinction de l'écran.");
-        }
-        break;
-
-      // Mode RUN ou seul l'écran Enregistrement est affiché
-      case 'RUN':
-        gCounterIndicateurEnregistrement++;
-        if (gCounterIndicateurEnregistrement >= 100)
-        {
-          gChaineIndicateurEnregistrement = "O";
-          gCounterIndicateurEnregistrement = 0;
-        }
-
-        if ( (gCounterIndicateurEnregistrement % 8) == 1)
-        {
-          gChaineIndicateurEnregistrement = "&nbsp;" + gChaineIndicateurEnregistrement;
-          pid('BoutonEnregistrement').innerHTML = gChaineIndicateurEnregistrement;
-        }
-
-        if ( (gCounterIndicateurEnregistrement % 8) == 2)
-          pid('BoutonEnregistrement').innerHTML = "";
-        break;
-
-      // Pause suite à un appui sur l'écran
-      // On repasse en extinction de l'écran qu'au bout d'un certain temps et si pas de speech en cours
-      case 'PAUSE':
-        gCounterPause--;
-        pid('TxtPauseInfos').innerHTML = gCounterPause;
-        if ((gCounterPause <= 0) && (!window.speechSynthesis.speaking))
-        {
-          AfficherEcran('EcranEnregistrement');
-          gChaineIndicateurEnregistrement = "O";
-          gCounterIndicateurEnregistrement = 0;
-          gStateEnregistrement = 'RUN';
+          gStateEnregistrement = 'EXTINCTION';
           if (gInterfaceSon) Speech("Ecran désactivé.");
         }
         break;
