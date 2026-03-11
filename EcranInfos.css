@@ -16,14 +16,16 @@
   white-space: pre-line;
 }
 
-#ButInfosRetour::before {
-  content: "◀️" / "";
-  font-size: 50px;
-}
-#ButInfosRetour {
+#ButInfosRetour
+{
   justify-content: flex-start;
   padding-left: 20px;
   text-align: left;
+  &::before
+  {
+    content: "◀️" / "";
+    font-size: 50px;
+  }
 }
 
 

@@ -1,27 +1,3 @@
-#ButEnregistrementDemarrer::before
-{
-  content: "🔴" / "";
-  font-size: 50px;
-}
-#ButEnregistrementDemarrer
-{
-  justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
-}
-
-#ButEnregistrementAnnuler::before
-{
-  content: "◀️" / "";
-  font-size: 50px;
-}
-#ButEnregistrementAnnuler
-{
-  justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
-}
-
 /* Texte pour les relevés pendant un enregistrement */
 .classTexteReleves
 {
@@ -63,14 +39,14 @@
   content: "" / "";
 }
 
-#ButEnregistrementArreter::before
-{
-  content: "❌" / "";
-  font-size: 50px;
-}
 #ButEnregistrementArreter
 {
   justify-content: flex-start;
   padding-left: 20px;
   text-align: left;
+  &::before
+  {
+    content: "❌" / "";
+    font-size: 50px;
+  }
 }

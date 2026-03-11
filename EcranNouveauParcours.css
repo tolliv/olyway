@@ -1,0 +1,23 @@
+#ButNouveauParcoursDemarrer
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+  &::before
+  {
+    content: "🔴" / "";
+    font-size: 50px;
+  }
+}
+
+#ButNouveauParcoursAnnuler
+{
+  justify-content: flex-start;
+  padding-left: 20px;
+  text-align: left;
+  &::before
+  {
+    content: "◀️" / "";
+    font-size: 50px;
+  }
+}

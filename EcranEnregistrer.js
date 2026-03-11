@@ -20,18 +20,9 @@ const gSymboleEnregistrement = "🔴";
 
 
 //--------------------------------------------------------------------------------------------------
-// Afficher écran de démarrage pour demander confirmation ou non
-//--------------------------------------------------------------------------------------------------
-function AfficherEcranEnregistrement()
-{
-  if (gInterfaceSon) Speech("nouveau parcours");
-  AfficherEcran('EcranDemarrer');
-}
-
-//--------------------------------------------------------------------------------------------------
 // Démarrage de l'enregistrement
 //--------------------------------------------------------------------------------------------------
-function ButEnregistrementDemarrerClick()
+function EnregistrementDemarrer()
 {
     ActiverWakeLock();
     // openFullscreen();
@@ -47,14 +38,6 @@ function ButEnregistrementDemarrerClick()
 
     // La machine d'état est démarré et le restera jusqu'à la fermeture de l'application
     StateMachineEnregistrement();
-}
-
-//--------------------------------------------------------------------------------------------------
-// Annulation de l'enregistrement
-//--------------------------------------------------------------------------------------------------
-function ButEnregistrementAnnulerClick()
-{
-  AfficherEcranPrincipal();
 }
 
 //--------------------------------------------------------------------------------------------------

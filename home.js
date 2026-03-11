@@ -2,8 +2,6 @@
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
 
-const DEBUG = 0;
-
 //----- Variables globales -----
 let iSeuilPrecision = 15;             // Paramètre mémorisé
 let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
@@ -67,6 +65,7 @@ document.addEventListener('DOMContentLoaded', async function()
   //AfficherEcranEnregistrement(); // DEBUG mettre en commentaire
 });
 
+
 //--------------------------------------------------------------------------------------------------
 // Raccourci sur les éléments du DOM
 //--------------------------------------------------------------------------------------------------
@@ -74,7 +73,7 @@ function pid(id)
 {
   const element = document.getElementById(id);
   if (element == null)
-    console.log("'"+ id + "' introuvable !");
+    console.log("PID '"+ id + "' introuvable !");
   return(element);
 }
 
@@ -220,9 +219,10 @@ async function AttenteFinSpeech()
 //--------------------------------------------------------------------------------------------------
 const gListeEcrans = ["EcranPrincipal",
 /* Suivre Parcours */     // TODO "EcranParcours",
-/* Nouveau Parcours */    "EcranDemarrer",
+/* Nouveau Parcours */    "EcranNouveauParcours",
                               "EcranEnregistrement",
                                   "EcranPause",
+/* Réglages */            "EcranReglages",
 /* Informations */        "EcranInfos",
                       ];
 function AfficherEcran(pEcran)

@@ -2,8 +2,6 @@
  Programme Olyway
  --------------------------------------------------------->
 
-
-
 <!----- HEADER ------------------------------------------->
 <!DOCTYPE html>
 <html lang="fr">
@@ -18,10 +16,13 @@
 </head>
 <body>
 
-<link rel='stylesheet' type='text/css' href='home.css'>
-<link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
 <link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
 <link rel='stylesheet' type='text/css' href='EcranInfos.css'>
+<link rel='stylesheet' type='text/css' href='EcranNouveauParcours.css'>
+<link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
+<link rel='stylesheet' type='text/css' href='EcranReglages.css'>
+<link rel='stylesheet' type='text/css' href='home.css'>
+
 <script src="version.js"></script>
 
 <!----- ECRAN DEMARRAGE ----->
@@ -37,9 +38,16 @@
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranEnregistrement();'>Nouveau<br>Parcours</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButReglages' onclick=''>Réglages</button>
+  <button class='classBouton' id='ButReglages' onclick='AfficherEcranReglages();'>Réglages</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
+</div>
+
+<!----- Ecran REGLAGES ----->
+<div id='EcranReglages' style='display: none;'>
+  <span class='classTitre'>Réglages</span>
+  <button class='classReglageOn' id='ButReglagesVoix' onclick='ButReglagesVoixClick();'><div>Voix Interface<br><span class='texte-active'>Activée</span></div></button>
+  <button class='classBouton' id='ButReglagesRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
 
 <!----- Ecran INFOS ----->
@@ -49,11 +57,11 @@
 </div>
 
 <!----- Ecran DEMARRER ----->
-<div id='EcranDemarrer' style='display: none;'>
+<div id='EcranNouveauParcours' style='display: none;'>
   <span class='classTitre'>Nouveau Parcours</span>
-  <button class='classBouton' id='ButEnregistrementDemarrer' onclick='ButEnregistrementDemarrerClick();'>Démarrer</button>
+  <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();'>Démarrer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButEnregistrementAnnuler'onclick='ButEnregistrementAnnulerClick();'>Annuler</button>
+  <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='AfficherEcranPrincipal();'>Annuler</button>
 </div>
 
 <!----- Ecran ENREGISTREMENT (Full screen) ----->
@@ -68,11 +76,12 @@
   <button class='classBouton' id='ButEnregistrementArreter' onclick='ButEnregistrementArreter();'>Arrêter</button>
 </div>
 
-<script src="home.js"></script>
-<script src="EcranPrincipal.js"></script>
-<script src="EcranInfos.js"></script>
 <script src="EcranEnregistrer.js"></script>
-<script src="EcranParcours.js"></script>
+<script src="EcranInfos.js"></script>
+<script src="EcranNouveauParcours.js"></script>
+<script src="EcranPrincipal.js"></script>
+<script src="EcranReglages.js"></script>
+<script src="home.js"></script>
 
 </body>
 </html>
