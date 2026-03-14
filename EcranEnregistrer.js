@@ -16,7 +16,7 @@ let gRequestStopStateMachine = false;
 let gStateEnregistrement = 'ARRET';
 let gCounterPause = 0;
 let gCounterIndicateurEnregistrement = 0;
-let gPrecisionPrev;
+let gGeoStatusPrev;
 const gSymboleEnregistrement = "🔴";
 
 
@@ -117,7 +117,7 @@ function StateMachineEnregistrement()
       //--------------------------------------------------------------------------------------------
       // DEMARRAGE : nouveau parcours, lance la géolocalisation
       case 'DEMARRAGE':
-        gPrecisionPrev = 0;
+        gGeoStatusPrev = 0;
         GeolocalisationWatch();
         pid('TxtAttentePrecision').innerHTML = "";
         gStateEnregistrement = 'DEMARRAGE_ATTENTE';
@@ -127,17 +127,27 @@ function StateMachineEnregistrement()
       // DEMARRAGE_ATTENTE : attente de la précision
       case 'DEMARRAGE_ATTENTE':
         let lStatus = gGeoStatus;
-        // Si nouvelle position valide, on l'affiche
-        if (lStatus > gPrecisionPrev)
+
+        // Précision inconnue
+        if (lStatus == 0)
         {
-          pid('TxtAttentePrecision').innerHTML = "(" +lStatus + ") Précision " + gGeoAccuracy + "m";
-          gPrecisionPrev = lStatus;
+          pid('TxtAttentePrecision').innerHTML = "Précision inconnue";
         }
 
-        // Pas de changement sur la précision
+        // Il y a eu au moins une mesure
         else
         {
-          pid('TxtAttentePrecision').innerHTML = "(" +lStatus + ") Précision " + gGeoAccuracy + "m";
+          if (lStatus > gGeoStatusPrev)
+          {
+            pid('TxtAttentePrecision').innerHTML = "Précision " + gGeoAccuracy + "m" + "\n(" +lStatus + ")";
+            gGeoStatusPrev = lStatus;
+          }
+
+          // Pas de changement sur la précision
+          else
+          {
+            // TODO
+          }
         }
 
         // TODO
