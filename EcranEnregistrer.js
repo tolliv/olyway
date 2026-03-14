@@ -24,6 +24,7 @@ const gParamNprecisionOK       = 1;  // Nombre de valeurs consécutives avec la 
 let gTableauMesures = null;
 let gPointPrecedent = null;
 let gDistanceTotale = 0;
+let gDistancePointPrecedent = 0;
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage de l'enregistrement
@@ -35,6 +36,7 @@ function EnregistrementDemarrer()
     // Premier point
     gTableauMesures = [];
     gPointPrecedent = null;
+    gDistancePointPrecedent = 0;
     gDistanceTotale = 0;
     MemorisationMesure();
 
@@ -63,14 +65,6 @@ function EcranEnregistrementClick()
 function ButRelevesEnregistrementClick()
 {
   gCounterPause = gParamTempsPause;
-}
-
-//--------------------------------------------------------------------------------------------------
-// Arrêter l'enregistrement
-//--------------------------------------------------------------------------------------------------
-function ButEnregistrementArreter()
-{
-  FinNouveauParcours();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -207,6 +201,23 @@ function StateMachineEnregistrement()
 }
 
 //--------------------------------------------------------------------------------------------------
+// Traitement si nouvelle mesure
+// Fonction appelée si écran Eteint ou Allumé
+//--------------------------------------------------------------------------------------------------
+function GestionNouvelleMesure()
+{
+  let lStatus = gGeoStatus;
+  if (lStatus > gGeoStatusPrev)
+  {
+    gGeoStatusPrev = lStatus;
+    MemorisationMesure();
+
+    // Mise à jour des mesures sans vocalisation car l'écran peut être masqué
+    AfficheReleves(false);
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
 // Mémorisation d'une mesure
 //--------------------------------------------------------------------------------------------------
 function MemorisationMesure()
@@ -225,31 +236,25 @@ function MemorisationMesure()
     time: Date.now()
   };
 
-  // Ajout au tableau
-  gTableauMesures.push(lNouveauPoint);
-
-  // Calcul de distance (si on a un point précédent)
-  if (gPointPrecedent != null) {
-    gDistanceTotale += CalculDistance(gPointPrecedent, lNouveauPoint);
-  }
-}
-
-//--------------------------------------------------------------------------------------------------
-// Traitement si nouvelle mesure
-// Fonction appelée si écran Eteint ou Allumé
-//--------------------------------------------------------------------------------------------------
-function GestionNouvelleMesure()
-{
-  let lStatus = gGeoStatus;
-  if (lStatus > gGeoStatusPrev)
+  // Si c'est le premier point, on le mémorise simplement
+  if (gPointPrecedent == null)
   {
-    gGeoStatusPrev = lStatus;
-    MemorisationMesure();
+    gTableauMesures.push(lNouveauPoint);
+  }
 
-    // Mise à jour des mesures sans vocalisation car l'écran peut être masqué
-    AfficheReleves(false);
+  // Si ce n'est pas le premier point, on calcule la distance depuis le dernier point
+  // Si la distance est supérieure à 3m, on mémorise le point
+  else
+  {
+    gDistancePointPrecedent = CalculDistance(gPointPrecedent, lNouveauPoint);
+    if (gDistancePointPrecedent > 0.003)
+    {
+      gDistanceTotale += gDistancePointPrecedent;
+      gTableauMesures.push(lNouveauPoint);
+    }
   }
 }
+
 
 //--------------------------------------------------------------------------------------------------
 // Calcul de la distance entre deux points (en km)
@@ -312,4 +317,75 @@ function AfficheReleves(pVocalise)
     lSpeech += lBatterie + " %\n";
     if (gVoixInterface) Speech(lSpeech);
   }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Arrêter l'enregistrement
+//--------------------------------------------------------------------------------------------------
+function ButEnregistrementArreter()
+{
+  // Conversion du tableau d'objets en chaîne JSON
+  let lDonneesJson = JSON.stringify(gTableauMesures);
+  console.log("Données sauvegardées : ", lDonneesJson);
+  localStorage.setItem('DernierParcours', lDonneesJson);
+
+  // Conversion en GPX
+  SaveGPX(gTableauMesures);
+  FinNouveauParcours();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Transformer le tableau en GPX
+//--------------------------------------------------------------------------------------------------
+function SaveGPX(lTableau)
+{
+  if (!lTableau || lTableau.length === 0) return;
+
+  // 1. En-tête du fichier GPX
+  let lGpx = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="MyTrackApp" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Parcours du ${new Date().toLocaleString()}</name>
+    <trkseg>`;
+
+  // 2. Itération sur les points du tableau
+  lTableau.forEach(p => {
+    // Le format GPX exige des dates en ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
+    let lTimeIso = new Date(p.time).toISOString();
+
+    lGpx += `
+      <trkpt lat="${p.lat}" lon="${p.lon}">
+        <ele>${p.alt !== null ? p.alt.toFixed(1) : 0}</ele>
+        <time>${lTimeIso}</time>
+        <hdop>${(p.acc / 5).toFixed(1)}</hdop>
+      </trkpt>`;
+  });
+
+  // 3. Fermeture des balises
+  lGpx += `
+    </trkseg>
+  </trk>
+</gpx>`;
+
+  // 4. Stockage dans le localStorage
+  localStorage.setItem('DernierParcoursGPX', lGpx);
+
+  console.log("Fichier GPX généré :");
+  console.log(lGpx);
+
+  // Téléchargement
+  DownloadFile(lGpx, "parcours.gpx", "application/gpx+xml");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Téléchargement de fichier GPX
+//--------------------------------------------------------------------------------------------------
+function DownloadFile(pContent, pFileName, pContentType)
+{
+  const a = document.createElement("a");
+  const file = new Blob([pContent], { type: pContentType });
+  a.href = URL.createObjectURL(file);
+  a.download = pFileName;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
