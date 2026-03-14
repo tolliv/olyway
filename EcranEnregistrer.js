@@ -17,15 +17,16 @@ let gStateEnregistrement = 'ARRET';
 let gCounterPause = 0;
 let gCounterIndicateurEnregistrement = 0;
 let gGeoStatusPrev;
+let gGeoCompteurPrecisionOK;
 const gSymboleEnregistrement = "🔴";
-
+const gParamPrecisionDemarrage = 10; /* 10m pour commencer */
+const gParamNprecisionOK       = 5;  /* Nombre de valeurs consécutives avec la bonne précision */
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage de l'enregistrement
 //--------------------------------------------------------------------------------------------------
 function EnregistrementDemarrer()
 {
-    ActiverWakeLock();
     // openFullscreen();
 
     if (gVoixInterface) Speech("Enregistrement démarré.");
@@ -95,7 +96,6 @@ function ButEnregistrementArreter()
   DesactiverWakeLock();
   // closeFullscreen();
   if (gVoixInterface) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
-  AttenteFinSpeech();
   AfficherEcranPrincipal();
 }
 
@@ -116,9 +116,12 @@ function StateMachineEnregistrement()
 
       //--------------------------------------------------------------------------------------------
       // DEMARRAGE : nouveau parcours, lance la géolocalisation
+      // Initialise toutes les variables
       case 'DEMARRAGE':
         gGeoStatusPrev = 0;
+        gGeoCompteurPrecisionOK = 0;
         GeolocalisationWatch();
+        ActiverWakeLock();
         pid('TxtAttentePrecision').innerHTML = "";
         gStateEnregistrement = 'DEMARRAGE_ATTENTE';
         break;
@@ -134,19 +137,35 @@ function StateMachineEnregistrement()
           pid('TxtAttentePrecision').innerHTML = "Précision inconnue";
         }
 
-        // Il y a eu au moins une mesure
+        // Il y a eu au moins une nouvelle mesure
         else
         {
           if (lStatus > gGeoStatusPrev)
           {
-            pid('TxtAttentePrecision').innerHTML = "Précision " + gGeoAccuracy + "m" + "\n(" +lStatus + ")";
+            pid('TxtAttentePrecision').innerHTML = "Précision " + gGeoAccuracy + "m";
             gGeoStatusPrev = lStatus;
+
+            // Compte pour avoir n valeurs en dessous du seuil avant d'afficher le bouton
+            if (gGeoAccuracy <= gParamPrecisionDemarrage)
+              gGeoCompteurPrecisionOK++;
+            else
+              gGeoCompteurPrecisionOK = 0;
           }
 
-          // Pas de changement sur la précision
+          // Pas de nouvelle mesure
           else
           {
-            // TODO
+            // Compte pour avoir n valeurs en dessous du seuil
+            if (gGeoAccuracy <= gParamPrecisionDemarrage)
+              gGeoCompteurPrecisionOK++;
+            else
+              gGeoCompteurPrecisionOK = 0;
+          }
+
+          // Quand seuil atteint, on affiche le bouton Démarrer
+          if (gGeoCompteurPrecisionOK >= gParamNprecisionOK)
+          {
+            pid('ButNouveauParcoursDemarrer').style.display = 'flex';
           }
         }
 

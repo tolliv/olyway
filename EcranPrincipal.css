@@ -1,8 +1,6 @@
 #ButSuivreParcours
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "▶️" / "";
@@ -13,8 +11,6 @@
 #ButNouveauParcours
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "🔴" / "";
@@ -25,8 +21,6 @@
 #ButReglages
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "⚙️" / "";
@@ -37,8 +31,6 @@
 #ButInfos
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "ℹ️" / "";

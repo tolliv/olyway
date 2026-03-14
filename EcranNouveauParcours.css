@@ -1,8 +1,6 @@
 #ButNouveauParcoursDemarrer
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "🔴" / "";
@@ -13,8 +11,6 @@
 #ButNouveauParcoursAnnuler
 {
   justify-content: flex-start;
-  padding-left: 20px;
-  text-align: left;
   &::before
   {
     content: "◀️" / "";
