@@ -17,6 +17,7 @@ let gGeoAltitude = 0;
 let gGeoTimeout = 0;
 let gGeoWatchId = 0;
 let gSimulationGeolocalisation = false;
+let gStopSimulation = false;
 
 //-------------------------------------------------------
 // Geolocalisation avec surveillance de la position
@@ -46,17 +47,23 @@ function GeolocalisationWatch()
     return;
   }
 
-  // Mode simulation
+  // Mode simulation cyclique
   if (gSimulationGeolocalisation)
   {
-    setTimeout(() =>
-    {
-      gGeoLatitude = 43.50 + gGeoStatus*0.01;
-      gGeoLongitude = 1.50 + gGeoStatus*0.01;
+    // Définition de la fonction de répétition
+    const simulationStep = () => {
+      gGeoLatitude = 43.50 + gGeoStatus * 0.0001;
+      gGeoLongitude = 1.50 + gGeoStatus * 0.0001;
       gGeoAccuracy = 3;
       gGeoAltitude = 123;
       gGeoStatus++;
-    }, 1000);
+      if (!gStopSimulation)
+        setTimeout(simulationStep, 1000);
+    };
+
+    // Premier lancement
+    gStopSimulation = false;
+    simulationStep();
   }
 
   // Surveillance de la position
@@ -102,7 +109,7 @@ function GeolocalisationWatch()
 }
 
 //-------------------------------------------------------
-// Arrêt géolocalisation
+// Arrêt géolocalisation et simulation
 //-------------------------------------------------------
 function ArretGeolocalisation()
 {
@@ -111,6 +118,7 @@ function ArretGeolocalisation()
     navigator.geolocation.clearWatch(gGeoWatchId);
     gGeoWatchId = 0;
   }
+  gStopSimulation = true;
 }
 
 

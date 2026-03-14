@@ -19,8 +19,11 @@ let gCounterIndicateurEnregistrement = 0;
 let gGeoStatusPrev;
 let gGeoCompteurPrecisionOK;
 const gSymboleEnregistrement = "🔴";
-const gParamPrecisionDemarrage = 10; /* 10m pour commencer */
-const gParamNprecisionOK       = 10;  /* Nombre de valeurs consécutives avec la bonne précision */
+const gParamPrecisionDemarrage = 10; // 10m pour commencer
+const gParamNprecisionOK       = 1;  // Nombre de valeurs consécutives avec la bonne précision - DEBUG:1 RELEASE:10
+let gTableauMesures = null;
+let gPointPrecedent = null;
+let gDistanceTotale = 0;
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage de l'enregistrement
@@ -29,53 +32,30 @@ function EnregistrementDemarrer()
 {
     if (gVoixInterface) Speech("Enregistrement démarré.");
 
+    // Premier point
+    gTableauMesures = [];
+    gPointPrecedent = null;
+    gDistanceTotale = 0;
+    MemorisationMesure();
+
     // Puis change l'état de la State Machine
     AfficherEcran('EcranEnregistrement');
-    gStateEnregistrement = 'EXTINCTION';
     gCounterIndicateurEnregistrement = 0;
+    gStateEnregistrement = 'EXTINCTION';
     pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
 }
 
 //--------------------------------------------------------------------------------------------------
-// Appui bouton pendant l'enregistrement
+// Appui sur l'écran pendant l'enregistrement
+// On lit les dernières mesures
 //--------------------------------------------------------------------------------------------------
-function ButtonEnregistrementStopClick()
+function EcranEnregistrementClick()
 {
-  AfficheReleves();
+  AfficheReleves(true);
   AfficherEcran('EcranPause');
   gStateEnregistrement = 'ALLUMAGE';
   gCounterPause = gParamTempsPause;
 }
-
-//--------------------------------------------------------------------------------------------------
-// Affichage des relevés pendant l'enregistrement
-// Durée, distance
-//--------------------------------------------------------------------------------------------------
-function AfficheReleves()
-{
-  // Récupération des valeurs
-  let lDuree = "1 heure 04 minutes";
-  let lDistance = "2,83km";
-  let lHeure = "15 heures 34 minutes";
-  let lBatterie = "53%";
-
-  // Texte pour l'affichage
-  let lAffichage = "";
-  lAffichage += "DURÉE :\n" + lDuree + "\n\n";
-  lAffichage += "DISTANCE :\n" + lDistance + "\n\n";
-  lAffichage += "HEURE :\n" + lHeure + "\n\n";
-  lAffichage += "BATTERIE :\n" + lBatterie + "\n\n";
-  pid('TxtReleves').innerHTML = lAffichage;
-
-  // Texte pour le Speech
-  let lSpeech = "";
-  lSpeech += "Durée " + lDuree + "\n";
-  lSpeech += "Distance " + lDistance + "\n";
-  lSpeech += "Heure " + lHeure + "\n";
-  lSpeech += "Batterie " + lBatterie + "\n";
-  if (gVoixInterface) Speech(lSpeech);
-}
-
 
 //--------------------------------------------------------------------------------------------------
 // Reinit timeout pause en cliquant sur l'écran des mesures
@@ -95,7 +75,7 @@ function ButEnregistrementArreter()
 
 //--------------------------------------------------------------------------------------------------
 // State machine Enregistrement
-// Réveillée toutes les 300ms
+// Réveillée toutes les 250ms
 //--------------------------------------------------------------------------------------------------
 function StateMachineEnregistrement()
 {
@@ -159,6 +139,10 @@ function StateMachineEnregistrement()
           if (gGeoCompteurPrecisionOK >= gParamNprecisionOK)
           {
             pid('ButNouveauParcoursDemarrer').style.display = 'flex';
+            if (window.getComputedStyle(pid('ButNouveauParcoursDemarrer')).display != 'none')
+            {
+              if (gVoixInterface) Speech("vous pouvez démarrer");
+            }
           }
         }
 
@@ -176,14 +160,17 @@ function StateMachineEnregistrement()
       //--------------------------------------------------------------------------------------------
       // EXTINCTION : mode RUN ou seul l'écran Enregistrement est affiché
       case 'EXTINCTION':
-        gCounterIndicateurEnregistrement++;
+        // Gestion nouvelle mesure
+        GestionNouvelleMesure();
 
-        if (gCounterIndicateurEnregistrement == 10)
+        // Gestion logo
+        gCounterIndicateurEnregistrement++;
+        if (gCounterIndicateurEnregistrement == 8)
         {
           pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
         }
 
-        if (gCounterIndicateurEnregistrement == 15)
+        if (gCounterIndicateurEnregistrement == 12)
         {
           pid('BoutonEnregistrement').innerHTML = "";
           gCounterIndicateurEnregistrement = 0;
@@ -194,8 +181,10 @@ function StateMachineEnregistrement()
       // ALLUMAGE : allumage de l'écran pause suite à un appui sur l'écran
       // On ne repasse en extinction de l'écran qu'au bout d'un certain temps
       case 'ALLUMAGE':
+        // Gestion nouvelle mesure
+        GestionNouvelleMesure();
+
         gCounterPause--;
-        pid('TxtPauseInfos').innerHTML = gCounterPause;
         if (gCounterPause <= 0)
         {
           AfficherEcran('EcranEnregistrement');
@@ -215,4 +204,107 @@ function StateMachineEnregistrement()
     if (!gRequestStopStateMachine)
       StateMachineEnregistrement();
   }, 250);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Mémorisation d'une mesure
+//--------------------------------------------------------------------------------------------------
+function MemorisationMesure()
+{
+  // Mémorise le point précédent
+  if (gTableauMesures.length > 0)
+    gPointPrecedent = gTableauMesures[gTableauMesures.length - 1];
+
+  // Création du nouveau point
+  let lNouveauPoint =
+  {
+    lat: gGeoLatitude,
+    lon: gGeoLongitude,
+    alt: gGeoAltitude,
+    acc: gGeoAccuracy,
+    time: Date.now()
+  };
+
+  // Ajout au tableau
+  gTableauMesures.push(lNouveauPoint);
+
+  // Calcul de distance (si on a un point précédent)
+  if (gPointPrecedent != null) {
+    gDistanceTotale += CalculDistance(gPointPrecedent, lNouveauPoint);
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Traitement si nouvelle mesure
+// Fonction appelée si écran Eteint ou Allumé
+//--------------------------------------------------------------------------------------------------
+function GestionNouvelleMesure()
+{
+  let lStatus = gGeoStatus;
+  if (lStatus > gGeoStatusPrev)
+  {
+    gGeoStatusPrev = lStatus;
+    MemorisationMesure();
+
+    // Mise à jour des mesures sans vocalisation car l'écran peut être masqué
+    AfficheReleves(false);
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Calcul de la distance entre deux points (en km)
+// Formule de Haversine
+//--------------------------------------------------------------------------------------------------
+function CalculDistance(pPoint1, pPoint2)
+{
+  if (!pPoint1 || !pPoint2)
+    return(0);
+
+  const R = 6371; // Rayon de la Terre en km
+  const dLat = (pPoint2.lat - pPoint1.lat) * Math.PI / 180;
+  const dLon = (pPoint2.lon - pPoint1.lon) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(pPoint1.lat * Math.PI / 180) * Math.cos(pPoint2.lat * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const lDistance = R * c;
+
+  return(lDistance);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Affichage des relevés pendant l'enregistrement
+// Distance
+//--------------------------------------------------------------------------------------------------
+function AfficheReleves(pVocalise)
+{
+  // Distance
+  const lDistance = gDistanceTotale.toFixed(2).replace('.', ',');
+
+  // Nombre de points enregistrés
+  const lNombreDePoints = gTableauMesures.length;
+
+  // Niveau de batterie
+  NiveauBatterie();
+  const lBatterie = gNiveauBatterie.toString();
+
+  // Texte pour l'affichage
+  let lAffichage = "";
+  lAffichage += lDistance + " kilomètres\n";
+  lAffichage += lNombreDePoints + " points\n";
+  lAffichage += lBatterie + "%\n";
+  pid('TxtReleves').innerHTML = lAffichage;
+
+  // Texte pour le Speech
+  if (pVocalise)
+  {
+    let lSpeech = "";
+    lSpeech += lDistance + "km\n";
+    lSpeech += lNombreDePoints + " points\n";
+    lSpeech += lBatterie + "%\n";
+    if (gVoixInterface) Speech(lSpeech);
+  }
 }

@@ -6,6 +6,7 @@ const DEBUG = 0;
 //----- Variables globales -----
 let iSeuilPrecision = 15;             // Paramètre mémorisé
 let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
+let gNiveauBatterie = 0;
 
 //--------------------------------------------------------------------------------------------------
 // Initialisations
@@ -53,7 +54,7 @@ document.addEventListener('visibilitychange', async () =>
 });
 
 //----- Gestionnaires d'événements DOM -----
-document.addEventListener('DOMContentLoaded', async function()
+document.addEventListener('DOMContentLoaded', async () =>
 {
   console.log("Version = ", VERSION);
 
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async function()
   // Affichage de l'écran Principal
   AfficherEcranPrincipal();
 
-  //AfficherEcranEnregistrement(); // DEBUG mettre en commentaire
+  //AfficherEcranEnregistrement(); // DEBUG:activer RELEASE:commenter
 });
 
 
@@ -184,6 +185,8 @@ function Speech(texte)
 {
   if ('speechSynthesis' in window)
   {
+    // Efface l'éventuel speech précédent
+    sleep(200);
     window.speechSynthesis.cancel();
 
     // On crée une nouvelle promesse qui se résoudra quand le texte sera fini
@@ -214,6 +217,28 @@ async function AttenteFinSpeech()
   // On attend simplement la fin de la promesse créée dans Speech()
   await speechPromise;
 }
+
+//--------------------------------------------------------------------------------------------------
+// Récupération du niveau de batterie
+//--------------------------------------------------------------------------------------------------
+function NiveauBatterie()
+{
+  try
+  {
+    if (navigator.getBattery)
+    {
+      navigator.getBattery().then(function(battery)
+      {
+        gNiveauBatterie = Math.floor(battery.level * 100);
+      });
+    }
+  }
+  catch(error)
+  {
+    gNiveauBatterie = 123;
+  }
+}
+
 
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
@@ -254,3 +279,5 @@ function InputChange(pTexte)
   pid('ButTraceBouton').innerHTML = pTexte;
   pid('ButTraceSpan').innerHTML = pTexte;
 }
+
+

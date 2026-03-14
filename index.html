@@ -81,7 +81,7 @@
 
 <!----- Ecran ENREGISTREMENT (Full screen) ----->
 <div id='EcranEnregistrement' style='display: none;'>
-  <button id='BoutonEnregistrement' onclick='ButtonEnregistrementStopClick();'></button>
+  <button id='BoutonEnregistrement' onclick='EcranEnregistrementClick();'></button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
 <script src="EcranEnregistrer.js"></script>
@@ -90,7 +90,7 @@
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
   <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
-  <span id='TxtPauseInfos' style='height: 1%;'></span>
+  <span id='TxtPauseInfos' style='height: 1dvh;'>&nbsp;</span>
   <button class='classBouton' id='ButEnregistrementArreter' onclick='ButEnregistrementArreter();'>Arrêter</button>
 </div>
 
