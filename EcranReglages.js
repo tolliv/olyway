@@ -1,37 +1,73 @@
 //==================================================================================================
 // Ecran REGLAGES
 //==================================================================================================
+// Valeurs par défaut
+let gVoixInterface = true;
+let gVoixNavigation = true;
 
-let gInterfaceSon;
+//--------------------------------------------------------------------------------------------------
+// Affichage de l'écran
+//--------------------------------------------------------------------------------------------------
 function AfficherEcranReglages()
 {
+  if (gVoixInterface) Speech("réglages");
   AfficherEcran("EcranReglages");
-
-  // Valeurs par défaut
-  gInterfaceSon = true;
-  ButReglagesVoixOn();
 }
 
-function ButReglagesVoixClick()
+//--------------------------------------------------------------------------------------------------
+// Réglage : Voix de l'interface
+//--------------------------------------------------------------------------------------------------
+function ButVoixInterfaceClick()
 {
-  if (gInterfaceSon)
-    ButReglagesVoixOff();
+  if (gVoixInterface)
+    ButVoixInterfaceOff();
   else
-    ButReglagesVoixOn();
+    ButVoixInterfaceOn();
 }
 
-function ButReglagesVoixOn()
+function ButVoixInterfaceOn()
 {
-  gInterfaceSon = true;
-  pid('ButReglagesVoix').classList.remove('classReglageOff');
-  pid('ButReglagesVoix').classList.add('classReglageOn');
-  pid('ButReglagesVoix').innerHTML = "<div>Voix Interface<br><span class='texte-active'>Activée</span></div>";
+  gVoixInterface = true;
+  if (gVoixInterface) Speech("voix interface activée");
+  pid('ButVoixInterface').classList.remove('classReglageOff');
+  pid('ButVoixInterface').classList.add('classReglageOn');
+  pid('ButVoixInterface').innerHTML = "<div>Voix Interface<br><span class='texte-active'>Activée</span></div>";
 }
 
-function ButReglagesVoixOff()
+function ButVoixInterfaceOff()
 {
-  gInterfaceSon = false;
-  pid('ButReglagesVoix').classList.remove('classReglageOn');
-  pid('ButReglagesVoix').classList.add('classReglageOff');
-  pid('ButReglagesVoix').innerHTML = "<div>Voix Interface<br><span class='texte-desactive'>Désactivée</span></div>";
+  if (gVoixInterface) Speech("voix interface désactivée");
+  gVoixInterface = false;
+  pid('ButVoixInterface').classList.remove('classReglageOn');
+  pid('ButVoixInterface').classList.add('classReglageOff');
+  pid('ButVoixInterface').innerHTML = "<div>Voix Interface<br><span class='texte-desactive'>Désactivée</span></div>";
+}
+
+//--------------------------------------------------------------------------------------------------
+// Réglage : Voix pendant la navigation
+//--------------------------------------------------------------------------------------------------
+function ButVoixNavigationClick()
+{
+  if (gVoixNavigation)
+    ButVoixNavigationOff();
+  else
+    ButVoixNavigationOn();
+}
+
+function ButVoixNavigationOn()
+{
+  gVoixNavigation = true;
+  if (gVoixNavigation) Speech("voix navigation activée");
+  pid('ButVoixNavigation').classList.remove('classReglageOff');
+  pid('ButVoixNavigation').classList.add('classReglageOn');
+  pid('ButVoixNavigation').innerHTML = "<div>Voix Navigation<br><span class='texte-active'>Activée</span></div>";
+}
+
+function ButVoixNavigationOff()
+{
+  if (gVoixNavigation) Speech("voix navigation désactivée");
+  gVoixNavigation = false;
+  pid('ButVoixNavigation').classList.remove('classReglageOn');
+  pid('ButVoixNavigation').classList.add('classReglageOff');
+  pid('ButVoixNavigation').innerHTML = "<div>Voix Navigation<br><span class='texte-desactive'>Désactivée</span></div>";
 }

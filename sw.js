@@ -15,7 +15,7 @@ const ASSETS = [
   'favicon.ico',
   'favicon-16x16.png',
   'favicon-32x32.png',
-  'geolocalisation.js',
+  'geolocalisationOlyway.js',
   'home.css',
   'home.js',
   'icon-192.png',

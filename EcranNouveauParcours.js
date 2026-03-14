@@ -7,8 +7,13 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranEnregistrement()
 {
-  if (gInterfaceSon) Speech("nouveau parcours");
+  if (gVoixInterface) Speech("nouveau parcours");
   AfficherEcran('EcranNouveauParcours');
+
+  // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
+  gStateEnregistrement = 'DEMARRAGE';
+  StateMachineEnregistrement();
+
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -17,4 +22,14 @@ function AfficherEcranEnregistrement()
 function ButNouveauParcoursDemarrerClick()
 {
   EnregistrementDemarrer();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Finalement on ne veut pas créer un nouveau parcours
+//--------------------------------------------------------------------------------------------------
+function ButNouveauParcoursAnnulerClick()
+{
+  // Arrêt de la machine d'état et retour au menu principal
+  gStateEnregistrement = 'ARRET';
+  AfficherEcranPrincipal();
 }

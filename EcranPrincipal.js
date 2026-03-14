@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranPrincipal()
 {
-  if (gInterfaceSon) Speech("menu principal");
+  if (gVoixInterface) Speech("menu principal");
   AfficherEcran("EcranPrincipal");
 }
 

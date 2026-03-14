@@ -21,9 +21,11 @@
   <img id='ImgLogo' alt='Logo' src="icon-192.png">
   <span id='TxtOliway'>Olyway</span>
 </div>
+
+<link rel='stylesheet' type='text/css' href='home.css'>
 <script src="version.js"></script>
 <script src="home.js"></script>
-<link rel='stylesheet' type='text/css' href='home.css'>
+
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
@@ -36,35 +38,46 @@
   <div class='classEspace'></div>
   <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
 </div>
+
 <link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
 <script src="EcranPrincipal.js"></script>
+
 
 <!----- Ecran REGLAGES ----->
 <div id='EcranReglages' style='display: none;'>
   <span class='classTitre'>Réglages</span>
-  <button class='classReglageOn' id='ButReglagesVoix' onclick='ButReglagesVoixClick();'><div>Voix Interface<br><span class='texte-active'>Activée</span></div></button>
+  <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'><div>Voix Interface<br><span class='texte-active'>Activée</span></div></button>
+  <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'><div>Voix Navigation<br><span class='texte-active'>Activée</span></div></button>
   <button class='classBouton' id='ButReglagesRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
+
 <link rel='stylesheet' type='text/css' href='EcranReglages.css'>
 <script src="EcranReglages.js"></script>
+
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
   <div id='TxtInfos'></div>
   <button class='classBouton' id='ButInfosRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
+
 <link rel='stylesheet' type='text/css' href='EcranInfos.css'>
 <script src="EcranInfos.js"></script>
+
 
 <!----- Ecran NOUVEAU PARCOURS ----->
 <div id='EcranNouveauParcours' style='display: none;'>
   <span class='classTitre'>Nouveau Parcours</span>
-  <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();'>Démarrer</button>
+  <span class='classTexte' id='TxtAttentePrecision'></span>
+  <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();' style='display: none;'>Démarrer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='AfficherEcranPrincipal();'>Annuler</button>
+  <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='ButNouveauParcoursAnnulerClick();'>Annuler</button>
 </div>
+
 <link rel='stylesheet' type='text/css' href='EcranNouveauParcours.css'>
 <script src="EcranNouveauParcours.js"></script>
+<script src="geolocalisationOlyway.js"></script>
+
 
 <!----- Ecran ENREGISTREMENT (Full screen) ----->
 <div id='EcranEnregistrement' style='display: none;'>
@@ -72,6 +85,7 @@
 </div>
 <link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
 <script src="EcranEnregistrer.js"></script>
+
 
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>

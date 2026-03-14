@@ -16,6 +16,7 @@ let gRequestStopStateMachine = false;
 let gStateEnregistrement = 'ARRET';
 let gCounterPause = 0;
 let gCounterIndicateurEnregistrement = 0;
+let gPrecisionPrev;
 const gSymboleEnregistrement = "🔴";
 
 
@@ -27,17 +28,13 @@ function EnregistrementDemarrer()
     ActiverWakeLock();
     // openFullscreen();
 
-    if (gInterfaceSon) Speech("Enregistrement démarré.");
-    AttenteFinSpeech();
+    if (gVoixInterface) Speech("Enregistrement démarré.");
 
-    // Puis lance la state machine
+    // Puis change l'état de la State Machine
     AfficherEcran('EcranEnregistrement');
     gStateEnregistrement = 'EXTINCTION';
     gCounterIndicateurEnregistrement = 0;
     pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
-
-    // La machine d'état est démarré et le restera jusqu'à la fermeture de l'application
-    StateMachineEnregistrement();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -77,7 +74,7 @@ function AfficheReleves()
   lSpeech += "Distance " + lDistance + "\n";
   lSpeech += "Heure " + lHeure + "\n";
   lSpeech += "Batterie " + lBatterie + "\n";
-  if (gInterfaceSon) Speech(lSpeech);
+  if (gVoixInterface) Speech(lSpeech);
 }
 
 
@@ -97,7 +94,7 @@ function ButEnregistrementArreter()
   gStateEnregistrement = 'ARRET';
   DesactiverWakeLock();
   // closeFullscreen();
-  if (gInterfaceSon) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
+  if (gVoixInterface) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
   AttenteFinSpeech();
   AfficherEcranPrincipal();
 }
@@ -112,11 +109,50 @@ function StateMachineEnregistrement()
   {
     switch(gStateEnregistrement)
     {
-      // Rien à faire
+      //--------------------------------------------------------------------------------------------
+      // ARRET : Rien à faire
       case 'ARRET':
         break;
 
-      // Mode RUN ou seul l'écran Enregistrement est affiché
+      //--------------------------------------------------------------------------------------------
+      // DEMARRAGE : nouveau parcours, lance la géolocalisation
+      case 'DEMARRAGE':
+        gPrecisionPrev = 0;
+        GeolocalisationWatch();
+        pid('TxtAttentePrecision').innerHTML = "";
+        gStateEnregistrement = 'DEMARRAGE_ATTENTE';
+        break;
+
+      //--------------------------------------------------------------------------------------------
+      // DEMARRAGE_ATTENTE : attente de la précision
+      case 'DEMARRAGE_ATTENTE':
+        let lStatus = gGeoStatus;
+        // Si nouvelle position valide, on l'affiche
+        if (lStatus > gPrecisionPrev)
+        {
+          pid('TxtAttentePrecision').innerHTML = "(" +lStatus + ") Précision " + gGeoAccuracy + "m";
+          gPrecisionPrev = lStatus;
+        }
+
+        // Pas de changement sur la précision
+        else
+        {
+          pid('TxtAttentePrecision').innerHTML = "(" +lStatus + ") Précision " + gGeoAccuracy + "m";
+        }
+
+        // TODO
+        if (lStatus == -1)
+        {
+        }
+
+        // TODO
+        if (lStatus == -2)
+        {
+        }
+        break;
+
+      //--------------------------------------------------------------------------------------------
+      // EXTINCTION : mode RUN ou seul l'écran Enregistrement est affiché
       case 'EXTINCTION':
         gCounterIndicateurEnregistrement++;
 
@@ -132,8 +168,9 @@ function StateMachineEnregistrement()
         }
         break;
 
-      // Allumage de l'écran pause suite à un appui sur l'écran
-      // On repasse en extinction de l'écran qu'au bout d'un certain temps et si pas de speech en cours
+      //--------------------------------------------------------------------------------------------
+      // ALLUMAGE : allumage de l'écran pause suite à un appui sur l'écran
+      // On ne repasse en extinction de l'écran qu'au bout d'un certain temps
       case 'ALLUMAGE':
         gCounterPause--;
         pid('TxtPauseInfos').innerHTML = gCounterPause;
@@ -142,9 +179,14 @@ function StateMachineEnregistrement()
           AfficherEcran('EcranEnregistrement');
           gCounterIndicateurEnregistrement = 0;
           gStateEnregistrement = 'EXTINCTION';
-          if (gInterfaceSon) Speech("Ecran désactivé.");
+          if (gVoixInterface) Speech("Ecran désactivé.");
         }
         break;
+
+      //--------------------------------------------------------------------------------------------
+      // Erreur sur le nom de l'état
+      default:
+        console.log("Etat inconnu :", gStateEnregistrement);
     }
 
     // Arrêt ou pas de la state machine
