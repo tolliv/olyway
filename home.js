@@ -1,8 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
-const DEBUG = 0;
-
 //----- Variables globales -----
 let iSeuilPrecision = 15;             // Paramètre mémorisé
 let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
@@ -64,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () =>
   // Affichage de l'écran Principal
   AfficherEcranPrincipal();
 
-  //AfficherEcranEnregistrement(); // DEBUG:activer RELEASE:commenter
+  //AfficherEcranEnregistrement(); // DEBUG:activer , RELEASE:commenter
 });
 
 

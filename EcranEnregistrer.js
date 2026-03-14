@@ -2,13 +2,13 @@
 // Ecran ENREGISTRER
 //==================================================================================================
 //----- Paramètres de configuration -----
-let gParamTempsPauseDebut = 4*15;  // PARAM
 let gParamTempsPause =      4*15;   // PARAM
-if (DEBUG == 1)
-{
-  gParamTempsPauseDebut = 4*2;
-  gParamTempsPause      = 4*2;
-}
+const gParamPrecisionDemarrage = 10; // 10m pour commencer
+const gParamNprecisionOK       = 3;  // Nombre de valeurs consécutives avec la bonne précision - DEBUG:1 , RELEASE:10
+
+
+gParamTempsPause      = 4*11; // DEBUG:activer , RELEASE:commenter
+
 
 //----- Variables globales à cet écran -----
 let gTimeoutReprendre = null;
@@ -19,8 +19,6 @@ let gCounterIndicateurEnregistrement = 0;
 let gGeoStatusPrev;
 let gGeoCompteurPrecisionOK;
 const gSymboleEnregistrement = "🔴";
-const gParamPrecisionDemarrage = 10; // 10m pour commencer
-const gParamNprecisionOK       = 1;  // Nombre de valeurs consécutives avec la bonne précision - DEBUG:1 RELEASE:10
 let gTableauMesures = null;
 let gPointPrecedent = null;
 let gDistanceTotale = 0;
@@ -54,9 +52,9 @@ function EnregistrementDemarrer()
 function EcranEnregistrementClick()
 {
   AfficheReleves(true);
-  AfficherEcran('EcranPause');
-  gStateEnregistrement = 'ALLUMAGE';
   gCounterPause = gParamTempsPause;
+  gStateEnregistrement = 'ALLUMAGE';
+  AfficherEcran('EcranPause');
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -303,8 +301,8 @@ function AfficheReleves(pVocalise)
   let lAffichage = "";
   lAffichage += lDistance + " kilomètres\n";
   lAffichage += lNombreDePoints + " points\n";
-  lAffichage += lPrecision + "m\n";
-  lAffichage += lBatterie + "%\n";
+  lAffichage += "Précision " + lPrecision + " mètres\n";
+  lAffichage += "Batterie " + lBatterie + "%\n";
   pid('TxtReleves').innerHTML = lAffichage;
 
   // Texte pour le Speech
@@ -313,8 +311,8 @@ function AfficheReleves(pVocalise)
     let lSpeech = "";
     lSpeech += lDistance + " km\n";
     lSpeech += lNombreDePoints + " points\n";
-    lSpeech += lPrecision + " mètres";
-    lSpeech += lBatterie + " %\n";
+    lSpeech += "précision " + lPrecision + " mètres\n";
+    lSpeech += "batterie " + lBatterie + " %\n";
     if (gVoixInterface) Speech(lSpeech);
   }
 }
@@ -324,14 +322,28 @@ function AfficheReleves(pVocalise)
 //--------------------------------------------------------------------------------------------------
 function ButEnregistrementArreter()
 {
-  // Conversion du tableau d'objets en chaîne JSON
+  // Conversion du tableau d'objets en chaîne JSON, et sauvegarde
   let lDonneesJson = JSON.stringify(gTableauMesures);
-  console.log("Données sauvegardées : ", lDonneesJson);
   localStorage.setItem('DernierParcours', lDonneesJson);
 
-  // Conversion en GPX
+  // Conversion en GPX, et sauvegarde
   SaveGPX(gTableauMesures);
   FinNouveauParcours();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Crée une chaine : YYMM.DD-HHMMSS (ex: 2403.14-203407)
+//--------------------------------------------------------------------------------------------------
+function FormaterDatePourFichier()
+{
+  const maintenent = new Date();
+  const annee   = maintenent.getFullYear().toString().slice(-2);
+  const mois    = (maintenent.getMonth() + 1).toString().padStart(2, '0');
+  const jour    = maintenent.getDate().toString().padStart(2, '0');
+  const heures  = maintenent.getHours().toString().padStart(2, '0');
+  const minutes = maintenent.getMinutes().toString().padStart(2, '0');
+  const secondes = maintenent.getSeconds().toString().padStart(2, '0');
+  return annee + mois + "." + jour + "-" + heures + minutes + secondes;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -341,44 +353,42 @@ function SaveGPX(lTableau)
 {
   if (!lTableau || lTableau.length === 0) return;
 
-  // 1. En-tête du fichier GPX
-  let lGpx = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="MyTrackApp" xmlns="http://www.topografix.com/GPX/1/1">
-  <trk>
-    <name>Parcours du ${new Date().toLocaleString()}</name>
-    <trkseg>`;
+  const lDate = FormaterDatePourFichier();
 
-  // 2. Itération sur les points du tableau
-  lTableau.forEach(p => {
+  // En-tête du fichier GPX
+  var lGpx = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+             '<gpx version="1.1" creator="Olyway" xmlns="http://www.topografix.com/GPX/1/1">\n' +
+             '<trk>\n' +
+             '<name>Parcours ' + lDate + '</name>\n' +
+             '<trkseg>\n';
+
+  // Itération sur les points du tableau
+  lTableau.forEach(function(p)
+  {
     // Le format GPX exige des dates en ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
-    let lTimeIso = new Date(p.time).toISOString();
+    var lTimeIso = new Date(p.time).toISOString();
+    var lAlt = (p.alt !== null) ? p.alt.toFixed(1) : 0;
+    var lHdop = (p.acc / 5).toFixed(1);
 
-    lGpx += `
-      <trkpt lat="${p.lat}" lon="${p.lon}">
-        <ele>${p.alt !== null ? p.alt.toFixed(1) : 0}</ele>
-        <time>${lTimeIso}</time>
-        <hdop>${(p.acc / 5).toFixed(1)}</hdop>
-      </trkpt>`;
+    lGpx += '<trkpt lat="' + p.lat + '" lon="' + p.lon + '">\n' +
+            '  <ele>' + lAlt + '</ele>\n' +
+            '</trkpt>\n';
   });
 
-  // 3. Fermeture des balises
-  lGpx += `
-    </trkseg>
-  </trk>
-</gpx>`;
-
-  // 4. Stockage dans le localStorage
-  localStorage.setItem('DernierParcoursGPX', lGpx);
+  // Fermeture des balises
+  lGpx += '</trkseg>\n' +
+          '</trk>\n' +
+          '</gpx>';
 
   console.log("Fichier GPX généré :");
   console.log(lGpx);
 
   // Téléchargement
-  DownloadFile(lGpx, "parcours.gpx", "application/gpx+xml");
+  DownloadFile(lGpx, lDate + ".gpx", "application/gpx+xml");
 }
 
 //--------------------------------------------------------------------------------------------------
-// Téléchargement de fichier GPX
+// Sauvegarde du fichier GPX dans le répertoire Download
 //--------------------------------------------------------------------------------------------------
 function DownloadFile(pContent, pFileName, pContentType)
 {
