@@ -287,6 +287,9 @@ function AfficheReleves(pVocalise)
   // Nombre de points enregistrés
   const lNombreDePoints = gTableauMesures.length;
 
+  // Précision mesure
+  const lPrecision = gGeoAccuracy;
+
   // Niveau de batterie
   NiveauBatterie();
   const lBatterie = gNiveauBatterie.toString();
@@ -295,6 +298,7 @@ function AfficheReleves(pVocalise)
   let lAffichage = "";
   lAffichage += lDistance + " kilomètres\n";
   lAffichage += lNombreDePoints + " points\n";
+  lAffichage += lPrecision + "m\n";
   lAffichage += lBatterie + "%\n";
   pid('TxtReleves').innerHTML = lAffichage;
 
@@ -302,9 +306,10 @@ function AfficheReleves(pVocalise)
   if (pVocalise)
   {
     let lSpeech = "";
-    lSpeech += lDistance + "km\n";
+    lSpeech += lDistance + " km\n";
     lSpeech += lNombreDePoints + " points\n";
-    lSpeech += lBatterie + "%\n";
+    lSpeech += lPrecision + " mètres";
+    lSpeech += lBatterie + " %\n";
     if (gVoixInterface) Speech(lSpeech);
   }
 }
