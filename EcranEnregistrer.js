@@ -20,15 +20,13 @@ let gGeoStatusPrev;
 let gGeoCompteurPrecisionOK;
 const gSymboleEnregistrement = "🔴";
 const gParamPrecisionDemarrage = 10; /* 10m pour commencer */
-const gParamNprecisionOK       = 5;  /* Nombre de valeurs consécutives avec la bonne précision */
+const gParamNprecisionOK       = 10;  /* Nombre de valeurs consécutives avec la bonne précision */
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage de l'enregistrement
 //--------------------------------------------------------------------------------------------------
 function EnregistrementDemarrer()
 {
-    // openFullscreen();
-
     if (gVoixInterface) Speech("Enregistrement démarré.");
 
     // Puis change l'état de la State Machine
@@ -92,11 +90,7 @@ function ButRelevesEnregistrementClick()
 //--------------------------------------------------------------------------------------------------
 function ButEnregistrementArreter()
 {
-  gStateEnregistrement = 'ARRET';
-  DesactiverWakeLock();
-  // closeFullscreen();
-  if (gVoixInterface) Speech("Arrêt de l'enregistrement. Le parcours est mémorisé");
-  AfficherEcranPrincipal();
+  FinNouveauParcours();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -121,7 +115,6 @@ function StateMachineEnregistrement()
         gGeoStatusPrev = 0;
         gGeoCompteurPrecisionOK = 0;
         GeolocalisationWatch();
-        ActiverWakeLock();
         pid('TxtAttentePrecision').innerHTML = "";
         gStateEnregistrement = 'DEMARRAGE_ATTENTE';
         break;

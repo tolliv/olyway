@@ -51,8 +51,8 @@ function GeolocalisationWatch()
   {
     setTimeout(() =>
     {
-      gGeoLatitude = 1;
-      gGeoLongitude = 2;
+      gGeoLatitude = 43.50 + gGeoStatus*0.01;
+      gGeoLongitude = 1.50 + gGeoStatus*0.01;
       gGeoAccuracy = 3;
       gGeoAltitude = 123;
       gGeoStatus++;

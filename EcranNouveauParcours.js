@@ -16,6 +16,8 @@ function AfficherEcranEnregistrement()
 
   // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
   gStateEnregistrement = 'DEMARRAGE';
+  // openFullscreen();
+  ActiverWakeLock();
   StateMachineEnregistrement();
 }
 
@@ -32,7 +34,20 @@ function ButNouveauParcoursDemarrerClick()
 //--------------------------------------------------------------------------------------------------
 function ButNouveauParcoursAnnulerClick()
 {
-  // Arrêt de la machine d'état et retour au menu principal
+  FinNouveauParcours();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Fin nouveau parcourrs
+//--------------------------------------------------------------------------------------------------
+function FinNouveauParcours()
+{
+  // Arrêt de la machine d'état
   gStateEnregistrement = 'ARRET';
+  // closeFullscreen();
+
+  // Arrêt geolocalisation et retour au menu principal
+  ArretGeolocalisation();
+  DesactiverWakeLock();
   AfficherEcranPrincipal();
 }
