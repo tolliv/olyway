@@ -1,4 +1,4 @@
-:: Batch pour �crire version.js automatiquement
+:: Batch pour écrire version.js automatiquement
 
 @echo off
 setlocal enabledelayedexpansion
@@ -11,7 +11,7 @@ set "alphabet=ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
 set base_version=%datetime:~2,2%%datetime:~4,2%.%datetime:~6,2%
 
-:: 2. V�rification version actuelle
+:: 2. Vérification version actuelle
 set /p current_line=<%filename%
 
 :: On extrait la version entre les guillemets
@@ -20,14 +20,19 @@ for /f tokens^=2^ delims^=^" %%A in ("!current_line!") do set old_version=%%A
 :: Si la date est identique, on cherche le suffixe
 echo !old_version! | findstr /C:"%base_version%" >nul
 if !errorlevel! == 0 (
-    :: La parenthese DOIT �tre sur cette ligne
+    :: La parenthese DOIT être sur cette ligne
     call :increment "!old_version!"
 )
 
-:: 3. Cr�ation du fichier avec la version finale
+:: 3. Création du fichier avec la version finale
 set "final_version=%base_version%%suffix%"
 echo const VERSION = "%final_version%"; > %filename%
-echo Version generee : %final_version%
+:: Génération robuste du caractère ESC (ASCII 27)
+for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do set "ESC=%%b"
+:: Affichage en VERT (92m pour vert clair, 32m pour vert foncé)
+echo %ESC%[92mVersion generee : %final_version%%ESC%[0m
+:: ----------------------
+
 goto :eof
 
 :increment
