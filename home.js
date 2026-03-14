@@ -246,6 +246,7 @@ const gListeEcrans = ["EcranPrincipal",
 /* Nouveau Parcours */    "EcranNouveauParcours",
                               "EcranEnregistrement",
                                   "EcranPause",
+                              "EcranNom",
 /* Réglages */            "EcranReglages",
 /* Informations */        "EcranInfos",
                       ];

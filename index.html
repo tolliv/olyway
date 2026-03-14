@@ -86,13 +86,22 @@
 <link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
 <script src="EcranEnregistrer.js"></script>
 
-
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
   <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
   <span id='TxtPauseInfos' style='height: 1dvh;'>&nbsp;</span>
   <button class='classBouton' id='ButEnregistrementArreter' onclick='ButEnregistrementArreter();'>Arrêter</button>
 </div>
+
+<!----- Ecran NOM ----->
+<div id='EcranNom' style='display: none;'>
+  <span class='classTitre'>Nom Parcours</span>
+  <input class='classInput' id='TxtNomParcours'>
+  <button class='classBouton' id='ButNomValider' onclick='ButNomValiderClick();'>Valider</button>
+  <button class='classBouton' id='ButNomAnnuler' onclick='ButNomAnnulerClick();'>Annuler</button>
+</div>
+<link rel='stylesheet' type='text/css' href='EcranNom.css'>
+<script src="EcranNom.js"></script>
 
 </body>
 </html>

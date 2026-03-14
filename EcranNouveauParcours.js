@@ -16,7 +16,6 @@ function AfficherEcranEnregistrement()
 
   // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
   gStateEnregistrement = 'DEMARRAGE';
-  // openFullscreen();
   ActiverWakeLock();
   StateMachineEnregistrement();
 }
@@ -42,12 +41,31 @@ function ButNouveauParcoursAnnulerClick()
 //--------------------------------------------------------------------------------------------------
 function FinNouveauParcours()
 {
+  // Conversion du tableau d'objets en chaîne JSON, et sauvegarde
+  let lDonneesJson = JSON.stringify(gTableauMesures);
+  localStorage.setItem('DernierParcours', lDonneesJson);
+
   // Arrêt de la machine d'état
   gStateEnregistrement = 'ARRET';
-  // closeFullscreen();
-
-  // Arrêt geolocalisation et retour au menu principal
   ArretGeolocalisation();
   DesactiverWakeLock();
-  AfficherEcranPrincipal();
+
+  // Nom unique
+  pid('TxtNomParcours').value = FormaterDatePourFichier();
+  AfficherEcranNom();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Crée une chaine : YYMM.DD-HHMMSS (ex: 2403.14-203407)
+//--------------------------------------------------------------------------------------------------
+function FormaterDatePourFichier()
+{
+  const maintenent = new Date();
+  const annee   = maintenent.getFullYear().toString().slice(-2);
+  const mois    = (maintenent.getMonth() + 1).toString().padStart(2, '0');
+  const jour    = maintenent.getDate().toString().padStart(2, '0');
+  const heures  = maintenent.getHours().toString().padStart(2, '0');
+  const minutes = maintenent.getMinutes().toString().padStart(2, '0');
+  const secondes = maintenent.getSeconds().toString().padStart(2, '0');
+  return annee + mois + "." + jour + "-" + heures + minutes + secondes;
 }

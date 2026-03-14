@@ -322,44 +322,21 @@ function AfficheReleves(pVocalise)
 //--------------------------------------------------------------------------------------------------
 function ButEnregistrementArreter()
 {
-  // Conversion du tableau d'objets en chaîne JSON, et sauvegarde
-  let lDonneesJson = JSON.stringify(gTableauMesures);
-  localStorage.setItem('DernierParcours', lDonneesJson);
-
-  // Conversion en GPX, et sauvegarde
-  SaveGPX(gTableauMesures);
   FinNouveauParcours();
-}
-
-//--------------------------------------------------------------------------------------------------
-// Crée une chaine : YYMM.DD-HHMMSS (ex: 2403.14-203407)
-//--------------------------------------------------------------------------------------------------
-function FormaterDatePourFichier()
-{
-  const maintenent = new Date();
-  const annee   = maintenent.getFullYear().toString().slice(-2);
-  const mois    = (maintenent.getMonth() + 1).toString().padStart(2, '0');
-  const jour    = maintenent.getDate().toString().padStart(2, '0');
-  const heures  = maintenent.getHours().toString().padStart(2, '0');
-  const minutes = maintenent.getMinutes().toString().padStart(2, '0');
-  const secondes = maintenent.getSeconds().toString().padStart(2, '0');
-  return annee + mois + "." + jour + "-" + heures + minutes + secondes;
 }
 
 //--------------------------------------------------------------------------------------------------
 // Transformer le tableau en GPX
 //--------------------------------------------------------------------------------------------------
-function SaveGPX(lTableau)
+function SaveGPX(lTableau, pDate)
 {
   if (!lTableau || lTableau.length === 0) return;
-
-  const lDate = FormaterDatePourFichier();
 
   // En-tête du fichier GPX
   var lGpx = '<?xml version="1.0" encoding="UTF-8"?>\n' +
              '<gpx version="1.1" creator="Olyway" xmlns="http://www.topografix.com/GPX/1/1">\n' +
              '<trk>\n' +
-             '<name>Parcours ' + lDate + '</name>\n' +
+             '<name>Parcours ' + pDate + '</name>\n' +
              '<trkseg>\n';
 
   // Itération sur les points du tableau
@@ -380,11 +357,8 @@ function SaveGPX(lTableau)
           '</trk>\n' +
           '</gpx>';
 
-  console.log("Fichier GPX généré :");
-  console.log(lGpx);
-
   // Téléchargement
-  DownloadFile(lGpx, lDate + ".gpx", "application/gpx+xml");
+  DownloadFile(lGpx, pDate + ".gpx", "application/gpx+xml");
 }
 
 //--------------------------------------------------------------------------------------------------
