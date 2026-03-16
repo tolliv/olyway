@@ -5,6 +5,7 @@
 let iSeuilPrecision = 15;             // Paramètre mémorisé
 let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
 let gNiveauBatterie = 0;
+const ATTENTE = true;                 // Pour indiquer l'attente fin de speech
 
 //--------------------------------------------------------------------------------------------------
 // Initialisations
@@ -55,14 +56,9 @@ document.addEventListener('visibilitychange', async () =>
 document.addEventListener('DOMContentLoaded', async () =>
 {
   console.log("Version = ", VERSION);
+  pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + VERSION + "</span>";
 
-  // Lancement
-  pid('EcranDemarrage').style.display = 'none';
-
-  // Affichage de l'écran Principal
-  AfficherEcranPrincipal();
-
-  //AfficherEcranEnregistrement(); // DEBUG:activer , RELEASE:commenter
+  ButDémarrageClick(); // DEBUG:activer , RELEASE:commenter
 });
 
 
@@ -75,6 +71,16 @@ function pid(id)
   if (element == null)
     console.log("PID '"+ id + "' introuvable !");
   return(element);
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Bouton démarrage
+//--------------------------------------------------------------------------------------------------
+function ButDémarrageClick()
+{
+  Speech("Bienvenue sur Olyway.", ATTENTE);
+  AfficherEcranPrincipal();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -141,7 +147,7 @@ async function ActiverWakeLock()
         wakeLock = await navigator.wakeLock.request('screen');
         wakeLock.addEventListener('release', () =>
         {
-          console.log('Wake Lock libéré');
+          // console.log('Wake Lock libéré');
         });
       }
     }
@@ -177,43 +183,47 @@ async function DesactiverWakeLock()
 //--------------------------------------------------------------------------------------------------
 // Speech
 //--------------------------------------------------------------------------------------------------
-let speechPromise = Promise.resolve();
+let currentUtterance = null;
+let speechPromise = Promise.resolve(); // Stocke la promesse de la phrase en cours
 
-function Speech(texte)
-{
-  if ('speechSynthesis' in window)
-  {
-    // Efface l'éventuel speech précédent
-    sleep(200);
-    window.speechSynthesis.cancel();
+async function Speech(texte, pAttendre = false) {
+  if ('speechSynthesis' in window) {
 
-    // On crée une nouvelle promesse qui se résoudra quand le texte sera fini
-    speechPromise = new Promise((resolve) =>
-    {
-      const message = new SpeechSynthesisUtterance(texte);
-      message.lang = 'fr-FR';
+    // 1. SI pAttendre est vrai, on attend que la phrase PRÉCÉDENTE soit finie
+    if (pAttendre) {
+      await speechPromise;
+    } else {
+      // SI pAttendre est faux, on coupe la parole immédiatement comme avant
+      window.speechSynthesis.cancel();
+      await sleep(100);
+    }
 
-      message.onend = () => resolve(); // Résolution normale
-      message.onerror = () => resolve(); // Éviter de bloquer en cas d'erreur
+    // 2. On crée la nouvelle promesse pour la phrase actuelle
+    speechPromise = new Promise((resolve) => {
+      currentUtterance = new SpeechSynthesisUtterance(texte);
+      currentUtterance.lang = 'fr-FR';
 
-      window.speechSynthesis.speak(message);
+      currentUtterance.onend = () => {
+        currentUtterance = null;
+        resolve();
+      };
+
+      currentUtterance.onerror = (event) => {
+        console.error("Erreur SpeechSynthesis:", event);
+        currentUtterance = null;
+        resolve();
+      };
+
+      window.speechSynthesis.speak(currentUtterance);
     });
-  }
-  else
-  {
+
+    // Note : On ne fait pas "await speechPromise" ici,
+    // pour que la fonction Speech redonne la main au code appelant immédiatement,
+    // sauf si vous appelez vous-même "await Speech(...)" à l'extérieur.
+
+  } else {
     alert("Synthèse vocale non supportée.");
   }
-}
-
-//--------------------------------------------------------------------------------------------------
-// Atttente fin de la lecture en cours
-//--------------------------------------------------------------------------------------------------
-async function AttenteFinSpeech()
-{
-  await sleep(1000);
-
-  // On attend simplement la fin de la promesse créée dans Speech()
-  await speechPromise;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -241,14 +251,15 @@ function NiveauBatterie()
 //--------------------------------------------------------------------------------------------------
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
-const gListeEcrans = ["EcranPrincipal",
+const gListeEcrans = [    "EcranDemarrage",
+                          "EcranPrincipal",
 /* Suivre Parcours */     // TODO "EcranParcours",
-/* Nouveau Parcours */    "EcranNouveauParcours",
+                          "EcranNouveauParcours",
                               "EcranEnregistrement",
                                   "EcranPause",
                               "EcranNom",
-/* Réglages */            "EcranReglages",
-/* Informations */        "EcranInfos",
+                          "EcranReglages",
+                          "EcranInfos",
                       ];
 function AfficherEcran(pEcran)
 {

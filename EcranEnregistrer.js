@@ -130,10 +130,10 @@ function StateMachineEnregistrement()
           // Quand seuil atteint, on affiche le bouton Démarrer
           if (gGeoCompteurPrecisionOK >= gParamNprecisionOK)
           {
-            pid('ButNouveauParcoursDemarrer').style.display = 'flex';
-            if (window.getComputedStyle(pid('ButNouveauParcoursDemarrer')).display != 'none')
+            if (window.getComputedStyle(pid('ButNouveauParcoursDemarrer')).display == 'none')
             {
-              if (gVoixInterface) Speech("vous pouvez démarrer");
+              pid('ButNouveauParcoursDemarrer').style.display = 'flex';
+              if (gVoixInterface) Speech("vous pouvez démarrer", true);
             }
           }
         }

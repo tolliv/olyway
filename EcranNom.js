@@ -1,25 +1,60 @@
 //==================================================================================================
 // Ecran Nom
 //==================================================================================================
+let gDateNomFichier = "";
+
 //--------------------------------------------------------------------------------------------------
 // Afficher l'écran
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranNom()
 {
+  // Nom unique
+  gDateNomFichier = FormaterDatePourFichier();
+  pid('TxtNomParcours').value = gDateNomFichier;
+
+  // Conversion du tableau d'objets en chaîne JSON avec nom et distance
+  const lParcours =
+  {
+    nom: gDateNomFichier,
+    distance: gDistanceTotale,
+    points: gTableauMesures
+  };
+
+  // Sauvegarde de secours
+  const lParcoursJson = JSON.stringify(lParcours);
+  localStorage.setItem('DernierParcours', lParcoursJson);
+
   if (gVoixInterface) Speech("Saisir un nom");
   AfficherEcran("EcranNom");
 }
 
 //--------------------------------------------------------------------------------------------------
 // Validation du nom
+// lNom contient le nom choisi par l'utilisateur
+// gDateNomFichier est l'identificateur pour :
+// - le nom dans le LocalStorage
+// - le nom du fichier GPX
 //--------------------------------------------------------------------------------------------------
 function ButNomValiderClick()
 {
-  // Conversion en GPX, et sauvegarde
-  lDate = pid('TxtNomParcours').value;
-  if (lDate == null || lDate == "")       // Protection
-    lDate = FormaterDatePourFichier();
-  SaveGPX(gTableauMesures, lDate);
+  lNom = pid('TxtNomParcours').value;
+  if (lNom == null || lNom == "")       // Protection
+    lNom = gDateNomFichier;             // Récupération du nom si vide
+
+  // Archivage LocalStorage
+  const lParcours =
+  {
+    nom: lNom,
+    distance: gDistanceTotale,
+    points: gTableauMesures
+  };
+
+  // LocalStorage avec gDateNomFichier comme clé
+  const lParcoursJson = JSON.stringify(lParcours);
+  localStorage.setItem(gDateNomFichier, lParcoursJson);
+
+  // Sauvegarde en GPX
+  SaveGPX(gTableauMesures, lNom);
   AfficherEcranPrincipal();
 }
 

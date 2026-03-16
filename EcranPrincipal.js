@@ -4,9 +4,9 @@
 //--------------------------------------------------------------------------------------------------
 // Afficher l'écran
 //--------------------------------------------------------------------------------------------------
-function AfficherEcranPrincipal()
+async function AfficherEcranPrincipal()
 {
-  if (gVoixInterface) Speech("menu principal");
   AfficherEcran("EcranPrincipal");
+  if (gVoixInterface) await Speech("menu principal", ATTENTE);
 }
 

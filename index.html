@@ -16,15 +16,19 @@
 </head>
 <body>
 
-<!----- ECRAN DEMARRAGE ----->
-<div id='EcranDemarrage'>
-  <img id='ImgLogo' alt='Logo' src="icon-192.png">
-  <span id='TxtOliway'>Olyway</span>
-</div>
-
+<!----- Références à mettre au début ----->
 <link rel='stylesheet' type='text/css' href='home.css'>
 <script src="version.js"></script>
 <script src="home.js"></script>
+
+<!----- ECRAN DEMARRAGE ----->
+<div id='EcranDemarrage'>
+  <span class='classDemarrage'>
+    <img id='ImgLogo' alt='' src='icon-192.png'>
+    <span id='TxtOlyway'></span>
+  </span>
+  <button class='classBouton' id='ButDémarrage' onclick='ButDémarrageClick();'>Démarrer</button>
+</div>
 
 
 <!----- ECRAN PRINCIPAL ----->
@@ -32,7 +36,7 @@
   <span class='classTitre'>Menu Principal</span>
   <button class='classBouton' id='ButSuivreParcours' onclick=''>Suivre<br>Parcours</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranEnregistrement();'>Nouveau<br>Parcours</button>
+  <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau<br>Parcours</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglages' onclick='AfficherEcranReglages();'>Réglages</button>
   <div class='classEspace'></div>

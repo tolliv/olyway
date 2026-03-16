@@ -5,9 +5,9 @@
 //--------------------------------------------------------------------------------------------------
 // Afficher écran de démarrage pour demander confirmation ou non
 //--------------------------------------------------------------------------------------------------
-function AfficherEcranEnregistrement()
+function AfficherEcranNouveauParcours()
 {
-  if (gVoixInterface) Speech("nouveau parcours");
+  if (gVoixInterface) Speech("nouveau parcours", false);
 
   // Reinit l'affichage avant d'afficher la fenêtre
   pid('ButNouveauParcoursDemarrer').style.display = 'none';
@@ -33,7 +33,7 @@ function ButNouveauParcoursDemarrerClick()
 //--------------------------------------------------------------------------------------------------
 function ButNouveauParcoursAnnulerClick()
 {
-  FinNouveauParcours();
+  AfficherEcranPrincipal();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -41,17 +41,11 @@ function ButNouveauParcoursAnnulerClick()
 //--------------------------------------------------------------------------------------------------
 function FinNouveauParcours()
 {
-  // Conversion du tableau d'objets en chaîne JSON, et sauvegarde
-  let lDonneesJson = JSON.stringify(gTableauMesures);
-  localStorage.setItem('DernierParcours', lDonneesJson);
-
   // Arrêt de la machine d'état
   gStateEnregistrement = 'ARRET';
   ArretGeolocalisation();
   DesactiverWakeLock();
 
-  // Nom unique
-  pid('TxtNomParcours').value = FormaterDatePourFichier();
   AfficherEcranNom();
 }
 
