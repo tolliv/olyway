@@ -34,27 +34,57 @@
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
   <span class='classTitre'>Menu Principal</span>
-  <button class='classBouton' id='ButSuivreParcours' onclick=''>Suivre<br>Parcours</button>
+  <button class='classBouton' id='ButSuivreParcours' onclick=''>Suivre un<br>Parcours</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau<br>Parcours</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButGestion' onclick='AfficherEcranGestion();'>Gestion des<br>Parcours</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglages' onclick='AfficherEcranReglages();'>Réglages</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
 </div>
-
 <link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
 <script src="EcranPrincipal.js"></script>
+
+
+<!----- Ecran GESTION ----->
+<div id='EcranGestion' style='display: none;'>
+</div>
+<link rel='stylesheet' type='text/css' href='EcranGestion.css'>
+<script src="EcranGestion.js"></script>
+
+
+<!----- Ecran SELECTION ----->
+<div id='EcranSelection' style='display: none;'>
+  <button class='classSelectionListe' id='ListeElement1'>A</button>
+  <button class='classSelectionListe' id='ListeElement2'>V</button>
+  <button class='classSelectionListe' id='ListeElement3'></button>
+  <button class='classSelectionListe' id='ListeElement4'></button>
+  <button class='classSelectionListe' id='ListeElement5'></button>
+  <button class='classSelectionListe' id='ListeElement6'></button>
+  <div class='classEspace'></div>
+  <div class='classEspace'></div>
+  <div class="classLigneBoutons">
+    <button class="classBoutonDemi" onclick="SelectionPagePrecedente();" aria-label="Page précédente">Page<br>préc.</button>
+    <button class="classBoutonDemi" onclick="SelectionPageSuivante();"   aria-label="Page suivants">Page<br>suiv.</button>
+  </div>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButSelectionRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
+</div>
+<link rel='stylesheet' type='text/css' href='EcranSelection.css'>
+<script src="EcranSelection.js"></script>
 
 
 <!----- Ecran REGLAGES ----->
 <div id='EcranReglages' style='display: none;'>
   <span class='classTitre'>Réglages</span>
   <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'><div>Voix interface<br><span class='texte-active'>Activée</span></div></button>
+  <div class='classEspace'></div>
   <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'><div>Voix navigation<br><span class='texte-active'>Activée</span></div></button>
+  <div class='classEspace'></div>
   <button class='classBouton' id='ButReglagesRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
-
 <link rel='stylesheet' type='text/css' href='EcranReglages.css'>
 <script src="EcranReglages.js"></script>
 
@@ -64,7 +94,6 @@
   <div id='TxtInfos'></div>
   <button class='classBouton' id='ButInfosRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
-
 <link rel='stylesheet' type='text/css' href='EcranInfos.css'>
 <script src="EcranInfos.js"></script>
 
@@ -77,7 +106,6 @@
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='ButNouveauParcoursAnnulerClick();'>Annuler</button>
 </div>
-
 <link rel='stylesheet' type='text/css' href='EcranNouveauParcours.css'>
 <script src="EcranNouveauParcours.js"></script>
 <script src="geolocalisationOlyway.js"></script>
@@ -90,6 +118,7 @@
 <link rel='stylesheet' type='text/css' href='EcranEnregistrer.css'>
 <script src="EcranEnregistrer.js"></script>
 
+
 <!----- Ecran PAUSE ----->
 <div id='EcranPause' style='display: none;'>
   <span class='classTexteReleves' onclick='ButRelevesEnregistrementClick();' id='TxtReleves'></span>
@@ -97,12 +126,14 @@
   <button class='classBouton' id='ButEnregistrementArreter' onclick='ButEnregistrementArreter();'>Arrêter</button>
 </div>
 
+
 <!----- Ecran NOM ----->
 <div id='EcranNom' style='display: none;'>
   <span class='classTitre'>Nom Parcours</span>
   <input class='classInput' id='TxtNomParcours'>
   <button class='classBouton' id='ButNomValider' onclick='ButNomValiderClick();'>Valider</button>
-  <button class='classBouton' id='ButNomAnnuler' onclick='ButNomAnnulerClick();'>Annuler</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButNomAnnuler' onclick='ButNomAnnulerClick();'>Ne pas<br>enregistrer</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranNom.css'>
 <script src="EcranNom.js"></script>

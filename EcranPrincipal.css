@@ -18,6 +18,17 @@
   }
 }
 
+#ButGestion
+{
+  justify-content: flex-start;
+  &::before
+  {
+    content: "📚" / "";
+    font-size: 50px;
+  }
+}
+
+
 #ButReglages
 {
   justify-content: flex-start;

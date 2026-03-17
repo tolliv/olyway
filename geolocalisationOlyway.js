@@ -16,7 +16,7 @@ let gGeoAccuracy = 0;
 let gGeoAltitude = 0;
 let gGeoTimeout = 0;
 let gGeoWatchId = 0;
-let gSimulationGeolocalisation = false;
+let gModeSimualtion = false;
 let gStopSimulation = false;
 
 //-------------------------------------------------------
@@ -29,7 +29,7 @@ function GeolocalisationWatch()
 
   if (getPlatform() == "Windows" || getPlatform() == "Linux")
   {
-    gSimulationGeolocalisation = true;
+    gModeSimualtion = true;
   }
 
   // Options pour la demande de géolocalisation
@@ -48,7 +48,7 @@ function GeolocalisationWatch()
   }
 
   // Mode simulation cyclique
-  if (gSimulationGeolocalisation)
+  if (gModeSimualtion)
   {
     // Définition de la fonction de répétition
     const simulationStep = () => {
@@ -67,7 +67,7 @@ function GeolocalisationWatch()
   }
 
   // Surveillance de la position
-  if (!gSimulationGeolocalisation)
+  if (!gModeSimualtion)
   {
     gGeoWatchId = navigator.geolocation.watchPosition
     (

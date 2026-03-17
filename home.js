@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () =>
   console.log("Version = ", VERSION);
   pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + VERSION + "</span>";
 
-//  ButDémarrageClick(); // DEBUG:activer , RELEASE:commenter
+  //AfficherEcranSelection(); // DEBUG:activer , RELEASE:commenter
 });
 
 
@@ -79,7 +79,8 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function ButDémarrageClick()
 {
-  openFullscreen();
+  if (gModeSimualtion)
+    openFullscreen();
   Speech("Bienvenue sur Olyway.", ATTENTE);
   AfficherEcranPrincipal();
 }
@@ -259,6 +260,8 @@ const gListeEcrans = [    "EcranDemarrage",
                               "EcranEnregistrement",
                                   "EcranPause",
                               "EcranNom",
+                          "EcranGestion",
+                          "EcranSelection",
                           "EcranReglages",
                           "EcranInfos",
                       ];
