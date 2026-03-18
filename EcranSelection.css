@@ -20,6 +20,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+  user-select: none;
 }
 
 /* Bouton demi-largeur pour mettre côte à côte */
@@ -42,6 +43,7 @@
   line-height: 1;
   padding: 0 5px;
   white-space: pre-line;
+  user-select: none;
 }
 
 /* Conteneur pour aligner les deux boutons */

@@ -322,7 +322,11 @@ function AfficheReleves(pVocalise)
 //--------------------------------------------------------------------------------------------------
 function ButEnregistrementArreter()
 {
-  FinNouveauParcours();
+  // Arrêt de la machine d'état
+  gStateEnregistrement = 'ARRET';
+  ArretGeolocalisation();
+  DesactiverWakeLock();
+  AfficherEcranNom();
 }
 
 //--------------------------------------------------------------------------------------------------

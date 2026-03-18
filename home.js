@@ -55,8 +55,16 @@ document.addEventListener('visibilitychange', async () =>
 //----- Gestionnaires d'événements DOM -----
 document.addEventListener('DOMContentLoaded', async () =>
 {
-  console.log("Version = ", VERSION);
+  console.log("Version :", VERSION);
   pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + VERSION + "</span>";
+
+  const lPlatform = getPlatform();
+  console.log("Plateforme :", lPlatform);
+  if (lPlatform == "Windows" || lPlatform == "Linux")
+  {
+    gModeSimulation = true;
+    console.log("Mode simulation activé");
+  }
 
   //AfficherEcranSelection(); // DEBUG:activer , RELEASE:commenter
 });
@@ -79,7 +87,7 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function ButDémarrageClick()
 {
-  if (gModeSimualtion)
+  if (!gModeSimulation)
     openFullscreen();
   Speech("Bienvenue sur Olyway.", ATTENTE);
   AfficherEcranPrincipal();
@@ -247,6 +255,27 @@ function NiveauBatterie()
   {
     gNiveauBatterie = 123;
   }
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Lecture de la plateforme
+//--------------------------------------------------------------------------------------------------
+function getPlatform()
+{
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes("android"))
+        return "Android";
+    else if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod"))
+        return "iOS";
+    else if (ua.includes("windows") || ua.includes("win32") || ua.includes("win64"))
+        return "Windows";
+    else if (ua.includes("macintosh") || ua.includes("mac os x"))
+        return "MacOS";
+    else if (ua.includes("linux"))
+        return "Linux";
+    else
+        return "Unknown";
 }
 
 

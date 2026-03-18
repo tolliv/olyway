@@ -16,7 +16,7 @@ let gGeoAccuracy = 0;
 let gGeoAltitude = 0;
 let gGeoTimeout = 0;
 let gGeoWatchId = 0;
-let gModeSimualtion = false;
+let gModeSimulation = false;
 let gStopSimulation = false;
 
 //-------------------------------------------------------
@@ -24,13 +24,10 @@ let gStopSimulation = false;
 //-------------------------------------------------------
 function GeolocalisationWatch()
 {
+  console.log('GeolocalisationWatch start.');
+
   // Lancé.
   gGeoStatus = 0;
-
-  if (getPlatform() == "Windows" || getPlatform() == "Linux")
-  {
-    gModeSimualtion = true;
-  }
 
   // Options pour la demande de géolocalisation
   const lGeoOptions =
@@ -48,7 +45,7 @@ function GeolocalisationWatch()
   }
 
   // Mode simulation cyclique
-  if (gModeSimualtion)
+  if (gModeSimulation)
   {
     // Définition de la fonction de répétition
     const simulationStep = () => {
@@ -67,7 +64,7 @@ function GeolocalisationWatch()
   }
 
   // Surveillance de la position
-  if (!gModeSimualtion)
+  if (!gModeSimulation)
   {
     gGeoWatchId = navigator.geolocation.watchPosition
     (
@@ -113,6 +110,7 @@ function GeolocalisationWatch()
 //-------------------------------------------------------
 function ArretGeolocalisation()
 {
+  console.log('GeolocalisationWatch stop.');
   if (gGeoWatchId != 0)
   {
     navigator.geolocation.clearWatch(gGeoWatchId);
@@ -122,22 +120,3 @@ function ArretGeolocalisation()
 }
 
 
-//--------------------------------------------------------------------------------------------------
-// Lecture de la plateforme
-//--------------------------------------------------------------------------------------------------
-function getPlatform()
-{
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.includes("android"))
-        return "Android";
-    else if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod"))
-        return "iOS";
-    else if (ua.includes("windows") || ua.includes("win32") || ua.includes("win64"))
-        return "Windows";
-    else if (ua.includes("macintosh") || ua.includes("mac os x"))
-        return "MacOS";
-    else if (ua.includes("linux"))
-        return "Linux";
-    else
-        return "Unknown";
-}

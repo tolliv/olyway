@@ -33,20 +33,11 @@ function ButNouveauParcoursDemarrerClick()
 //--------------------------------------------------------------------------------------------------
 function ButNouveauParcoursAnnulerClick()
 {
-  AfficherEcranPrincipal();
-}
-
-//--------------------------------------------------------------------------------------------------
-// Fin nouveau parcourrs
-//--------------------------------------------------------------------------------------------------
-function FinNouveauParcours()
-{
   // Arrêt de la machine d'état
   gStateEnregistrement = 'ARRET';
   ArretGeolocalisation();
   DesactiverWakeLock();
-
-  AfficherEcranNom();
+  AfficherEcranPrincipal();
 }
 
 //--------------------------------------------------------------------------------------------------
