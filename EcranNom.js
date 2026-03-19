@@ -54,7 +54,7 @@ function ButNomValiderClick()
   localStorage.setItem(gDateNomFichier, lParcoursJson);
 
   // Sauvegarde en GPX
-  SaveGPX(gTableauMesures, lNom);
+//  SaveGPX(gTableauMesures, lNom);
   AfficherEcranPrincipal();
 }
 

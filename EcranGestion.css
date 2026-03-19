@@ -50,7 +50,7 @@
   height: 17dvh;
 }
 
-#ButExporter
+#ButGestionExporter
 {
   justify-content: flex-start;
   &::before
@@ -60,7 +60,7 @@
   }
 }
 
-#ButImporter
+#ButGestionImporter
 {
   justify-content: flex-start;
   &::before

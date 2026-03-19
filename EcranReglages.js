@@ -2,7 +2,7 @@
 // Ecran REGLAGES
 //==================================================================================================
 // Valeurs par défaut
-let gVoixInterface = true;
+let gVoixInterface = false;
 let gVoixNavigation = true;
 
 //--------------------------------------------------------------------------------------------------
@@ -11,6 +11,12 @@ let gVoixNavigation = true;
 function AfficherEcranReglages()
 {
   if (gVoixInterface) Speech("réglages");
+
+  if (!gVoixInterface)  ButVoixInterfaceOff();
+  else                  ButVoixInterfaceOn();
+
+  if (!gVoixNavigation) ButVoixNavigationOff();
+  else                  ButVoixNavigationOn();
   AfficherEcran("EcranReglages");
 }
 

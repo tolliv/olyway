@@ -50,6 +50,12 @@
 
 <!----- Ecran GESTION ----->
 <div id='EcranGestion' style='display: none;'>
+  <span class='classTitre'>Gestion</span>
+  <button class='classBouton' id='ButGestionExporter' onclick='ButGestionExporterClick();'><div>Exporter</div></button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButGestionImporter' onclick='ButGestionImporterClick();'><div>Importer</div></button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButSelectionRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranGestion.css'>
 <script src="EcranGestion.js"></script>
@@ -57,12 +63,12 @@
 
 <!----- Ecran SELECTION ----->
 <div id='EcranSelection' style='display: none;'>
-  <button class='classSelectionListe' id='ListeElement1'>A</button>
-  <button class='classSelectionListe' id='ListeElement2'>V</button>
-  <button class='classSelectionListe' id='ListeElement3'></button>
-  <button class='classSelectionListe' id='ListeElement4'></button>
-  <button class='classSelectionListe' id='ListeElement5'></button>
-  <button class='classSelectionListe' id='ListeElement6'></button>
+  <button class='classSelectionListe' id='ListeElement0' onclick='Selection(0);'></button>
+  <button class='classSelectionListe' id='ListeElement1' onclick='Selection(1);'></button>
+  <button class='classSelectionListe' id='ListeElement2' onclick='Selection(2);'></button>
+  <button class='classSelectionListe' id='ListeElement3' onclick='Selection(3);'></button>
+  <button class='classSelectionListe' id='ListeElement4' onclick='Selection(4);'></button>
+  <button class='classSelectionListe' id='ListeElement5' onclick='Selection(5);'></button>
   <div class='classEspace'></div>
   <div class='classEspace'></div>
   <div class="classLigneBoutons">
@@ -70,7 +76,7 @@
     <button class="classBoutonDemi" onclick="SelectionPageSuivante();"   aria-label="Page suivants">Page<br>suiv.</button>
   </div>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButSelectionRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
+  <button class='classBouton' id='ButGestionRetour' onclick='CallSelectionAnnuler();'>Annuler</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranSelection.css'>
 <script src="EcranSelection.js"></script>
