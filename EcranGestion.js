@@ -121,6 +121,7 @@ function ButGestionImporterClick()
 // Fonction de traitement du texte GPX
 function ImporterContenuGPX(xmlString, nomFichier)
 {
+  let lDistanceTotale = 0;
   try
   {
     let parser = new DOMParser();
@@ -130,21 +131,31 @@ function ImporterContenuGPX(xmlString, nomFichier)
     // Extraction des points de trace (trkpt)
     let trackPoints = xmlDoc.getElementsByTagName("trkpt");
 
-    for (let i = 0; i < trackPoints.length; i++) {
+    for (let i = 0; i < trackPoints.length; i++)
+    {
       let pt = trackPoints[i];
       let lat = parseFloat(pt.getAttribute("lat"));
       let lon = parseFloat(pt.getAttribute("lon"));
-      let ele = 0;
 
       // Extraction de l'altitude
+      let ele = 0;
       let eleTag = pt.getElementsByTagName("ele")[0];
       if (eleTag) ele = parseFloat(eleTag.textContent);
-      points.push(
+
+      let nouveauPoint =
       {
         lat: lat,
         lon: lon,
         ele: ele
-      });
+      };
+      points.push(nouveauPoint);
+
+      // Calcul de la distance cumulée
+      if (i > 0)
+      {
+        let pointPrecedent = points[i - 1];
+        lDistanceTotale += CalculDistance(pointPrecedent, nouveauPoint);
+      }
     }
 
     if (points.length === 0)
@@ -159,7 +170,7 @@ function ImporterContenuGPX(xmlString, nomFichier)
     let objetParcours =
     {
       nom: lNomParcours,
-      distance: 0, // Pas de distance disponible
+      distance: lDistanceTotale,
       points: points,
     };
 
