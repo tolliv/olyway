@@ -93,6 +93,7 @@ function DownloadFile(pContent, pFileName, pContentType)
   URL.revokeObjectURL(a.href);
 }
 
+
 //--------------------------------------------------------------------------------------------------
 // Importation d'un GPX
 //--------------------------------------------------------------------------------------------------
@@ -186,3 +187,19 @@ function ImporterContenuGPX(xmlString, nomFichier)
 }
 
 
+//--------------------------------------------------------------------------------------------------
+// Affiche les informations d'un parcours
+//--------------------------------------------------------------------------------------------------
+function ButGestionInfosClick()
+//----- Fonction principale -----
+{
+  CallSelectionOK = GestionParcoursInfosSelectionne;
+  CallSelectionAnnuler = AfficherEcranGestion;
+  AfficherEcranSelection();
+}
+
+//----- Parcours sélectionné -----
+function GestionParcoursInfosSelectionne(pCle)
+{
+  AfficherEcranParcoursInfos(pCle);
+}

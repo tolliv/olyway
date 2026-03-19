@@ -50,10 +50,12 @@
 
 <!----- Ecran GESTION ----->
 <div id='EcranGestion' style='display: none;'>
-  <span class='classTitre'>Gestion</span>
+  <span class='classTitre'>Gestion Parcours</span>
   <button class='classBouton' id='ButGestionExporter' onclick='ButGestionExporterClick();'><div>Exporter</div></button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButGestionImporter' onclick='ButGestionImporterClick();'><div>Importer</div></button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButGestionInfos' onclick='ButGestionInfosClick();'><div>Informations</div></button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSelectionRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
@@ -80,6 +82,15 @@
 </div>
 <link rel='stylesheet' type='text/css' href='EcranSelection.css'>
 <script src="EcranSelection.js"></script>
+
+
+<!----- Ecran PARCOURS INFOS ----->
+<div id='EcranParcoursInfos' style='display: none;'>
+  <div id='TxtParcoursInfos'></div>
+  <button class='classBouton' id='ButParcoursInfosRetour' onclick='AfficherEcranGestion();'>Retour</button>
+</div>
+<link rel='stylesheet' type='text/css' href='EcranParcoursInfos.css'>
+<script src="EcranParcoursInfos.js"></script>
 
 
 <!----- Ecran REGLAGES ----->
