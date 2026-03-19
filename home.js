@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () =>
     console.log("Mode simulation activé");
   }
 
-  AfficherEcranGestion(); // DEBUG:activer , RELEASE:commenter
+  // AfficherEcranGestion(); // DEBUG:activer , RELEASE:commenter
 });
 
 
