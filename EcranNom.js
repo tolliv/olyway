@@ -9,7 +9,7 @@ let gDateNomFichier = "";
 function AfficherEcranNom()
 {
   // Nom unique
-  gDateNomFichier = FormaterDatePourFichier();
+  gDateNomFichier = FormaterDateHeure();
   pid('TxtNomParcours').value = gDateNomFichier;
 
   // Conversion du tableau d'objets en chaîne JSON avec nom et distance
@@ -53,8 +53,6 @@ function ButNomValiderClick()
   const lParcoursJson = JSON.stringify(lParcours);
   localStorage.setItem(gDateNomFichier, lParcoursJson);
 
-  // Sauvegarde en GPX
-//  SaveGPX(gTableauMesures, lNom);
   AfficherEcranPrincipal();
 }
 

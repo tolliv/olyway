@@ -230,8 +230,10 @@ function MemorisationMesure()
     lat: gGeoLatitude,
     lon: gGeoLongitude,
     alt: gGeoAltitude,
-    acc: gGeoAccuracy,
-    time: Date.now()
+
+    // Paramètres non utilisés :
+    // acc: gGeoAccuracy,
+    // time: Date.now()
   };
 
   // Si c'est le premier point, on le mémorise simplement
@@ -329,51 +331,3 @@ function ButEnregistrementArreter()
   AfficherEcranNom();
 }
 
-//--------------------------------------------------------------------------------------------------
-// Transformer le tableau en GPX
-//--------------------------------------------------------------------------------------------------
-function SaveGPX(lTableau, pDate)
-{
-  if (!lTableau || lTableau.length === 0) return;
-
-  // En-tête du fichier GPX
-  var lGpx = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-             '<gpx version="1.1" creator="Olyway" xmlns="http://www.topografix.com/GPX/1/1">\n' +
-             '<trk>\n' +
-             '<name>Parcours ' + pDate + '</name>\n' +
-             '<trkseg>\n';
-
-  // Itération sur les points du tableau
-  lTableau.forEach(function(p)
-  {
-    // Le format GPX exige des dates en ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)
-    var lTimeIso = new Date(p.time).toISOString();
-    var lAlt = (p.alt !== null) ? p.alt.toFixed(1) : 0;
-    var lHdop = (p.acc / 5).toFixed(1);
-
-    lGpx += '<trkpt lat="' + p.lat + '" lon="' + p.lon + '">\n' +
-            '  <ele>' + lAlt + '</ele>\n' +
-            '</trkpt>\n';
-  });
-
-  // Fermeture des balises
-  lGpx += '</trkseg>\n' +
-          '</trk>\n' +
-          '</gpx>';
-
-  // Téléchargement
-  DownloadFile(lGpx, pDate + ".gpx", "application/gpx+xml");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Sauvegarde du fichier GPX dans le répertoire Download
-//--------------------------------------------------------------------------------------------------
-function DownloadFile(pContent, pFileName, pContentType)
-{
-  const a = document.createElement("a");
-  const file = new Blob([pContent], { type: pContentType });
-  a.href = URL.createObjectURL(file);
-  a.download = pFileName;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}

@@ -43,7 +43,7 @@ function ButNouveauParcoursAnnulerClick()
 //--------------------------------------------------------------------------------------------------
 // Crée une chaine : YYMM.DD-HHMMSS (ex: 2403.14-203407)
 //--------------------------------------------------------------------------------------------------
-function FormaterDatePourFichier()
+function FormaterDateHeure()
 {
   const maintenent = new Date();
   const annee   = maintenent.getFullYear().toString().slice(-2);
@@ -52,5 +52,5 @@ function FormaterDatePourFichier()
   const heures  = maintenent.getHours().toString().padStart(2, '0');
   const minutes = maintenent.getMinutes().toString().padStart(2, '0');
   const secondes = maintenent.getSeconds().toString().padStart(2, '0');
-  return annee + mois + "." + jour + "-" + heures + minutes + secondes;
+  return(annee + mois + "." + jour + "-" + heures + minutes + secondes);
 }
