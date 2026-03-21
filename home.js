@@ -56,7 +56,9 @@ document.addEventListener('visibilitychange', async () =>
 document.addEventListener('DOMContentLoaded', async () =>
 {
   console.log("Version :", VERSION);
-  pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + VERSION + "</span>";
+  const lVersion = "VERSION : " + VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
+
+  pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + lVersion + "</span>";
 
   const lPlatform = getPlatform();
   console.log("Plateforme :", lPlatform);
@@ -191,48 +193,29 @@ async function DesactiverWakeLock()
 }
 
 //--------------------------------------------------------------------------------------------------
-// Speech
+// Speech : Arrête la parole en cours et énonce le nouveau texte
 //--------------------------------------------------------------------------------------------------
-let currentUtterance = null;
-let speechPromise = Promise.resolve(); // Stocke la promesse de la phrase en cours
+function Speech(texte)
+{
+  if ('speechSynthesis' in window)
+  {
+    // On annule immédiatement toute lecture en cours
+    window.speechSynthesis.cancel();
 
-async function Speech(texte, pAttendre = false) {
-  if ('speechSynthesis' in window) {
+    // On crée l'énoncé
+    const utterance = new SpeechSynthesisUtterance(texte);
+    utterance.lang = 'fr-FR';
+    utterance.rate = 1.0;       // Vitesse normale
 
-    // 1. SI pAttendre est vrai, on attend que la phrase PRÉCÉDENTE soit finie
-    if (pAttendre) {
-      await speechPromise;
-    } else {
-      // SI pAttendre est faux, on coupe la parole immédiatement comme avant
-      window.speechSynthesis.cancel();
-      await sleep(100);
-    }
-
-    // 2. On crée la nouvelle promesse pour la phrase actuelle
-    speechPromise = new Promise((resolve) => {
-      currentUtterance = new SpeechSynthesisUtterance(texte);
-      currentUtterance.lang = 'fr-FR';
-
-      currentUtterance.onend = () => {
-        currentUtterance = null;
-        resolve();
-      };
-
-      currentUtterance.onerror = (event) => {
-        console.error("Erreur SpeechSynthesis:", event);
-        currentUtterance = null;
-        resolve();
-      };
-
-      window.speechSynthesis.speak(currentUtterance);
-    });
-
-    // Note : On ne fait pas "await speechPromise" ici,
-    // pour que la fonction Speech redonne la main au code appelant immédiatement,
-    // sauf si vous appelez vous-même "await Speech(...)" à l'extérieur.
-
-  } else {
-    alert("Synthèse vocale non supportée.");
+    // Délai de 50ms pour assurer la stabilité.
+    setTimeout(() =>
+    {
+      window.speechSynthesis.speak(utterance);
+    }, 50);
+  }
+  else
+  {
+    console.error("Synthèse vocale non supportée.");
   }
 }
 
