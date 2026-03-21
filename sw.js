@@ -2,27 +2,48 @@ importScripts('version.js');
 const CACHE_NAME = 'Olyway'+VERSION;
 const ASSETS = [
   'apple-touch-icon.png',
-  'EcranEnregistrer.js',
-  'EcranEnregistrer.css',
-  'EcranInfos.js',
-  'EcranInfos.css',
-  'EcranNouveauParcours.js',
-  'EcranNouveauParcours.css',
-  'EcranPrincipal.js',
-  'EcranPrincipal.css',
-  'EcranReglages.js',
-  'EcranReglages.css',
-  'favicon.ico',
-  'favicon-16x16.png',
-  'favicon-32x32.png',
-  'geolocalisationOlyway.js',
-  'home.css',
-  'home.js',
   'icon-192.png',
   'icon-512.png',
   'index.html',
   'manifest.json',
   'version.js'
+  'favicon.ico',
+  'favicon-16x16.png',
+  'favicon-32x32.png',
+  'geolocalisationOlyway.js',
+
+  'EcranEnregistrer.js',
+  'EcranEnregistrer.css',
+
+  'EcranGestion.js',
+  'EcranGestion.css',
+
+  'EcranInfos.js',
+  'EcranInfos.css',
+
+  'EcranNom.js',
+  'EcranNom.css',
+
+  'EcranNouveauParcours.js',
+  'EcranNouveauParcours.css',
+
+  'EcranParcoursInfos.js',
+  'EcranParcoursInfos.css',
+
+  'EcranPrincipal.js',
+  'EcranPrincipal.css',
+
+  'EcranReglages.js',
+  'EcranReglages.css',
+
+  'EcranSelection.js',
+  'EcranSelection.css',
+
+  'EcranSuivreParcours.js',
+  'EcranSuivreParcours.css',
+
+  'home.css',
+  'home.js',
 ];
 
 // Installation : Mise en cache des fichiers si changement du sw.js

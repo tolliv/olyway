@@ -284,7 +284,7 @@ function getPlatform()
 //--------------------------------------------------------------------------------------------------
 const gListeEcrans = [    "EcranDemarrage",
                           "EcranPrincipal",
-/* Suivre Parcours */     // TODO "EcranParcours",
+                          "EcranSuivreParcours",
                           "EcranNouveauParcours",
                               "EcranEnregistrement",
                                   "EcranPause",
