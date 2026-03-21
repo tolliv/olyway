@@ -15,8 +15,8 @@ function AfficherEcranNouveauParcours()
   AfficherEcran('EcranNouveauParcours');
 
   // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
-  gStateEnregistrement = 'DEMARRAGE';
   ActiverWakeLock();
+  gStateEnregistrement = 'DEMARRAGE';
   StateMachineEnregistrement();
 }
 
