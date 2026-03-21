@@ -133,7 +133,7 @@ function StateMachineEnregistrement()
             if (window.getComputedStyle(pid('ButNouveauParcoursDemarrer')).display == 'none')
             {
               pid('ButNouveauParcoursDemarrer').style.display = 'flex';
-              if (gVoixInterface) Speech("vous pouvez démarrer", true);
+              if (gVoixNavigation) Speech("précision atteinte, vous pouvez démarrer", true);
             }
           }
         }
