@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () =>
     console.log("Mode simulation activé");
   }
 
-  if (gModeSimulation) AfficherEcranSuivreParcours(); // DEBUG:activer , RELEASE:commenter
+  //if (gModeSimulation) AfficherEcranSuivreParcours(); // DEBUG:activer , RELEASE:commenter
 });
 
 
