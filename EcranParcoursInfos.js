@@ -22,7 +22,7 @@ function AfficherParcoursInfosParam(pCle)
   let lNom = lObjetParcours.nom;
 
   let lInfos = "";
-  lInfos += "DATE: \n" + pCle + "\n\n";
+  lInfos += "DATE : \n" + pCle + "\n\n";
   lInfos += "NOM : \n" + lNom + "\n\n";
   lInfos += "DISTANCE : \n" + lObjetParcours.distance.toFixed(1) + "km\n\n";
 

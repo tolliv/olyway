@@ -145,3 +145,56 @@ function CalculDistance(pPoint1, pPoint2)
 
   return(lDistance);
 }
+
+
+//--------------------------------------------------------------------------------------------------
+// Activation de la boussole
+//--------------------------------------------------------------------------------------------------
+async function StartCompass()
+{
+  // Vérifier si nous sommes sur iOS et si la permission est requise
+  if (typeof DeviceOrientationEvent.requestPermission === 'function')
+  {
+    try
+    {
+      const response = await DeviceOrientationEvent.requestPermission();
+      if (response === 'granted')
+      {
+        window.addEventListener('deviceorientation', handler, true);
+      }
+      console.log("Boussole ON");
+    }
+    catch (error)
+    {
+      console.error("Permission refusée ou erreur :", error);
+    }
+  }
+
+  // Android ou navigateurs desktop
+  else
+  {
+    window.addEventListener('deviceorientationabsolute', handler, true);
+    console.log("Boussole ON");
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Fonction appelée à chaque changement de position
+//--------------------------------------------------------------------------------------------------
+let gCompass = 0;
+function handler(e)
+{
+  gCompass = e.webkitCompassHeading || e.alpha;
+  gCompass = Math.round(gCompass);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Stop de la boussole
+//--------------------------------------------------------------------------------------------------
+function StopCompass()
+{
+  // On retire l'écouteur d'événement (standard et iOS)
+  window.removeEventListener('deviceorientationabsolute', handler, true);
+  window.removeEventListener('deviceorientation', handler, true);
+  console.log("Boussole OFF");
+}

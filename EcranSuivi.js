@@ -62,6 +62,7 @@ function StateMachineSuivi()
         gGeoStatusPrevSuivi = 0;
         gGeoCompteurPrecisionOKSuivi = 0;
         GeolocalisationWatch();
+        StartCompass();
         if (gVoixNavigation) Speech("attente localisation");
         gStateSuivi = 'DEMARRAGE_ATTENTE';
         break;
@@ -81,6 +82,7 @@ function StateMachineSuivi()
           // Il y a eu au moins une nouvelle mesure
           else
           {
+            // La position a changé
             if (lStatus > gGeoStatusPrevSuivi)
             {
               pid('TxtAttentePrecisionSuivi').innerHTML = "Précision " + gGeoAccuracy + "m";
@@ -97,8 +99,7 @@ function StateMachineSuivi()
               }
             }
 
-            // Pas de nouvelle mesure TODO vérifier si indispensable
-/*
+            // La position n'a pas changé
             else
             {
               // Compte pour avoir n valeurs en dessous du seuil
@@ -107,7 +108,7 @@ function StateMachineSuivi()
               else
                 gGeoCompteurPrecisionOKSuivi = 0;
             }
-*/
+
             // Quand seuil atteint, on peut rallier le début du parcours
             if (gGeoCompteurPrecisionOKSuivi >= gPARAM_NprecisionOK)
             {
@@ -156,13 +157,14 @@ function StateMachineSuivi()
               {
                 let lDistance = TrouverPointDepart();
                 lDistance = lDistance.toFixed(0);
-                pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
+                pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance + "m\n";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + gCompass + "°";
 
-                // Vérifie si on est assez près du point
+                // Vérifie si on est assez près du point de départ
                 if (lDistance <= gPARAM_PrecisionDemarrage)
                 {
-                  if (gVoixNavigation) Speech('point de départ atteint.');
-                  gStateSuivi = 'EXTINCTION';
+                  if (gVoixNavigation) Speech(lDistance + 'm, point de départ atteint.');
+                  gStateSuivi = 'POINT_ATTEINT';
                 }
 
                 // Point non encore atteint
@@ -178,6 +180,19 @@ function StateMachineSuivi()
                 const lRetour = TrouverPointLePlusProche();
                 let lDistance = (lRetour.distance).toFixed(0);
                 pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
+
+                // Vérifie si on est assez près du point de parcours
+                if (lDistance <= gPARAM_PrecisionDemarrage)
+                {
+                  if (gVoixNavigation) Speech(lDistance + 'm, point de parcours atteint.');
+                  gStateSuivi = 'POINT_ATTEINT';
+                }
+
+                // Point non encore atteint
+                else
+                {
+                  if (gVoixNavigation && !SpeechSpeaking()) Speech(lDistance + "m");
+                }
               }
               break;
             }
@@ -186,8 +201,16 @@ function StateMachineSuivi()
         break;
 
       //--------------------------------------------------------------------------------------------
+      // POINT_ATTEINT : point atteint, il faut se tourner vers le prochain
+      case 'POINT_ATTEINT':
+      {
+      }
+      break;
+
+      //--------------------------------------------------------------------------------------------
       // EXTINCTION : mode RUN ou seul l'écran Enregistrement est affiché
       case 'EXTINCTION':
+      {
         // Gestion nouvelle mesure
         GestionNouvelleMesure();
 
@@ -203,12 +226,14 @@ function StateMachineSuivi()
           pid('BoutonSuivi').innerHTML = "";
           gCounterIndicateurSuivi = 0;
         }
-        break;
+      }
+      break;
 
       //--------------------------------------------------------------------------------------------
       // ALLUMAGE : allumage de l'écran pause suite à un appui sur l'écran
       // On ne repasse en extinction de l'écran qu'au bout d'un certain temps
       case 'ALLUMAGE':
+      {
         // Gestion nouvelle mesure
         GestionNouvelleMesure();
 
@@ -220,7 +245,8 @@ function StateMachineSuivi()
           gStateEnregistrement = 'EXTINCTION';
           if (gVoixInterface) Speech("Ecran désactivé.");
         }
-        break;
+      }
+      break;
 
       //--------------------------------------------------------------------------------------------
       // Erreur sur le nom de l'état

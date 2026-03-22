@@ -81,6 +81,7 @@ function ButSuivreParcoursAnnulerClick()
   // Arrêt de la machine d'état
   gStateSuivi = 'ARRET';
   ArretGeolocalisation();
+  StopCompass();
   DesactiverWakeLock();
   SpeechStop();
   AfficherEcranPrincipal();
