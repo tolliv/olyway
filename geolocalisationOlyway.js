@@ -185,7 +185,6 @@ let gCompass = 0;
 function handler(e)
 {
   gCompass = e.webkitCompassHeading || e.alpha;
-  gCompass = Math.round(gCompass);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -228,7 +227,7 @@ function CalculDirectionVers(pDestLat, pDestLon)
   let lDirectionRelative = (lBearing - gCompass + 360) % 360;
 
   return {
-    compass: gCompass,
+    compass: Math.round(gCompass),
     bearing: Math.round(lBearing),
     relative: Math.round(lDirectionRelative)
   };
