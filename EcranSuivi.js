@@ -112,8 +112,6 @@ function StateMachineSuivi()
             // Quand seuil atteint, on peut rallier le début du parcours
             if (gGeoCompteurPrecisionOKSuivi >= gPARAM_NprecisionOK)
             {
-              ArretGeolocalisation();
-              StopCompass();
               pid('ConteneurBoussole').style.display = 'block';
               if (gSuiviParcoursChoix == 'AU_DEPART')
                 if (gVoixNavigation) Speech("précision atteinte, déplacez vous vers le point de départ");
