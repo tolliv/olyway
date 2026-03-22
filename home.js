@@ -88,7 +88,7 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function ButDémarrageClick()
 {
-  Speech("Bienvenue sur Olyway.");
+  if (gVoixInterface) Speech("Bienvenue sur Olyway.");
   AfficherEcranPrincipal();
 }
 

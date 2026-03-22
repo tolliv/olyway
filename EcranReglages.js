@@ -26,15 +26,20 @@ function AfficherEcranReglages()
 function ButVoixInterfaceClick()
 {
   if (gVoixInterface)
+  {
     ButVoixInterfaceOff();
+    Speech("voix interface désactivée");
+  }
   else
+  {
     ButVoixInterfaceOn();
+    Speech("voix interface activée");
+  }
 }
 
 function ButVoixInterfaceOn()
 {
   gVoixInterface = true;
-  Speech("voix interface activée");
   pid('ButVoixInterface').classList.remove('classReglageOff');
   pid('ButVoixInterface').classList.add('classReglageOn');
   pid('ButVoixInterface').innerHTML = "<div>Voix interface<br><span class='texte-active'>Activée</span></div>";
@@ -43,7 +48,6 @@ function ButVoixInterfaceOn()
 function ButVoixInterfaceOff()
 {
   gVoixInterface = false;
-  Speech("voix interface désactivée");
   pid('ButVoixInterface').classList.remove('classReglageOn');
   pid('ButVoixInterface').classList.add('classReglageOff');
   pid('ButVoixInterface').innerHTML = "<div>Voix interface<br><span class='texte-desactive'>Désactivée</span></div>";
@@ -55,15 +59,20 @@ function ButVoixInterfaceOff()
 function ButVoixNavigationClick()
 {
   if (gVoixNavigation)
+  {
     ButVoixNavigationOff();
+    if (gVoixInterface) Speech("voix navigation activée");
+  }
   else
+  {
     ButVoixNavigationOn();
+    if (gVoixInterface) Speech("voix navigation désactivée");
+  }
 }
 
 function ButVoixNavigationOn()
 {
   gVoixNavigation = true;
-  if (gVoixInterface) Speech("voix navigation activée");
   pid('ButVoixNavigation').classList.remove('classReglageOff');
   pid('ButVoixNavigation').classList.add('classReglageOn');
   pid('ButVoixNavigation').innerHTML = "<div>Voix navigation<br><span class='texte-active'>Activée</span></div>";
@@ -71,7 +80,6 @@ function ButVoixNavigationOn()
 
 function ButVoixNavigationOff()
 {
-  if (gVoixInterface) Speech("voix navigation désactivée");
   gVoixNavigation = false;
   pid('ButVoixNavigation').classList.remove('classReglageOn');
   pid('ButVoixNavigation').classList.add('classReglageOff');
