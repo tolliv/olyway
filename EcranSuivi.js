@@ -157,8 +157,12 @@ function StateMachineSuivi()
               {
                 let lDistance = TrouverPointDepart();
                 lDistance = lDistance.toFixed(0);
+                let lLat = gTableauMesures[0].lat;
+                let lLon = gTableauMesures[0].lon;
+                let lDirection = CalculDirectionVers(lLat, lLon);
+
                 pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance + "m\n";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + gCompass + "°";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + lDirection + "°";
 
                 // Vérifie si on est assez près du point de départ
                 if (lDistance <= gPARAM_PrecisionDemarrage)
@@ -179,7 +183,12 @@ function StateMachineSuivi()
               {
                 const lRetour = TrouverPointLePlusProche();
                 let lDistance = (lRetour.distance).toFixed(0);
+                let lLat = gTableauMesures[lRetour.index].lat;
+                let lLon = gTableauMesures[lRetour.index].lon;
+                let lDirection = CalculDirectionVers(lLat, lLon);
+
                 pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + lDirection + "°";
 
                 // Vérifie si on est assez près du point de parcours
                 if (lDistance <= gPARAM_PrecisionDemarrage)

@@ -198,3 +198,32 @@ function StopCompass()
   window.removeEventListener('deviceorientation', handler, true);
   console.log("Boussole OFF");
 }
+
+//--------------------------------------------------------------------------------------------------
+// Calcule l'angle vers une destination par rapport à l'orientation actuelle du téléphone
+// Retourne un angle en degrés (0-360) :
+// 0 ou 360 = devant, 90 = droite, 180 = derrière, 270 = gauche
+//--------------------------------------------------------------------------------------------------
+function CalculDirectionVers(pDestLat, pDestLon)
+{
+  // Calcul de l'azimut (Bearing) entre ma position et la destination
+  // Formule : θ = atan2( sin Δλ ⋅ cos φ2 , cos φ1 ⋅ sin φ2 − sin φ1 ⋅ cos φ2 ⋅ cos Δλ )
+
+  const lat1 = gGeoLatitude * Math.PI / 180;
+  const lon1 = gGeoLongitude * Math.PI / 180;
+  const lat2 = pDestLat * Math.PI / 180;
+  const lon2 = pDestLon * Math.PI / 180;
+
+  const dLon = lon2 - lon1;
+
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) -
+            Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+  let lBearing = Math.atan2(y, x);
+  lBearing = (lBearing * 180 / Math.PI + 360) % 360; // Conversion en degrés 0-360
+
+  // Calcul de l'angle relatif par rapport à la boussole
+  let lDirectionRelative = (lBearing - gCompass + 360) % 360;
+  return Math.round(lDirectionRelative);
+}
