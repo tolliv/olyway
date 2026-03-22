@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
-//----- Variables globales -----
-let iSeuilPrecision = 15;             // Paramètre mémorisé
-let gTempsMaxLocalisation = 30;       // Paramètre mémorisé
-let gNiveauBatterie = 0;
-const ATTENTE = true;                 // Pour indiquer l'attente fin de speech
+//----- Paramètres de configuration -----
+let gPARAM_TempsPause           = 4*15; // Temps de pause avant d'éteindre l'écrn
+const gPARAM_PrecisionDemarrage = 10;   // 10m pour commencer
+const gPARAM_NprecisionOK       = 3;    // Nombre de valeurs consécutives avec la bonne précision
 
 //--------------------------------------------------------------------------------------------------
 // Initialisations
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () =>
     console.log("Mode simulation activé");
   }
 
-  // AfficherEcranGestion(); // DEBUG:activer , RELEASE:commenter
+  AfficherEcranSuivreParcours(); // DEBUG:activer , RELEASE:commenter
 });
 
 
@@ -89,9 +88,7 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function ButDémarrageClick()
 {
-  if (!gModeSimulation)
-    openFullscreen();
-  Speech("Bienvenue sur Olyway.", ATTENTE);
+  Speech("Bienvenue sur Olyway.");
   AfficherEcranPrincipal();
 }
 
@@ -106,7 +103,6 @@ function sleep(ms)
 //--------------------------------------------------------------------------------------------------
 // Plein écran
 //--------------------------------------------------------------------------------------------------
-let gFullScreen = false;
 function openFullscreen()
 {
   let elem = document.documentElement;
@@ -120,7 +116,6 @@ function openFullscreen()
   /* IE11 */
   else if (elem.msRequestFullscreen)
     elem.msRequestFullscreen();
-  gFullScreen = true;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -140,8 +135,6 @@ function closeFullscreen()
   /* IE11 */
   else if (elem.msExitFullscreen)
     elem.msExitFullscreen();
-
-  gFullScreen = false;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -154,14 +147,16 @@ async function ActiverWakeLock()
 {
   try
   {
-    if ('wakeLock' in navigator) {
-      if (wakeLock === null) {
+    if ('wakeLock' in navigator)
+    {
+      if (wakeLock === null)
+      {
         wakeLock = await navigator.wakeLock.request('screen');
         wakeLock.addEventListener('release', () =>
         {
-          // console.log('Wake Lock libéré');
         });
       }
+      console.log('Wake Lock ON');
     }
     else
     {
@@ -184,6 +179,7 @@ async function DesactiverWakeLock()
     {
       await wakeLock.release();
       wakeLock = null;
+      console.log('Wake Lock OFF');
     }
     catch (err)
     {
@@ -222,6 +218,7 @@ function Speech(texte)
 //--------------------------------------------------------------------------------------------------
 // Récupération du niveau de batterie
 //--------------------------------------------------------------------------------------------------
+let gNiveauBatterie = 0;
 function NiveauBatterie()
 {
   try
@@ -268,6 +265,8 @@ function getPlatform()
 const gListeEcrans = [    "EcranDemarrage",
                           "EcranPrincipal",
                           "EcranSuivreParcours",
+                            "EcranSuivreParcours_Choix",
+                              "EcranSuivi",
                           "EcranNouveauParcours",
                               "EcranEnregistrement",
                                   "EcranPause",

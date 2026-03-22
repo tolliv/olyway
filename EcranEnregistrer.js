@@ -1,13 +1,9 @@
 //==================================================================================================
 // Ecran ENREGISTRER
+// Contient la machine à état pour enregistrer un parcours
 //==================================================================================================
-//----- Paramètres de configuration -----
-let gParamTempsPause =      4*15;   // PARAM
-const gParamPrecisionDemarrage = 10; // 10m pour commencer
-const gParamNprecisionOK       = 3;  // Nombre de valeurs consécutives avec la bonne précision - DEBUG:1 , RELEASE:10
 
-
-gParamTempsPause      = 4*11; // DEBUG:activer , RELEASE:commenter
+gPARAM_TempsPause      = 4*11; // DEBUG:activer , RELEASE:commenter
 
 
 //----- Variables globales à cet écran -----
@@ -52,7 +48,7 @@ function EnregistrementDemarrer()
 function EcranEnregistrementClick()
 {
   AfficheReleves(true);
-  gCounterPause = gParamTempsPause;
+  gCounterPause = gPARAM_TempsPause;
   gStateEnregistrement = 'ALLUMAGE';
   AfficherEcran('EcranPause');
 }
@@ -62,7 +58,7 @@ function EcranEnregistrementClick()
 //--------------------------------------------------------------------------------------------------
 function ButRelevesEnregistrementClick()
 {
-  gCounterPause = gParamTempsPause;
+  gCounterPause = gPARAM_TempsPause;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -84,10 +80,11 @@ function StateMachineEnregistrement()
       // DEMARRAGE : nouveau parcours, lance la géolocalisation
       // Initialise toutes les variables
       case 'DEMARRAGE':
+        gRequestStopStateMachineEnregistrement = false;
         gGeoStatusPrev = 0;
         gGeoCompteurPrecisionOK = 0;
         GeolocalisationWatch();
-        pid('TxtAttentePrecision').innerHTML = "";
+        pid('TxtAttentePrecisionEnregistrement').innerHTML = "";
         gStateEnregistrement = 'DEMARRAGE_ATTENTE';
         break;
 
@@ -99,7 +96,7 @@ function StateMachineEnregistrement()
         // Précision inconnue
         if (lStatus == 0)
         {
-          pid('TxtAttentePrecision').innerHTML = "Précision inconnue";
+          pid('TxtAttentePrecisionEnregistrement').innerHTML = "Précision inconnue";
         }
 
         // Il y a eu au moins une nouvelle mesure
@@ -107,11 +104,11 @@ function StateMachineEnregistrement()
         {
           if (lStatus > gGeoStatusPrev)
           {
-            pid('TxtAttentePrecision').innerHTML = "Précision " + gGeoAccuracy + "m";
+            pid('TxtAttentePrecisionEnregistrement').innerHTML = "Précision " + gGeoAccuracy + "m";
             gGeoStatusPrev = lStatus;
 
             // Compte pour avoir n valeurs en dessous du seuil avant d'afficher le bouton
-            if (gGeoAccuracy <= gParamPrecisionDemarrage)
+            if (gGeoAccuracy <= gPARAM_PrecisionDemarrage)
               gGeoCompteurPrecisionOK++;
             else
               gGeoCompteurPrecisionOK = 0;
@@ -120,20 +117,20 @@ function StateMachineEnregistrement()
           // Pas de nouvelle mesure
           else
           {
-            // Compte pour avoir n valeurs en dessous du seuil
-            if (gGeoAccuracy <= gParamPrecisionDemarrage)
+            // Compte pour avoir n valeurs consécutives en dessous du seuil
+            if (gGeoAccuracy <= gPARAM_PrecisionDemarrage)
               gGeoCompteurPrecisionOK++;
             else
               gGeoCompteurPrecisionOK = 0;
           }
 
           // Quand seuil atteint, on affiche le bouton Démarrer
-          if (gGeoCompteurPrecisionOK >= gParamNprecisionOK)
+          if (gGeoCompteurPrecisionOK >= gPARAM_NprecisionOK)
           {
             if (window.getComputedStyle(pid('ButNouveauParcoursDemarrer')).display == 'none')
             {
               pid('ButNouveauParcoursDemarrer').style.display = 'flex';
-              if (gVoixNavigation) Speech("précision atteinte, vous pouvez démarrer", true);
+              if (gVoixNavigation) Speech("précision atteinte, vous pouvez démarrer");
             }
           }
         }
@@ -193,7 +190,7 @@ function StateMachineEnregistrement()
     }
 
     // Arrêt ou pas de la state machine
-    if (!gRequestStopStateMachine)
+    if (!gRequestStopStateMachineEnregistrement)
       StateMachineEnregistrement();
   }, 250);
 }
@@ -253,31 +250,6 @@ function MemorisationMesure()
       gTableauMesures.push(lNouveauPoint);
     }
   }
-}
-
-
-//--------------------------------------------------------------------------------------------------
-// Calcul de la distance entre deux points (en km)
-// Formule de Haversine
-//--------------------------------------------------------------------------------------------------
-function CalculDistance(pPoint1, pPoint2)
-{
-  if (!pPoint1 || !pPoint2)
-    return(0);
-
-  const R = 6371; // Rayon de la Terre en km
-  const dLat = (pPoint2.lat - pPoint1.lat) * Math.PI / 180;
-  const dLon = (pPoint2.lon - pPoint1.lon) * Math.PI / 180;
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(pPoint1.lat * Math.PI / 180) * Math.cos(pPoint2.lat * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const lDistance = R * c;
-
-  return(lDistance);
 }
 
 //--------------------------------------------------------------------------------------------------

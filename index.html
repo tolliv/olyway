@@ -36,7 +36,7 @@
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
   <span class='classTitre'>Menu Principal</span>
-  <button class='classBouton' id='ButSuivreParcours' onclick=''>Suivre un<br>Parcours</button>
+  <button class='classBouton' id='ButSuivreParcours' onclick='AfficherEcranSuivreParcours();'>Suivre un<br>Parcours</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau<br>Parcours</button>
   <div class='classEspace'></div>
@@ -51,20 +51,37 @@
 
 
 <!----- Ecran SUIVRE PARCOURS ----->
-<div id='EcranSuivreParcours' style='display: none;'>
-  <span class='classTitre'>Suivre Parcours</span>
-  <span class='classTexte' id=''></span>
-  <button class='classBouton' id='' onclick='' style='display: none;'>Démarrer</button>
+<div id='EcranSuivreParcours_Choix' style='display: none;'>
+  <span class='classTitre'>Choix du mode</span>
+  <button class='classBouton' id='ButSuivreParcoursAuDepart' onclick='ButSuivreParcoursAuDepartClick();'>Aller au<br>départ</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id=''onclick=''>Annuler</button>
+  <button class='classBouton' id='ButSuivreParcoursAuPlusPres'onclick='ButSuivreParcoursAuPlusPresClick();'>Aller au<br>plus près</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButSuivreParcoursAnnuler'onclick='AfficherEcranPrincipal();'>Annuler</button>
+</div>
+<div id='EcranSuivreParcours' style='display: none;'>
+  <span class='classTitre'>Suivre le parcours</span>
+  <span class='classTexte' id='TxtAttentePrecisionSuivi'></span>
+  <button class='classBouton' id='ButSuivreParcoursDemarrer' onclick='ButSuivreParcoursDemarrerClick();' style='display: none;'>Démarrer</button>
+  <div class='classEspace'></div>
+  <button class='classBouton' id='ButSuivreParcoursAnnuler'onclick='ButSuivreParcoursAnnulerClick();'>Annuler</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranSuivreParcours.css'>
 <script src="EcranSuivreParcours.js"></script>
 
+
+<!----- Ecran SUIVI (Ecran noir) ----->
+<div id='EcranSuivi' style='display: none;'>
+  <button id='BoutonSuivi' onclick='EcranSuiviClick();'></button>
+</div>
+<link rel='stylesheet' type='text/css' href='EcranSuivi.css'>
+<script src="EcranSuivi.js"></script>
+
+
 <!----- Ecran NOUVEAU PARCOURS ----->
 <div id='EcranNouveauParcours' style='display: none;'>
   <span class='classTitre'>Nouveau Parcours</span>
-  <span class='classTexte' id='TxtAttentePrecision'></span>
+  <span class='classTexte' id='TxtAttentePrecisionEnregistrement'></span>
   <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();' style='display: none;'>Démarrer</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='ButNouveauParcoursAnnulerClick();'>Annuler</button>
@@ -73,7 +90,7 @@
 <script src="EcranNouveauParcours.js"></script>
 
 
-<!----- Ecran ENREGISTREMENT (Full screen) ----->
+<!----- Ecran ENREGISTREMENT (Ecran noir) ----->
 <div id='EcranEnregistrement' style='display: none;'>
   <button id='BoutonEnregistrement' onclick='EcranEnregistrementClick();'></button>
 </div>

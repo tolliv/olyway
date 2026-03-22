@@ -62,9 +62,9 @@ function SaveGPX(lTableau, pDate)
   // Itération sur les points du tableau
   lTableau.forEach(function(p)
   {
-    lAlt = 0;
-    if (p.ele !== null)
-      lAlt = p.ele.toFixed(1);
+    let lAlt = p.ele ?? 0;
+    lAlt = Number(lAlt).toFixed(1);
+
     lGpx += '<trkpt lat="' + p.lat + '" lon="' + p.lon + '">\n' +
             '  <ele>' + lAlt + '</ele>\n' +
             '</trkpt>\n';

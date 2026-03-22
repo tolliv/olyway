@@ -49,8 +49,8 @@ function GeolocalisationWatch()
   {
     // Définition de la fonction de répétition
     const simulationStep = () => {
-      gGeoLatitude = 43.50 + gGeoStatus * 0.0001;
-      gGeoLongitude = 1.50 + gGeoStatus * 0.0001;
+      gGeoLatitude = 43.536156;
+      gGeoLongitude = 1.413939 + gGeoStatus * 0.00001;
       gGeoAccuracy = 3;
       gGeoAltitude = 123;
       gGeoStatus++;
@@ -120,3 +120,26 @@ function ArretGeolocalisation()
 }
 
 
+//--------------------------------------------------------------------------------------------------
+// Calcul de la distance entre deux points (en km)
+// Formule de Haversine
+//--------------------------------------------------------------------------------------------------
+function CalculDistance(pPoint1, pPoint2)
+{
+  if (!pPoint1 || !pPoint2)
+    return(0);
+
+  const R = 6371; // Rayon de la Terre en km
+  const dLat = (pPoint2.lat - pPoint1.lat) * Math.PI / 180;
+  const dLon = (pPoint2.lon - pPoint1.lon) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(pPoint1.lat * Math.PI / 180) * Math.cos(pPoint2.lat * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const lDistance = R * c;
+
+  return(lDistance);
+}

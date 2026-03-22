@@ -39,6 +39,9 @@ const ASSETS = [
   'EcranSelection.js',
   'EcranSelection.css',
 
+  'EcranSuivi.js',
+  'EcranSuivi.css',
+
   'EcranSuivreParcours.js',
   'EcranSuivreParcours.css',
 

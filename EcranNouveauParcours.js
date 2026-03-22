@@ -7,11 +7,11 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranNouveauParcours()
 {
-  if (gVoixInterface) Speech("nouveau parcours", false);
+  if (gVoixInterface) Speech("nouveau parcours");
 
   // Reinit l'affichage avant d'afficher la fenêtre
   pid('ButNouveauParcoursDemarrer').style.display = 'none';
-  pid('TxtAttentePrecision').innerHTML = "";
+  pid('TxtAttentePrecisionEnregistrement').innerHTML = "";
   AfficherEcran('EcranNouveauParcours');
 
   // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
