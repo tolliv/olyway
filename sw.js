@@ -5,8 +5,6 @@ const ASSETS = [
   'icon-192.png',
   'icon-512.png',
   'index.html',
-  'manifest.json',
-  'version.js',
   'favicon.ico',
   'favicon-16x16.png',
   'favicon-32x32.png',
@@ -45,8 +43,12 @@ const ASSETS = [
   'EcranSuivreParcours.js',
   'EcranSuivreParcours.css',
 
-  'home.css',
   'home.js',
+  'home.css',
+
+  'manifest.json',
+
+  'version.js',
 ];
 
 // Installation : Mise en cache des fichiers si changement du sw.js
