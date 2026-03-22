@@ -61,7 +61,29 @@
 </div>
 <div id='EcranSuivreParcours' style='display: none;'>
   <span class='classTitre' id='TitreSuivreParcours'></span>
-  <span class='classTexte' id='TxtAttentePrecisionSuivi'></span>
+  <div id="ConteneurBoussole" style="text-align: center; background: #000; padding: 20px; display: none;">
+    <!-- SVG pour une netteté maximale -->
+    <svg id="BoussoleSVG" viewBox="0 0 100 100" width="250" height="250">
+      <!-- Cercle de fond contrasté -->
+      <circle cx="50" cy="50" r="48" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+
+      <!-- Indicateurs cardinaux (N, S, E, O)
+      <text x="50" y="15" font-family="Arial" font-weight="bold" font-size="12" fill="#FF0" text-anchor="middle">N</text>
+      <text x="50" y="92" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">S</text>
+      <text x="88" y="54" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">E</text>
+      <text x="12" y="54" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">O</text>
+      -->
+
+      <!-- La flèche (Groupe que l'on va faire pivoter) -->
+      <g id="FlecheBoussole" transform="rotate(0, 50, 50)">
+        <!-- Corps de la flèche : Large et contrasté -->
+        <path d="M50 10 L65 55 L50 48 L35 55 Z" fill="#FF3333" stroke="#FFF" stroke-width="1"/>
+        <!-- Ligne de direction pour renforcer la lecture -->
+        <line x1="50" y1="10" x2="50" y2="48" stroke="#FFF" stroke-width="2"/>
+      </g>
+    </svg>
+  </div>
+  <span class='classTexte' style='height: 20dvh;' id='TxtAttentePrecisionSuivi'></span>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSuivreParcoursAnnuler'onclick='ButSuivreParcoursAnnulerClick();'>Annuler</button>
 </div>

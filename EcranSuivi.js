@@ -112,6 +112,9 @@ function StateMachineSuivi()
             // Quand seuil atteint, on peut rallier le début du parcours
             if (gGeoCompteurPrecisionOKSuivi >= gPARAM_NprecisionOK)
             {
+              ArretGeolocalisation();
+              StopCompass();
+              pid('ConteneurBoussole').style.display = 'block';
               if (gSuiviParcoursChoix == 'AU_DEPART')
                 if (gVoixNavigation) Speech("précision atteinte, déplacez vous vers le point de départ");
 
@@ -159,10 +162,14 @@ function StateMachineSuivi()
                 lDistance = lDistance.toFixed(0);
                 let lLat = gTableauMesures[0].lat;
                 let lLon = gTableauMesures[0].lon;
-                let lDirection = CalculDirectionVers(lLat, lLon);
+                let lAngle = CalculDirectionVers(lLat, lLon);
 
                 pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance + "m\n";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + lDirection + "°";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Compass " + lAngle.compass + "°\n";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Bearing " + lAngle.bearing + "°\n";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Relative " + lAngle.relative + "°";
+
+                ActualiserBoussole(lAngle.relative);
 
                 // Vérifie si on est assez près du point de départ
                 if (lDistance <= gPARAM_PrecisionDemarrage)
@@ -188,7 +195,7 @@ function StateMachineSuivi()
                 let lDirection = CalculDirectionVers(lLat, lLon);
 
                 pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Direction " + lDirection + "°";
+                pid('TxtAttentePrecisionSuivi').innerHTML += "Relative " + lAngle.relative + "°";
 
                 // Vérifie si on est assez près du point de parcours
                 if (lDistance <= gPARAM_PrecisionDemarrage)
@@ -329,4 +336,25 @@ function TrouverPointDepart()
 
   const lDistance = CalculDistance(lPointActuel, lPointTableau);
   return (lDistance*1000);
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Met à jour l'affichage de la boussole
+// @param {number} pAngle - L'angle vers la destination en degrés (0-360)
+//--------------------------------------------------------------------------------------------------
+function ActualiserBoussole(pAngle)
+{
+  if (pAngle === null || pAngle === undefined) return;
+
+  // Simplification à 8 directions (360 / 8 = 45°)
+  // On arrondit à la tranche de 45° la plus proche
+  const lAngleSimplifie = Math.round(pAngle / 45) * 45;
+
+  // Rotation de l'élément SVG
+  const lFleche = document.getElementById('FlecheBoussole');
+  if (lFleche) {
+    lFleche.setAttribute('transform', `rotate(${lAngleSimplifie}, 50, 50)`);
+  }
+
 }

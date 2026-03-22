@@ -201,8 +201,10 @@ function StopCompass()
 
 //--------------------------------------------------------------------------------------------------
 // Calcule l'angle vers une destination par rapport à l'orientation actuelle du téléphone
-// Retourne un angle en degrés (0-360) :
-// 0 ou 360 = devant, 90 = droite, 180 = derrière, 270 = gauche
+// Retourne un objet contenant :
+// - compass : l'orientation actuelle du téléphone (0-360)
+// - bearing : l'azimut théorique vers la destination (0-360)
+// - relative : l'angle relatif (0 ou 360 = devant, 90 = droite, etc.)
 //--------------------------------------------------------------------------------------------------
 function CalculDirectionVers(pDestLat, pDestLon)
 {
@@ -224,5 +226,10 @@ function CalculDirectionVers(pDestLat, pDestLon)
 
   // Calcul de l'angle relatif par rapport à la boussole
   let lDirectionRelative = (lBearing - gCompass + 540) % 360;
-  return Math.round(lDirectionRelative);
+
+  return {
+    compass: gCompass,
+    bearing: Math.round(lBearing),
+    relative: Math.round(lDirectionRelative)
+  };
 }

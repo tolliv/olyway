@@ -46,29 +46,24 @@ function SuivreParcoursSelectionne(pCle)
 }
 
 //--------------------------------------------------------------------------------------------------
-// Choix de partir du départ
+// Choix de partir du départ ou d'un autre point
 //--------------------------------------------------------------------------------------------------
 function ButSuivreParcoursAuDepartClick()
 {
-  gSuiviParcoursChoix = 'AU_DEPART';
-  ActiverWakeLock();
-  gStateSuivi = 'DEMARRAGE';
-  pid('TxtAttentePrecisionSuivi').innerHTML = "";
-  pid('TitreSuivreParcours').innerHTML = "Aller au départ";
-  AfficherEcran('EcranSuivreParcours');
-  StateMachineSuivi();
+  ButSuivreParcoursCommon('AU_DEPART', "Aller au départ");
 }
-
-//--------------------------------------------------------------------------------------------------
-// Choix de partir du point le plus près
-//--------------------------------------------------------------------------------------------------
 function ButSuivreParcoursAuPlusPresClick()
 {
-  gSuiviParcoursChoix = 'AU_PLUS_PRES';
+  ButSuivreParcoursCommon('AU_PLUS_PRES', "Aller à un point");
+}
+function ButSuivreParcoursCommon(pChoix, pTexte)
+{
+  gSuiviParcoursChoix = pChoix;
   ActiverWakeLock();
   gStateSuivi = 'DEMARRAGE';
+  pid('ConteneurBoussole').style.display = 'none';
   pid('TxtAttentePrecisionSuivi').innerHTML = "";
-  pid('TitreSuivreParcours').innerHTML = "Aller à un point";
+  pid('TitreSuivreParcours').innerHTML = pTexte;
   AfficherEcran('EcranSuivreParcours');
   StateMachineSuivi();
 }
