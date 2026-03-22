@@ -208,7 +208,6 @@ function CalculDirectionVers(pDestLat, pDestLon)
 {
   // Calcul de l'azimut (Bearing) entre ma position et la destination
   // Formule : θ = atan2( sin Δλ ⋅ cos φ2 , cos φ1 ⋅ sin φ2 − sin φ1 ⋅ cos φ2 ⋅ cos Δλ )
-
   const lat1 = gGeoLatitude * Math.PI / 180;
   const lon1 = gGeoLongitude * Math.PI / 180;
   const lat2 = pDestLat * Math.PI / 180;
@@ -224,6 +223,6 @@ function CalculDirectionVers(pDestLat, pDestLon)
   lBearing = (lBearing * 180 / Math.PI + 360) % 360; // Conversion en degrés 0-360
 
   // Calcul de l'angle relatif par rapport à la boussole
-  let lDirectionRelative = (lBearing - gCompass + 360) % 360;
+  let lDirectionRelative = (lBearing - gCompass + 540) % 360;
   return Math.round(lDirectionRelative);
 }
