@@ -225,7 +225,7 @@ function CalculDirectionVers(pDestLat, pDestLon)
   lBearing = (lBearing * 180 / Math.PI + 360) % 360; // Conversion en degrés 0-360
 
   // Calcul de l'angle relatif par rapport à la boussole
-  let lDirectionRelative = (lBearing - gCompass + 540) % 360;
+  let lDirectionRelative = (lBearing - gCompass + 360) % 360;
 
   return {
     compass: gCompass,
