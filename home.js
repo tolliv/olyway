@@ -3,7 +3,7 @@
 //--------------------------------------------------------------------------------------------------
 //----- Paramètres de configuration -----
 let gPARAM_TempsPause           = 4*15; // Temps de pause avant d'éteindre l'écrn
-const gPARAM_PrecisionDemarrage = 10;   // 10m pour commencer
+const gPARAM_PrecisionDemarrage = 5;   // 10m pour commencer
 const gPARAM_NprecisionOK       = 3;    // Nombre de valeurs consécutives avec la bonne précision
 
 //--------------------------------------------------------------------------------------------------
@@ -189,15 +189,33 @@ async function DesactiverWakeLock()
 }
 
 //--------------------------------------------------------------------------------------------------
-// Speech : Arrête la parole en cours et énonce le nouveau texte
+// Speech : Arrête la vocalisation en cours
+//--------------------------------------------------------------------------------------------------
+function SpeechStop()
+{
+  if ('speechSynthesis' in window)
+    window.speechSynthesis.cancel();
+
+  else
+    console.error("Synthèse vocale non supportée.");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Retourne vrai si une vocalisation est actuellement en cours
+//--------------------------------------------------------------------------------------------------
+function SpeechSpeaking()
+{
+  return window.speechSynthesis.speaking;
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Speech : énonce le nouveau texte
 //--------------------------------------------------------------------------------------------------
 function Speech(texte)
 {
   if ('speechSynthesis' in window)
   {
-    // On annule immédiatement toute lecture en cours
-    window.speechSynthesis.cancel();
-
     // On crée l'énoncé
     const utterance = new SpeechSynthesisUtterance(texte);
     utterance.lang = 'fr-FR';
@@ -214,6 +232,7 @@ function Speech(texte)
     console.error("Synthèse vocale non supportée.");
   }
 }
+
 
 //--------------------------------------------------------------------------------------------------
 // Récupération du niveau de batterie

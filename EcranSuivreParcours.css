@@ -18,16 +18,6 @@
   }
 }
 
-#ButSuivreParcoursDemarrer
-{
-  justify-content: flex-start;
-  &::before
-  {
-    content: "⏩" / "";
-    font-size: 50px;
-  }
-}
-
 #ButSuivreParcoursAnnuler
 {
   justify-content: flex-start;

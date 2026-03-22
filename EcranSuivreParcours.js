@@ -1,9 +1,7 @@
 //==================================================================================================
 // Ecran SUIVRE PARCOURS
 //==================================================================================================
-let gSuiviParcoursChoix = 0;
-const AU_DEPART = 1;
-const AU_PLUS_PRES = 2;
+let gSuiviParcoursChoix = '';
 
 //--------------------------------------------------------------------------------------------------
 // Affichage de l'écran
@@ -52,10 +50,11 @@ function SuivreParcoursSelectionne(pCle)
 //--------------------------------------------------------------------------------------------------
 function ButSuivreParcoursAuDepartClick()
 {
-  gSuiviParcoursChoix = AU_DEPART;
+  gSuiviParcoursChoix = 'AU_DEPART';
   ActiverWakeLock();
   gStateSuivi = 'DEMARRAGE';
   pid('TxtAttentePrecisionSuivi').innerHTML = "";
+  pid('TitreSuivreParcours').innerHTML = "Aller au départ";
   AfficherEcran('EcranSuivreParcours');
   StateMachineSuivi();
 }
@@ -65,10 +64,11 @@ function ButSuivreParcoursAuDepartClick()
 //--------------------------------------------------------------------------------------------------
 function ButSuivreParcoursAuPlusPresClick()
 {
-  gSuiviParcoursChoix = AU_PLUS_PRES;
+  gSuiviParcoursChoix = 'AU_PLUS_PRES';
   ActiverWakeLock();
   gStateSuivi = 'DEMARRAGE';
   pid('TxtAttentePrecisionSuivi').innerHTML = "";
+  pid('TitreSuivreParcours').innerHTML = "Aller à un point";
   AfficherEcran('EcranSuivreParcours');
   StateMachineSuivi();
 }
@@ -82,5 +82,6 @@ function ButSuivreParcoursAnnulerClick()
   gStateSuivi = 'ARRET';
   ArretGeolocalisation();
   DesactiverWakeLock();
+  SpeechStop();
   AfficherEcranPrincipal();
 }

@@ -62,6 +62,7 @@ function StateMachineSuivi()
         gGeoStatusPrevSuivi = 0;
         gGeoCompteurPrecisionOKSuivi = 0;
         GeolocalisationWatch();
+        if (gVoixNavigation) Speech("attente localisation");
         gStateSuivi = 'DEMARRAGE_ATTENTE';
         break;
 
@@ -87,12 +88,17 @@ function StateMachineSuivi()
 
               // Compte pour avoir n valeurs consécutives en dessous du seuil
               if (gGeoAccuracy <= gPARAM_PrecisionDemarrage)
+              {
                 gGeoCompteurPrecisionOKSuivi++;
+              }
               else
+              {
                 gGeoCompteurPrecisionOKSuivi = 0;
+              }
             }
 
             // Pas de nouvelle mesure TODO vérifier si indispensable
+/*
             else
             {
               // Compte pour avoir n valeurs en dessous du seuil
@@ -101,12 +107,23 @@ function StateMachineSuivi()
               else
                 gGeoCompteurPrecisionOKSuivi = 0;
             }
-
+*/
             // Quand seuil atteint, on peut rallier le début du parcours
             if (gGeoCompteurPrecisionOKSuivi >= gPARAM_NprecisionOK)
             {
+              if (gSuiviParcoursChoix == 'AU_DEPART')
+                if (gVoixNavigation) Speech("précision atteinte, déplacez vous vers le point de départ");
+
+              if (gSuiviParcoursChoix == 'AU_PLUS_PRES')
+                if (gVoixNavigation) Speech("précision atteinte, déplacez vous  vers le point de parcourt");
+
               gStateSuivi = 'DEMARRAGE_RALLIEMENT';
-              if (gVoixNavigation) Speech("précision atteinte, vérification de votre emplacement");
+            }
+
+            // Précision non atteinte
+            else
+            {
+              if (gVoixNavigation && !SpeechSpeaking()) Speech("Précision " + gGeoAccuracy + "m");
             }
           }
 
@@ -123,7 +140,7 @@ function StateMachineSuivi()
         break;
 
       //--------------------------------------------------------------------------------------------
-      // DEMARRAGE_RALLIEMENT: ralliement vers le début du parcours ou une autre portion
+      // DEMARRAGE_RALLIEMENT: ralliement vers le départ ou au plus près
       case 'DEMARRAGE_RALLIEMENT':
         {
           let lStatus = gGeoStatus;
@@ -131,12 +148,39 @@ function StateMachineSuivi()
           // Nouveau point
           if (lStatus > gGeoStatusPrevSuivi)
           {
-            const lRetour = TrouverPointLePlusProche();
-            let lDistance = (lRetour.distance).toFixed(0);
-            let lIndex = lRetour.index;
-
-            pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
             gGeoStatusPrevSuivi = lStatus;
+
+            switch(gSuiviParcoursChoix)
+            {
+              case 'AU_DEPART':
+              {
+                let lDistance = TrouverPointDepart();
+                lDistance = lDistance.toFixed(0);
+                pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
+
+                // Vérifie si on est assez près du point
+                if (lDistance <= gPARAM_PrecisionDemarrage)
+                {
+                  if (gVoixNavigation) Speech('point de départ atteint.');
+                  gStateSuivi = 'EXTINCTION';
+                }
+
+                // Point non encore atteint
+                else
+                {
+                  if (gVoixNavigation && !SpeechSpeaking()) Speech(lDistance + "m");
+                }
+              }
+              break;
+
+              case 'AU_PLUS_PRES':
+              {
+                const lRetour = TrouverPointLePlusProche();
+                let lDistance = (lRetour.distance).toFixed(0);
+                pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
+              }
+              break;
+            }
           }
         }
         break;
@@ -148,16 +192,16 @@ function StateMachineSuivi()
         GestionNouvelleMesure();
 
         // Gestion logo
-        gCounterIndicateurEnregistrement++;
-        if (gCounterIndicateurEnregistrement == 8)
+        gCounterIndicateurSuivi++;
+        if (gCounterIndicateurSuivi == 8)
         {
-          pid('BoutonEnregistrement').innerHTML = gSymboleEnregistrement;
+          pid('BoutonSuivi').innerHTML = gSymboleSuivi;
         }
 
-        if (gCounterIndicateurEnregistrement == 12)
+        if (gCounterIndicateurSuivi == 12)
         {
-          pid('BoutonEnregistrement').innerHTML = "";
-          gCounterIndicateurEnregistrement = 0;
+          pid('BoutonSuivi').innerHTML = "";
+          gCounterIndicateurSuivi = 0;
         }
         break;
 
@@ -197,16 +241,12 @@ function StateMachineSuivi()
 //--------------------------------------------------------------------------------------------------
 function TrouverPointLePlusProche()
 {
-  // Vérifier si le tableau existe et n'est pas vide
-  if (!gTableauMesures || gTableauMesures.length === 0) {
-    return { distance: Infinity, index: -1 };
-  }
-
   let lDistanceMin = Infinity;
   let lIndexProche = -1;
 
-  // Préparation du point actuel (format attendu par CalculDistance)
-  const lPointActuel = {
+  // Préparation du point actuel
+  const lPointActuel =
+  {
     lat: gGeoLatitude,
     lon: gGeoLongitude
   };
@@ -214,7 +254,8 @@ function TrouverPointLePlusProche()
   // Parcours du tableau pour trouver le minimum
   for (let i = 0; i < gTableauMesures.length; i++)
   {
-    const lPointTableau = {
+    const lPointTableau =
+    {
       lat: gTableauMesures[i].lat,
       lon: gTableauMesures[i].lon
     };
@@ -229,4 +270,28 @@ function TrouverPointLePlusProche()
   }
 
   return { distance: 1000*lDistanceMin, index: lIndexProche };
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trouve le point du départ
+// Retourne {distance}
+//--------------------------------------------------------------------------------------------------
+function TrouverPointDepart()
+{
+  // Préparation du point actuel
+  const lPointActuel =
+  {
+    lat: gGeoLatitude,
+    lon: gGeoLongitude
+  };
+
+  // Point de Départ
+  const lPointTableau =
+  {
+    lat: gTableauMesures[0].lat,
+    lon: gTableauMesures[0].lon
+  };
+
+  const lDistance = CalculDistance(lPointActuel, lPointTableau);
+  return (lDistance*1000);
 }
