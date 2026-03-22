@@ -345,9 +345,10 @@ function ActualiserBoussole(pAngle)
 {
   if (pAngle === null || pAngle === undefined) return;
 
-  // Simplification à 8 directions (360 / 8 = 45°)
-  // On arrondit à la tranche de 45° la plus proche
-  const lAngleSimplifie = Math.round(pAngle / 45) * 45;
+  // Simplification à 8 directions (360 / 12 = 30°)
+  // On arrondit à la tranche de 30° la plus proche
+  const lAngleSimplifie = Math.round(pAngle / 30) * 30;
+  console.log("Angle :", lAngleSimplifie);
 
   // Rotation de l'élément SVG
   const lFleche = document.getElementById('FlecheBoussole');

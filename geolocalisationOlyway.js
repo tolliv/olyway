@@ -185,6 +185,7 @@ let gCompass = 0;
 function handler(e)
 {
   gCompass = e.webkitCompassHeading || e.alpha;
+  gCompass = -1.0 * gCompass;                     // Inversion de l'orientation
 }
 
 //--------------------------------------------------------------------------------------------------
