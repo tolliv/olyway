@@ -55,9 +55,9 @@
   <span class='classTitre'>Choix du mode</span>
   <button class='classBouton' id='ButSuivreParcoursAuDepart' onclick='ButSuivreParcoursAuDepartClick();'>Aller au départ</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButSuivreParcoursAuPlusPres'onclick='ButSuivreParcoursAuPlusPresClick();'>Aller sur le parcours</button>
+  <button class='classBouton' id='ButSuivreParcoursAuPlusPres' onclick='ButSuivreParcoursAuPlusPresClick();'>Aller sur le parcours</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButSuivreParcoursAnnuler'onclick='AfficherEcranPrincipal();'>Annuler</button>
+  <button class='classBouton' id='ButSuivreParcoursAnnuler_Choix' onclick='AfficherEcranPrincipal();'>Annuler</button>
 </div>
 <div id='EcranSuivreParcours' style='display: none;'>
   <span class='classTitre' id='TitreSuivreParcours'></span>
@@ -85,7 +85,7 @@
   </div>
   <span class='classTexte' style='height: 20dvh;' id='TxtAttentePrecisionSuivi'></span>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButSuivreParcoursAnnuler'onclick='ButSuivreParcoursAnnulerClick();'>Annuler</button>
+  <button class='classBouton' id='ButSuivreParcoursAnnuler' onclick='ButSuivreParcoursAnnulerClick();'>Annuler</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranSuivreParcours.css'>
 <script src="EcranSuivreParcours.js"></script>
@@ -105,7 +105,7 @@
   <span class='classTexte' id='TxtAttentePrecisionEnregistrement'></span>
   <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();' style='display: none;'>Démarrer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButNouveauParcoursAnnuler'onclick='ButNouveauParcoursAnnulerClick();'>Annuler</button>
+  <button class='classBouton' id='ButNouveauParcoursAnnuler' onclick='ButNouveauParcoursAnnulerClick();'>Annuler</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranNouveauParcours.css'>
 <script src="EcranNouveauParcours.js"></script>
@@ -142,11 +142,11 @@
 <!----- Ecran GESTION ----->
 <div id='EcranGestion' style='display: none;'>
   <span class='classTitre'>Gestion Parcours</span>
-  <button class='classBouton' id='ButGestionExporter' onclick='ButGestionExporterClick();'><div>Exporter</div></button>
+  <button class='classBouton' id='ButGestionExporter' onclick='ButGestionExporterClick();'>Exporter</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButGestionImporter' onclick='ButGestionImporterClick();'><div>Importer</div></button>
+  <button class='classBouton' id='ButGestionImporter' onclick='ButGestionImporterClick();'>Importer</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButGestionInfos' onclick='ButGestionInfosClick();'><div>Détails</div></button>
+  <button class='classBouton' id='ButGestionInfos' onclick='ButGestionInfosClick();'>Détails</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSelectionRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
@@ -186,9 +186,9 @@
 <!----- Ecran REGLAGES ----->
 <div id='EcranReglages' style='display: none;'>
   <span class='classTitre'>Réglages</span>
-  <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'><div>Voix interface<br><span class='texte-active'>Activée</span></div></button>
+  <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'>Voix interface<br><span class='texte-active'>Activée</span></button>
   <div class='classEspace'></div>
-  <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'><div>Voix navigation<br><span class='texte-active'>Activée</span></div></button>
+  <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'>Voix navigation<br><span class='texte-active'>Activée</span></button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglagesRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>

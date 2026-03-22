@@ -27,3 +27,13 @@
     font-size: 50px;
   }
 }
+
+#ButSuivreParcoursAnnuler_Choix
+{
+  justify-content: flex-start;
+  &::before
+  {
+    content: "◀️" / "";
+    font-size: 50px;
+  }
+}
