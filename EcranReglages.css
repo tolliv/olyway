@@ -56,6 +56,17 @@
   }
 }
 
+.texte-active
+{
+  color: var(--SUBCOLOR);
+  font-size: 0.8em;
+}
+
+.texte-desactive
+{
+  color: var(--SUBCOLOR);
+  font-size: 0.8em;
+}
 
 #ButReglagesRetour
 {
@@ -65,16 +76,4 @@
     content: "◀️" / "";
     font-size: 50px;
   }
-}
-
-.texte-active
-{
-  color: #FFF;
-  font-size: 0.8em;
-}
-
-.texte-desactive
-{
-  color: #FFF;
-  font-size: 0.8em;
 }

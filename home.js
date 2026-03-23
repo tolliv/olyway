@@ -1,6 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 // Olyway : Home Code
 //--------------------------------------------------------------------------------------------------
+let gVoixInterface;
+let gVoixNavigation;
+let gCouleur;
+
 //----- Paramètres de configuration -----
 let gPARAM_TempsPause           = 4*15; // Temps de pause avant d'éteindre l'écrn
 const gPARAM_PrecisionDemarrage = 5;   // 10m pour commencer
@@ -66,6 +70,21 @@ document.addEventListener('DOMContentLoaded', async () =>
     gModeSimulation = true;
     console.log("Mode simulation activé");
   }
+
+  // Lecture des paramètres
+  gVoixInterface = localStorage.getItem('ParamVoixInterface') === '1';
+  if (gVoixInterface == null)
+    gVoixInterface = false;
+
+  gVoixNavigation = localStorage.getItem('ParamVoixNavigation') === '1';
+  if (gVoixNavigation == null)
+    gVoixNavigation = true;
+
+  gCouleur = localStorage.getItem('ParamCouleur') === '1';
+  if (gCouleur == null)
+    gCouleur = true;
+  if (gCouleur)  ButCouleurOn();
+  else           ButCouleurOff();
 
   //if (gModeSimulation) AfficherEcranSuivreParcours(); // DEBUG:activer , RELEASE:commenter
 });

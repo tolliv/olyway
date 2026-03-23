@@ -1,10 +1,6 @@
 //==================================================================================================
 // Ecran REGLAGES
 //==================================================================================================
-// Valeurs par défaut
-let gVoixInterface = false;
-let gVoixNavigation = true;
-let gCouleur = true;
 
 //--------------------------------------------------------------------------------------------------
 // Affichage de l'écran
@@ -13,14 +9,14 @@ function AfficherEcranReglages()
 {
   if (gVoixInterface) Speech("écran réglages");
 
-  if (!gVoixInterface)  ButVoixInterfaceOff();
-  else                  ButVoixInterfaceOn();
+  if (gVoixInterface)  ButVoixInterfaceOn();
+  else                 ButVoixInterfaceOff();
 
-  if (!gVoixNavigation) ButVoixNavigationOff();
-  else                  ButVoixNavigationOn();
+  if (gVoixNavigation) ButVoixNavigationOn();
+  else                 ButVoixNavigationOff();
 
-  if (!gCouleur)        ButCouleurOff();
-  else                  ButCouleurOn();
+  if (gCouleur)        ButCouleurOn();
+  else                 ButCouleurOff();
   AfficherEcran("EcranReglages");
 }
 
@@ -39,6 +35,7 @@ function ButVoixInterfaceClick()
     ButVoixInterfaceOn();
     Speech("voix interface activée");
   }
+  localStorage.setItem('ParamVoixInterface', gVoixInterface?'1':'0');
 }
 
 function ButVoixInterfaceOn()
@@ -72,6 +69,7 @@ function ButVoixNavigationClick()
     ButVoixNavigationOn();
     if (gVoixInterface) Speech("voix navigation désactivée");
   }
+  localStorage.setItem('ParamVoixNavigation', gVoixNavigation?'1':'0');
 }
 
 function ButVoixNavigationOn()
@@ -92,7 +90,7 @@ function ButVoixNavigationOff()
 
 
 //--------------------------------------------------------------------------------------------------
-// Réglage : couleur du texte blanche (OFF) ou jaune (ON)
+// Réglage : couleur du texte Jaune (ON / true) ou Blanche (OFF / false)
 //--------------------------------------------------------------------------------------------------
 function ButCouleurClick()
 {
@@ -106,6 +104,7 @@ function ButCouleurClick()
     ButCouleurOn();
     if (gVoixInterface) Speech("couleur jaune");
   }
+  localStorage.setItem('ParamCouleur', gCouleur?'1':'0');
 }
 
 function ButCouleurOn()
@@ -113,8 +112,9 @@ function ButCouleurOn()
   gCouleur = true;
   pid('ButCouleur').classList.remove('classReglageOff');
   pid('ButCouleur').classList.add('classReglageOn');
-  pid('ButCouleur').innerHTML = "<div>Couleur<br><span class='texte-active'>Jaune</span></div>";
+  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-active'>Activé</span></div>";
   document.documentElement.style.setProperty('--COLOR', '#FF6');
+  document.documentElement.style.setProperty('--SUBCOLOR', '#FFF');
 }
 
 function ButCouleurOff()
@@ -122,6 +122,7 @@ function ButCouleurOff()
   gCouleur = false;
   pid('ButCouleur').classList.remove('classReglageOn');
   pid('ButCouleur').classList.add('classReglageOff');
-  pid('ButCouleur').innerHTML = "<div>Couleur<br><span class='texte-desactive'>Blanche</span></div>";
+  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-desactive'>Désactivé</span></div>";
   document.documentElement.style.setProperty('--COLOR', '#FFF');
+  document.documentElement.style.setProperty('--SUBCOLOR', '#FF6');
 }

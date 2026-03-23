@@ -8,6 +8,7 @@
 :root {
   --BACKGROUND: #000;
   --COLOR: #FF6;
+  --SUBCOLOR: #FFF;
   --SIZE: 50px;
   --WEIGHT: bold;
 }
@@ -63,19 +64,11 @@ body
   white-space: pre-line;
 }
 
-/* Logo et Texte démarrage */
-#ImgLogo
-{
-}
-#TxtOlyway
-{
-}
-
 /* Titre d'écran */
 .classTitre
 {
   background-color: var(--BACKGROUND);
-  color: #FFF;
+  color: var(--SUBCOLOR);
   font-size: 40px;
   font-weight: var(--WEIGHT);
   /*---*/
