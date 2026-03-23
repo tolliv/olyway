@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranNouveauParcours()
 {
-  if (gVoixInterface) Speech("nouveau parcours");
+  if (gVoixInterface) Speech("écran nouveau");
 
   // Reinit l'affichage avant d'afficher la fenêtre
   pid('ButNouveauParcoursDemarrer').style.display = 'none';

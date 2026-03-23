@@ -55,9 +55,9 @@ document.addEventListener('visibilitychange', async () =>
 document.addEventListener('DOMContentLoaded', async () =>
 {
   console.log("Version :", VERSION);
-  const lVersion = "VERSION : " + VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
+  const lVersion = VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
 
-  pid('TxtOlyway').innerHTML = "Olyway \n<span style='font-size: 0.5em; color: #FC6;'>" + lVersion + "</span>";
+  pid('TxtOlyway').innerHTML = "Olyway \n" + lVersion + "</span>";
 
   const lPlatform = getPlatform();
   console.log("Plateforme :", lPlatform);

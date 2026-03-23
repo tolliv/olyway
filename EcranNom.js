@@ -24,7 +24,7 @@ function AfficherEcranNom()
   const lParcoursJson = JSON.stringify(lParcours);
   localStorage.setItem('DernierParcours', lParcoursJson);
 
-  if (gVoixInterface) Speech("Saisir un nom");
+  if (gVoixInterface) Speech("écran nom");
   AfficherEcran("EcranNom");
 }
 

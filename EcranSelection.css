@@ -1,6 +1,11 @@
 /* Texte pour une sélection dans une liste */
 .classSelectionListe
 {
+  background-color: var(--BACKGROUND);
+  color: var(--COLOR);
+  font-size: 40px;
+  font-weight: var(--WEIGHT);
+  /*---*/
   display: flex;
   align-items: center;
   justify-content: left;
@@ -8,9 +13,6 @@
   box-sizing: border-box;
   border-radius: 15px;
   cursor: pointer;
-  font-size: 38px;
-  background-color: #000;
-  color: #FFF;
   border: 1px solid #000;
   padding: 10px;
   margin: 0px;
@@ -26,6 +28,11 @@
 /* Bouton demi-largeur pour mettre côte à côte */
 .classBoutonDemi
 {
+  background-color: var(--BACKGROUND);
+  color: var(--COLOR);
+  font-size: var(--SIZE);
+  font-weight: var(--WEIGHT);
+  /*---*/
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,13 +40,10 @@
   box-sizing: border-box;
   border-radius: 15px;
   cursor: pointer;
-  background-color: #000;
-  color: #FFF;
-  border: 3px solid #FFF;
+  border: 1px solid #FFF;
   margin: 0px;
   width: 49%;
   height: 17dvh;       /* Même hauteur que vos autres boutons */
-  font-size: 38px;
   line-height: 1;
   padding: 0 5px;
   white-space: pre-line;

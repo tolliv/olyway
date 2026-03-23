@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranParcoursInfos(pCle)
 {
-  if (gVoixInterface) Speech("informations du parcours");
+  if (gVoixInterface) Speech("écran détails");
   AfficherParcoursInfosParam(pCle);
   AfficherEcran("EcranParcoursInfos");
 }

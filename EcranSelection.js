@@ -11,7 +11,7 @@ let CallSelectionAnnuler = null;
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranSelection()
 {
-  if (gVoixInterface) Speech("gestion des parcours");
+  if (gVoixInterface) Speech("écran gestion");
 
   // Efface l'interface de l'écran sélection
   for (let j = 0; j <= 5; j++)

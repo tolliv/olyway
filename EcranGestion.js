@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranGestion()
 {
-  if (gVoixInterface) Speech("gestion des parcours");
+  if (gVoixInterface) Speech("écran gestion");
   AfficherEcran('EcranGestion');
 }
 

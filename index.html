@@ -27,7 +27,7 @@
 <div id='EcranDemarrage'>
   <span class='classDemarrage'>
     <img id='ImgLogo' alt='' src='icon-192.png'>
-    <span id='TxtOlyway'></span>
+    <span class='classTexte' id='TxtOlyway'></span>
   </span>
   <button class='classBouton' id='ButDémarrage' onclick='ButDémarrageClick();'>Démarrer</button>
 </div>
@@ -35,16 +35,16 @@
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <span class='classTitre'>Menu Principal</span>
-  <button class='classBouton' id='ButSuivreParcours' onclick='AfficherEcranSuivreParcours();'>Suivre un<br>Parcours</button>
+  <span class='classTitre'>Ecran Principal</span>
+  <button class='classBouton' id='ButSuivreParcours' onclick='AfficherEcranSuivreParcours();'>Suivre</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau<br>Parcours</button>
+  <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButGestion' onclick='AfficherEcranGestion();'>Gestion des<br>Parcours</button>
+  <button class='classBouton' id='ButGestion' onclick='AfficherEcranGestion();'>Gestion</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglages' onclick='AfficherEcranReglages();'>Réglages</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Informations</button>
+  <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Info.</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
 <script src="EcranPrincipal.js"></script>
@@ -101,7 +101,7 @@
 
 <!----- Ecran NOUVEAU PARCOURS ----->
 <div id='EcranNouveauParcours' style='display: none;'>
-  <span class='classTitre'>Nouveau Parcours</span>
+  <span class='classTitre'>Ecran nouveau</span>
   <span class='classTexte' id='TxtAttentePrecisionEnregistrement'></span>
   <button class='classBouton' id='ButNouveauParcoursDemarrer' onclick='ButNouveauParcoursDemarrerClick();' style='display: none;'>Démarrer</button>
   <div class='classEspace'></div>
@@ -156,7 +156,7 @@
 
 <!----- Ecran SELECTION ----->
 <div id='EcranSelection' style='display: none;'>
-  <span class='classTitre'>Sélection Parcours</span>
+  <span class='classTitre'>Ecran sélection</span>
   <button class='classSelectionListe' id='ListeElement0' onclick='Selection(0);'></button>
   <button class='classSelectionListe' id='ListeElement1' onclick='Selection(1);'></button>
   <button class='classSelectionListe' id='ListeElement2' onclick='Selection(2);'></button>
@@ -164,8 +164,8 @@
   <button class='classSelectionListe' id='ListeElement4' onclick='Selection(4);'></button>
   <button class='classSelectionListe' id='ListeElement5' onclick='Selection(5);'></button>
   <div class="classLigneBoutons">
-    <button class="classBoutonDemi" onclick="SelectionPagePrecedente();" aria-label="Page précédente">Page<br>préc.</button>
-    <button class="classBoutonDemi" onclick="SelectionPageSuivante();"   aria-label="Page suivants">Page<br>suiv.</button>
+    <button class="classBoutonDemi" onclick="SelectionPagePrecedente();" aria-label="Page précédente">Préc.</button>
+    <button class="classBoutonDemi" onclick="SelectionPageSuivante();"   aria-label="Page suivants">Suiv.</button>
   </div>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButGestionRetour' onclick='CallSelectionAnnuler();'>Annuler</button>
@@ -174,8 +174,9 @@
 <script src="EcranSelection.js"></script>
 
 
-<!----- Ecran PARCOURS INFOS ----->
+<!----- Ecran DETAILS ----->
 <div id='EcranParcoursInfos' style='display: none;'>
+  <span class='classTitre'>Ecran détails</span>
   <div id='TxtParcoursInfos'></div>
   <button class='classBouton' id='ButParcoursInfosRetour' onclick='AfficherEcranGestion();'>Retour</button>
 </div>
@@ -185,10 +186,10 @@
 
 <!----- Ecran REGLAGES ----->
 <div id='EcranReglages' style='display: none;'>
-  <span class='classTitre'>Réglages</span>
-  <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'>Voix interface<br><span class='texte-active'>Activée</span></button>
+  <span class='classTitre'>Ecran réglages</span>
+  <button class='classReglageOn' id='ButVoixInterface' onclick='ButVoixInterfaceClick();'>Interface<br><span class='texte-active'>Activée</span></button>
   <div class='classEspace'></div>
-  <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'>Voix navigation<br><span class='texte-active'>Activée</span></button>
+  <button class='classReglageOn' id='ButVoixNavigation' onclick='ButVoixNavigationClick();'>Navigation<br><span class='texte-active'>Activée</span></button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglagesRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
@@ -198,6 +199,7 @@
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
+  <span class='classTitre'>Ecran info.</span>
   <div id='TxtInfos'></div>
   <button class='classBouton' id='ButInfosRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
