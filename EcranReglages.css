@@ -26,6 +26,7 @@
     font-size: 50px;
   }
 }
+
 .classReglageOff
 {
   background-color: var(--BACKGROUND);
@@ -55,6 +56,7 @@
   }
 }
 
+
 #ButReglagesRetour
 {
   justify-content: flex-start;
@@ -67,12 +69,12 @@
 
 .texte-active
 {
-  color: #5F5;
+  color: #FFF;
   font-size: 0.8em;
 }
 
 .texte-desactive
 {
-  color: #F55;
+  color: #FFF;
   font-size: 0.8em;
 }
