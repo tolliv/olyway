@@ -24,7 +24,7 @@ let gStopSimulation = false;
 //-------------------------------------------------------
 function GeolocalisationWatch()
 {
-  console.log('GeolocalisationWatch start.');
+  console.log('GeolocalisationWatch ON');
 
   // Lancé.
   gGeoStatus = 0;
@@ -112,7 +112,7 @@ function GeolocalisationWatch()
 //-------------------------------------------------------
 function ArretGeolocalisation()
 {
-  console.log('GeolocalisationWatch stop.');
+  console.log('GeolocalisationWatch OFF');
   if (gGeoWatchId != 0)
   {
     navigator.geolocation.clearWatch(gGeoWatchId);

@@ -163,10 +163,6 @@ function StateMachineSuivi()
                 let lAngle = CalculDirectionVers(lLat, lLon);
 
                 pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance + "m\n";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Compass " + lAngle.compass + "°\n";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Bearing " + lAngle.bearing + "°\n";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Relative " + lAngle.relative + "°";
-
                 ActualiserBoussole(lAngle.relative);
 
                 // Vérifie si on est assez près du point de départ
@@ -193,7 +189,7 @@ function StateMachineSuivi()
                 let lDirection = CalculDirectionVers(lLat, lLon);
 
                 pid('TxtAttentePrecisionSuivi').innerHTML = "Distance " + lDistance + "m";
-                pid('TxtAttentePrecisionSuivi').innerHTML += "Relative " + lAngle.relative + "°";
+                ActualiserBoussole(lAngle.relative);
 
                 // Vérifie si on est assez près du point de parcours
                 if (lDistance <= gPARAM_PrecisionDemarrage)
@@ -348,7 +344,6 @@ function ActualiserBoussole(pAngle)
   // Simplification à 8 directions (360 / 12 = 30°)
   // On arrondit à la tranche de 30° la plus proche
   const lAngleSimplifie = Math.round(pAngle / 30) * 30;
-  console.log("Angle :", lAngleSimplifie);
 
   // Rotation de l'élément SVG
   const lFleche = document.getElementById('FlecheBoussole');

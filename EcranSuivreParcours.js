@@ -38,6 +38,7 @@ function SuivreParcoursSelectionne(pCle)
   if (!lErreur)
   {
     AfficherEcran('EcranSuivreParcours_Choix');
+    if (gVoixInterface) Speech("écran mode");
   }
   else
   {
