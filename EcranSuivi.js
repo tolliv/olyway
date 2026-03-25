@@ -12,6 +12,7 @@ let gCounterIndicateurSuivi = 0;
 let gGeoStatusPrevSuivi;
 let gGeoCompteurPrecisionOKSuivi;
 const gSymboleSuivi = "⏩";
+let gVoixPrev = "";
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage du suivi avec le bouton Démarrer
@@ -61,9 +62,11 @@ function StateMachineSuivi()
         gRequestStopStateMachineSuivi = false;
         gGeoStatusPrevSuivi = 0;
         gGeoCompteurPrecisionOKSuivi = 0;
+        gVoixPrecisionPrev = "";
         GeolocalisationWatch();
         StartCompass();
-        if (gVoixNavigation) Speech("attente localisation");
+        SpeechStop();
+        if (gVoixNavigation) Speech("Localisation en cours, précision de");
         gStateSuivi = 'DEMARRAGE_ATTENTE';
         break;
 
@@ -114,18 +117,29 @@ function StateMachineSuivi()
             {
               pid('ConteneurBoussole').style.display = 'block';
               if (gSuiviParcoursChoix == 'AU_DEPART')
-                if (gVoixNavigation) Speech("précision atteinte, déplacez vous vers le point de départ");
+                if (gVoixNavigation) Speech("Précision de " + gPARAM_PrecisionDemarrage + "m atteinte. Le point de départ se situe à");
 
               if (gSuiviParcoursChoix == 'AU_PLUS_PRES')
-                if (gVoixNavigation) Speech("précision atteinte, déplacez vous  vers le point de parcourt");
+                if (gVoixNavigation) Speech("Précision de " + gPARAM_PrecisionDemarrage + "m atteinte. Le point de parcours se situe à");
 
+              gVoixPrev = "";
               gStateSuivi = 'DEMARRAGE_RALLIEMENT';
             }
 
             // Précision non atteinte
+            // On  vocalise si la valeur est différente
             else
             {
-              if (gVoixNavigation && !SpeechSpeaking()) Speech("Précision " + gGeoAccuracy + "m");
+              // Vocalise que si la phrase précédente est finie pour ne pas empiler toutes les distances
+              if (!SpeechSpeaking())
+              {
+                const lVoixPrecision = gGeoAccuracy + "m";
+                if (gVoixPrecisionPrev != lVoixPrecision)
+                {
+                  gVoixPrecisionPrev = lVoixPrecision;
+                  if (gVoixNavigation) Speech(lVoixPrecision);
+                }
+              }
             }
           }
 
@@ -175,7 +189,15 @@ function StateMachineSuivi()
                 // Point non encore atteint
                 else
                 {
-                  if (gVoixNavigation && !SpeechSpeaking()) Speech(lDistance + "m");
+                  if (!SpeechSpeaking())
+                  {
+                    const lVoixDistance = lDistance + "m";
+                    if (gVoixPrev != lVoixDistance)
+                    {
+                      if (gVoixNavigation && !SpeechSpeaking()) Speech(lDistance + "m");
+                      gVoixPrev = lVoixDistance;
+                    }
+                  }
                 }
               }
               break;
@@ -341,14 +363,34 @@ function ActualiserBoussole(pAngle)
 {
   if (pAngle === null || pAngle === undefined) return;
 
-  // Simplification à 8 directions (360 / 12 = 30°)
-  // On arrondit à la tranche de 30° la plus proche
+  // 1. Calcul de l'angle simplifié par pas de 30°
   const lAngleSimplifie = Math.round(pAngle / 30) * 30;
 
-  // Rotation de l'élément SVG
+  // 2. Rotation de la flèche
   const lFleche = document.getElementById('FlecheBoussole');
   if (lFleche) {
     lFleche.setAttribute('transform', `rotate(${lAngleSimplifie}, 50, 50)`);
   }
 
+  // 3. Gestion des indicateurs horaires
+  // On calcule l'heure : 0° ou 360° = 12, 30° = 1, 60° = 2, etc.
+  let lHeure = Math.round(pAngle / 30);
+  if (lHeure <= 0) lHeure = 12;
+  if (lHeure > 12) lHeure = lHeure % 12;
+  if (lHeure === 0) lHeure = 12;
+
+  // Sélectionner tous les textes dans le groupe d'heures
+  const lGroupeHeures = document.querySelectorAll('#GroupeHeures text');
+
+  lGroupeHeures.forEach(lText =>
+  {
+    if (lText.id === 'h' + lHeure)
+    {
+      lText.setAttribute('fill', '#FF6'); // Jaune vif pour le point visé
+    }
+    else
+    {
+      lText.setAttribute('fill', '#222'); // Gris foncé pour les autres
+    }
+  });
 }

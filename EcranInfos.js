@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranInfos()
 {
+  SpeechStop();
   if (gVoixInterface) Speech("écran informations");
   AfficherInfosParam();
   AfficherEcran("EcranInfos");

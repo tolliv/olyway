@@ -8,6 +8,7 @@ let gSuiviParcoursChoix = '';
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranSuivreParcours()
 {
+  SpeechStop();
   if (gVoixInterface) Speech("Suivre un parcours");
   CallSelectionOK = SuivreParcoursSelectionne;
   CallSelectionAnnuler = AfficherEcranPrincipal;
@@ -37,6 +38,7 @@ function SuivreParcoursSelectionne(pCle)
   // Action suivant erreur ou pas
   if (!lErreur)
   {
+    SpeechStop();
     AfficherEcran('EcranSuivreParcours_Choix');
     if (gVoixInterface) Speech("écran mode");
   }

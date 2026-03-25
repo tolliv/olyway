@@ -51,7 +51,7 @@ function GeolocalisationWatch()
     const simulationStep = () => {
       gGeoLatitude = 43.536156;
       gGeoLongitude = 1.413939 + gGeoStatus * 0.00001;
-      gGeoAccuracy = 10 - gGeoStatus;
+      gGeoAccuracy = Math.floor(10 - (gGeoStatus*10));
       if (gGeoAccuracy < 4)
         gGeoAccuracy = 4;
       gGeoAltitude = 123;

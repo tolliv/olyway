@@ -86,7 +86,11 @@ document.addEventListener('DOMContentLoaded', async () =>
   if (gCouleur)  ButCouleurOn();
   else           ButCouleurOff();
 
-  //if (gModeSimulation) AfficherEcranSuivreParcours(); // DEBUG:activer , RELEASE:commenter
+  // Ne sert qu'à la mise au point
+  if (gModeSimulation)
+  {
+    AfficherEcran("EcranSuivreParcours"); // DEBUG:activer , RELEASE:commenter
+  }
 });
 
 
@@ -220,11 +224,11 @@ function SpeechStop()
 }
 
 //--------------------------------------------------------------------------------------------------
-// Retourne vrai si une vocalisation est actuellement en cours
+// Retourne true si une vocalisation est actuellement en cours
 //--------------------------------------------------------------------------------------------------
 function SpeechSpeaking()
 {
-  return window.speechSynthesis.speaking;
+  return (window.speechSynthesis.speaking);
 }
 
 

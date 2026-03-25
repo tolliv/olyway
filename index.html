@@ -59,31 +59,34 @@
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSuivreParcoursAnnuler_Choix' onclick='AfficherEcranPrincipal();'>Annuler</button>
 </div>
+
 <div id='EcranSuivreParcours' style='display: none;'>
   <span class='classTitre' id='TitreSuivreParcours'></span>
-  <div id="ConteneurBoussole" style="text-align: center; background: #000; padding: 20px; display: none;">
-    <!-- SVG pour une netteté maximale -->
-    <svg id="BoussoleSVG" viewBox="0 0 100 100" width="250" height="250">
-      <!-- Cercle de fond contrasté -->
-      <circle cx="50" cy="50" r="48" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+  <div id="ConteneurBoussole" style="text-align: center; background: transparent; padding: 20px; display: block;">
+    <svg id="BoussoleSVG" viewBox="0 0 100 100" width="300" height="300">
+      <g id='GroupeHeures' fill='#222' font-size='20' font-weight='bold' text-anchor='middle'>
+        <text id='h12' x="50" y="16">12</text>
+        <text id='h1' x="72" y="20">1</text>
+        <text id='h2' x="88" y="38">2</text>
+        <text id='h3' x="92" y="58">3</text>
+        <text id='h4' x="88" y="78">4</text>
+        <text id='h5' x="72" y="92">5</text>
+        <text id='h6' x="50" y="96">6</text>
+        <text id='h7' x="28" y="92">7</text>
+        <text id='h8' x="12" y="78">8</text>
+        <text id='h9' x="8"  y="58">9</text>
+        <text id='h10' x="10" y="38">10</text>
+        <text id='h11' x="25" y="20">11</text>
+      </g>
 
-      <!-- Indicateurs cardinaux (N, S, E, O)
-      <text x="50" y="15" font-family="Arial" font-weight="bold" font-size="12" fill="#FF0" text-anchor="middle">N</text>
-      <text x="50" y="92" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">S</text>
-      <text x="88" y="54" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">E</text>
-      <text x="12" y="54" font-family="Arial" font-weight="bold" font-size="10" fill="#FFF" text-anchor="middle">O</text>
-      -->
-
-      <!-- La flèche (Groupe que l'on va faire pivoter) -->
+      <!-- La flèche longue occupant le diamètre -->
       <g id="FlecheBoussole" transform="rotate(0, 50, 50)">
-        <!-- Corps de la flèche : Large et contrasté -->
-        <path d="M50 10 L65 55 L50 48 L35 55 Z" fill="#FF3333" stroke="#FFF" stroke-width="1"/>
-        <!-- Ligne de direction pour renforcer la lecture -->
-        <line x1="50" y1="10" x2="50" y2="48" stroke="#FFF" stroke-width="2"/>
+        <!-- Dessin de la flèche : Pointe large en haut (vers 12h) et corps fin s'étendant jusqu'en bas (vers 6h) -->
+        <path d="M50 22 L65 72 L50 65 L35 72 Z" fill="#FFF" />
       </g>
     </svg>
   </div>
-  <span class='classTexte' style='height: 20dvh;' id='TxtAttentePrecisionSuivi'></span>
+  <span class='classTexte' style='height: 19dvh;' id='TxtAttentePrecisionSuivi'></span>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSuivreParcoursAnnuler' onclick='ButSuivreParcoursAnnulerClick();'>Annuler</button>
 </div>

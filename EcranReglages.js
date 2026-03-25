@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranReglages()
 {
+  SpeechStop();
   if (gVoixInterface) Speech("écran réglages");
 
   if (gVoixInterface)  ButVoixInterfaceOn();
@@ -38,6 +39,14 @@ function ButVoixInterfaceClick()
   localStorage.setItem('ParamVoixInterface', gVoixInterface?'1':'0');
 }
 
+function ButVoixInterfaceOff()
+{
+  gVoixInterface = false;
+  pid('ButVoixInterface').classList.remove('classReglageOn');
+  pid('ButVoixInterface').classList.add('classReglageOff');
+  pid('ButVoixInterface').innerHTML = "<div>Interface<br><span class='texte-desactive'>Désactivée</span></div>";
+}
+
 function ButVoixInterfaceOn()
 {
   gVoixInterface = true;
@@ -46,13 +55,6 @@ function ButVoixInterfaceOn()
   pid('ButVoixInterface').innerHTML = "<div>Interface<br><span class='texte-active'>Activée</span></div>";
 }
 
-function ButVoixInterfaceOff()
-{
-  gVoixInterface = false;
-  pid('ButVoixInterface').classList.remove('classReglageOn');
-  pid('ButVoixInterface').classList.add('classReglageOff');
-  pid('ButVoixInterface').innerHTML = "<div>Interface<br><span class='texte-desactive'>Désactivée</span></div>";
-}
 
 //--------------------------------------------------------------------------------------------------
 // Réglage : Voix pendant la navigation
@@ -62,22 +64,14 @@ function ButVoixNavigationClick()
   if (gVoixNavigation)
   {
     ButVoixNavigationOff();
-    if (gVoixInterface) Speech("voix navigation activée");
+    if (gVoixInterface) Speech("voix navigation désactivée");
   }
   else
   {
     ButVoixNavigationOn();
-    if (gVoixInterface) Speech("voix navigation désactivée");
+    if (gVoixInterface) Speech("voix navigation activée");
   }
   localStorage.setItem('ParamVoixNavigation', gVoixNavigation?'1':'0');
-}
-
-function ButVoixNavigationOn()
-{
-  gVoixNavigation = true;
-  pid('ButVoixNavigation').classList.remove('classReglageOff');
-  pid('ButVoixNavigation').classList.add('classReglageOn');
-  pid('ButVoixNavigation').innerHTML = "<div>Navigation<br><span class='texte-active'>Activée</span></div>";
 }
 
 function ButVoixNavigationOff()
@@ -88,6 +82,15 @@ function ButVoixNavigationOff()
   pid('ButVoixNavigation').innerHTML = "<div>Navigation<br><span class='texte-desactive'>Désactivée</span></div>";
 }
 
+function ButVoixNavigationOn()
+{
+  gVoixNavigation = true;
+  pid('ButVoixNavigation').classList.remove('classReglageOff');
+  pid('ButVoixNavigation').classList.add('classReglageOn');
+  pid('ButVoixNavigation').innerHTML = "<div>Navigation<br><span class='texte-active'>Activée</span></div>";
+}
+
+
 
 //--------------------------------------------------------------------------------------------------
 // Réglage : couleur du texte Jaune (ON / true) ou Blanche (OFF / false)
@@ -97,24 +100,14 @@ function ButCouleurClick()
   if (gCouleur)
   {
     ButCouleurOff();
-    if (gVoixInterface) Speech("couleur blanche");
+    if (gVoixInterface) Speech("couleur jaune désactivée");
   }
   else
   {
     ButCouleurOn();
-    if (gVoixInterface) Speech("couleur jaune");
+    if (gVoixInterface) Speech("couleur jaune activée");
   }
   localStorage.setItem('ParamCouleur', gCouleur?'1':'0');
-}
-
-function ButCouleurOn()
-{
-  gCouleur = true;
-  pid('ButCouleur').classList.remove('classReglageOff');
-  pid('ButCouleur').classList.add('classReglageOn');
-  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-active'>Activé</span></div>";
-  document.documentElement.style.setProperty('--COLOR', '#FF6');
-  document.documentElement.style.setProperty('--SUBCOLOR', '#FFF');
 }
 
 function ButCouleurOff()
@@ -122,7 +115,18 @@ function ButCouleurOff()
   gCouleur = false;
   pid('ButCouleur').classList.remove('classReglageOn');
   pid('ButCouleur').classList.add('classReglageOff');
-  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-desactive'>Désactivé</span></div>";
+  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-desactive'>Désactivée</span></div>";
   document.documentElement.style.setProperty('--COLOR', '#FFF');
   document.documentElement.style.setProperty('--SUBCOLOR', '#FF6');
 }
+
+function ButCouleurOn()
+{
+  gCouleur = true;
+  pid('ButCouleur').classList.remove('classReglageOff');
+  pid('ButCouleur').classList.add('classReglageOn');
+  pid('ButCouleur').innerHTML = "<div>Jaune<br><span class='texte-active'>Activée</span></div>";
+  document.documentElement.style.setProperty('--COLOR', '#FF6');
+  document.documentElement.style.setProperty('--SUBCOLOR', '#FFF');
+}
+

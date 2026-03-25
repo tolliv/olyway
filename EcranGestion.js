@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranGestion()
 {
+  SpeechStop();
   if (gVoixInterface) Speech("écran gestion");
   AfficherEcran('EcranGestion');
 }
