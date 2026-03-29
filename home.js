@@ -49,6 +49,10 @@ if ('serviceWorker' in navigator)
             SpeechStop();
             Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
           }
+
+          // Pas encore redémarré
+          else
+            pid('TxtInstallation').innerHTML = "+";
         }
       });
     });
@@ -100,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () =>
   // Ne sert qu'à la mise au point
   if (gModeSimulation)
   {
-    AfficherEcranPrincipal(); // DEBUG:activer , RELEASE:commenter
+    //AfficherEcranPrincipal(); // DEBUG:activer , RELEASE:commenter
   }
 });
 

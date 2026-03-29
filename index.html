@@ -28,14 +28,15 @@
   <span class='classDemarrage'>
     <img id='ImgLogo' alt='' src='icon-192.png'>
     <span class='classTexte' id='TxtOlyway'></span>
+    <span id='TxtInstallation'></span>
   </span>
-  <button class='classBouton' id='ButDémarrage' onclick='ButDemarrageClick();'>Démarrer</button>
+  <button class='classBouton' id='ButDemarrage' onclick='ButDemarrageClick();'>Démarrer</button>
 </div>
 
 
 <!----- Ecran NOUVELLE VERSION ----->
 <div id='EcranNouvelleVersion' style='display: none;'>
-  <button class='classRedemarrage' id='ButDémarrage' onclick='ButRedemarrageClick();'>Redémarrer</button>
+  <button class='classRedemarrage' id='ButRedemarrage' onclick='ButRedemarrageClick();'>Redémarrer</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranInfos.css'>
 <script src="EcranInfos.js"></script>
@@ -52,7 +53,7 @@
   <div class='classEspace'></div>
   <button class='classBouton' id='ButReglages' onclick='AfficherEcranReglages();'>Réglages</button>
   <div class='classEspace'></div>
-  <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Info.</button>
+  <button class='classBouton' id='ButInfos' onclick='AfficherEcranInfos();'>Infos</button>
 </div>
 <link rel='stylesheet' type='text/css' href='EcranPrincipal.css'>
 <script src="EcranPrincipal.js"></script>
@@ -212,7 +213,7 @@
 
 <!----- Ecran INFOS ----->
 <div id='EcranInfos' style='display: none;'>
-  <span class='classTitre'>Ecran Info.</span>
+  <span class='classTitre'>Ecran Infos</span>
   <div id='TxtInfos'></div>
   <button class='classBouton' id='ButInfosRetour' onclick='AfficherEcranPrincipal();'>Retour</button>
 </div>
