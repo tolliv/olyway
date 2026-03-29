@@ -64,6 +64,32 @@ body
   white-space: pre-line;
 }
 
+/* Bouton cliquable */
+.classRedemarrage
+{
+  background-color: var(--BACKGROUND);
+  color: var(--COLOR);
+  font-size: var(--SIZE);
+  font-weight: var(--WEIGHT);
+  /*---*/
+  display: flex;
+  align-items: center;      /* Centrer verticalement */
+  justify-content: center;  /* Centrer horizontalement */
+  text-align: left;       /* Centrer horizontalement si 2 lignes */
+  box-sizing: border-box;
+  border-radius: 15px;
+  cursor: pointer;
+  border: 1px solid #FFF;
+  margin: 0px;
+  width: 100%;
+  height: 100dvh;
+  line-height: 1;
+  padding: 0 5px;
+  gap: 5px;
+  white-space: pre-line;
+  user-select: none;
+}
+
 /* Titre d'écran */
 .classTitre
 {

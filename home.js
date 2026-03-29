@@ -4,6 +4,8 @@
 let gVoixInterface;
 let gVoixNavigation;
 let gCouleur;
+let gNouvelleVersion = false;
+let gDemarrer = false;
 
 //----- Paramètres de configuration -----
 let gPARAM_TempsPause           = 4*15; // Temps de pause avant d'éteindre l'écrn
@@ -37,7 +39,16 @@ if ('serviceWorker' in navigator)
       {
         if (newWorker.state === 'installed')
         {
+          gNouvelleVersion = true;
           console.log('installed');
+
+          // Si on a déja démarré
+          if (gDemarrer)
+          {
+            AfficherEcran('EcranNouvelleVersion');
+            SpeechStop();
+            Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
+          }
         }
       });
     });
@@ -89,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () =>
   // Ne sert qu'à la mise au point
   if (gModeSimulation)
   {
-    AfficherEcran("EcranSuivreParcours"); // DEBUG:activer , RELEASE:commenter
+    AfficherEcranPrincipal(); // DEBUG:activer , RELEASE:commenter
   }
 });
 
@@ -109,11 +120,39 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 // Bouton démarrage
 //--------------------------------------------------------------------------------------------------
-function ButDémarrageClick()
+function ButDemarrageClick()
 {
-  if (gVoixInterface) Speech("Bienvenue sur Olyway.");
-  AfficherEcranPrincipal();
+  gDemarrer = true;
+
+  // Si une nouvelle version a été installée pendant écran de démarrage
+  if (gNouvelleVersion)
+  {
+    AfficherEcran('EcranNouvelleVersion');
+    SpeechStop();
+    Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
+  }
+  else
+  {
+    if (gVoixInterface) Speech("Bienvenue sur Olyway.");
+    AfficherEcranPrincipal();
+  }
 }
+
+//--------------------------------------------------------------------------------------------------
+// Bouton redémarrage
+//--------------------------------------------------------------------------------------------------
+async function ButRedemarrageClick()
+{
+    SpeechStop();
+    Speech("Redémarrage.");
+    do
+    {
+      await sleep(100);
+    }
+    while (SpeechSpeaking());
+    window.location.reload();
+}
+
 
 //--------------------------------------------------------------------------------------------------
 // Fonction d'attente d'une durée
@@ -305,6 +344,7 @@ function getPlatform()
 // Afficher un seul écran d'une liste en masquant les autres
 //--------------------------------------------------------------------------------------------------
 const gListeEcrans = [    "EcranDemarrage",
+                          "EcranNouvelleVersion",
                           "EcranPrincipal",
                           "EcranSuivreParcours",
                             "EcranSuivreParcours_Choix",
