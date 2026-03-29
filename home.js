@@ -116,14 +116,14 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function IsNotInstalled()
 {
-  let lReturn = true;
+  let lReturn = true;  // Pas de nouvelle version, on peut continuer
   if (gInstalled)
   {
     gInstalled = false;
     AfficherEcran('EcranNouvelleVersion');
     SpeechStop();
     Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
-    let lReturn = false;
+    lReturn = false;  // Nouvelle version
   }
   return(lReturn);
 }
