@@ -122,6 +122,8 @@ function pid(id)
 //--------------------------------------------------------------------------------------------------
 function ButDemarrageClick()
 {
+  window.location.reload();
+
   gDemarrer = true;
 
   // Si une nouvelle version a été installée pendant écran de démarrage
