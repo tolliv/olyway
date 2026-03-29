@@ -4,7 +4,6 @@
 let gVoixInterface;
 let gVoixNavigation;
 let gCouleur;
-let gNouvelleVersion = false;
 let gDemarrer = false;
 
 //----- Paramètres de configuration -----
@@ -15,47 +14,6 @@ const gPARAM_NprecisionOK       = 3;    // Nombre de valeurs consécutives avec 
 //--------------------------------------------------------------------------------------------------
 // Initialisations
 //--------------------------------------------------------------------------------------------------
-
-//----- Installation du Service Worker -----
-if ('serviceWorker' in navigator)
-{
-  // updateViaCache: 'none' force le navigateur à ignorer son cache HTTP
-  const registrationPromise = navigator.serviceWorker.register('./sw.js',
-  {
-    updateViaCache: 'none'
-  });
-
-  registrationPromise.then(registration =>
-  {
-    // Force une vérification de mise à jour à chaque chargement de la page
-    registration.update();
-
-    // Updatefound
-    registration.addEventListener('updatefound', () =>
-    {
-      console.log('Nouvelle version du service worker trouvée, installation en cours.');
-      const newWorker = registration.installing;
-      newWorker.addEventListener('statechange', () =>
-      {
-        if (newWorker.state === 'installed')
-        {
-          gNouvelleVersion = true;
-          console.log('installed');
-
-          // Si on a déja démarré
-          if (gDemarrer)
-          {
-            AfficherEcran('EcranNouvelleVersion');
-            SpeechStop();
-            Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
-          }
-        }
-      });
-    });
-  }).catch(error =>
-  {
-  });
-}
 
 //----- Wake Lock -----
 document.addEventListener('visibilitychange', async () =>
@@ -118,27 +76,52 @@ function pid(id)
 
 
 //--------------------------------------------------------------------------------------------------
+// Service Worker
+//--------------------------------------------------------------------------------------------------
+let gSWRegistration = null;
+
+function EnregistrerServiceWorker()
+{
+  if ('serviceWorker' in navigator)
+  {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+      .then(registration =>
+      {
+        gSWRegistration = registration;
+        registration.update();
+
+        registration.addEventListener('updatefound', () =>
+        {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () =>
+          {
+            if (newWorker.state === 'installed')
+            {
+              console.log("Installed");
+
+              AfficherEcran('EcranNouvelleVersion');
+              SpeechStop();
+              Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
+            }
+          });
+        });
+      })
+      .catch(error => console.log("Erreur SW :", error));
+  }
+}
+
+
+//--------------------------------------------------------------------------------------------------
 // Bouton démarrage
 //--------------------------------------------------------------------------------------------------
 function ButDemarrageClick()
 {
-  window.location.reload();
-
-  gDemarrer = true;
-
-  // Si une nouvelle version a été installée pendant écran de démarrage
-  if (gNouvelleVersion)
-  {
-    AfficherEcran('EcranNouvelleVersion');
-    SpeechStop();
-    Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
-  }
-  else
-  {
-    if (gVoixInterface) Speech("Bienvenue sur Olyway.");
-    AfficherEcranPrincipal();
-  }
+  // On lance l'installation du Service Worker maintenant
+  EnregistrerServiceWorker();
+  if (gVoixInterface) Speech("Bienvenue sur Olyway.");
+  AfficherEcranPrincipal();
 }
+
 
 //--------------------------------------------------------------------------------------------------
 // Bouton redémarrage
@@ -206,7 +189,9 @@ function closeFullscreen()
 //--------------------------------------------------------------------------------------------------
 let wakeLock = null;
 
+//------------------------------------
 // Fonction pour ACTIVER le Wake Lock
+//------------------------------------
 async function ActiverWakeLock()
 {
   try
@@ -233,7 +218,9 @@ async function ActiverWakeLock()
   }
 }
 
+//------------------------------------
 // Fonction pour DÉSACTIVER le Wake Lock
+//------------------------------------
 async function DesactiverWakeLock()
 {
 
