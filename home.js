@@ -4,7 +4,7 @@
 let gVoixInterface;
 let gVoixNavigation;
 let gCouleur;
-let gDemarrer = false;
+let gInstalled = false;
 
 //----- Paramètres de configuration -----
 let gPARAM_TempsPause           = 4*15; // Temps de pause avant d'éteindre l'écrn
@@ -24,10 +24,44 @@ document.addEventListener('visibilitychange', async () =>
   }
 });
 
+//----- Installation du Service Worker -----
+if ('serviceWorker' in navigator)
+{
+  // updateViaCache: 'none' force le navigateur à ignorer son cache HTTP
+  const registrationPromise = navigator.serviceWorker.register('./sw.js',
+  {
+    updateViaCache: 'none'
+  });
+
+  registrationPromise.then(registration =>
+  {
+    // Force une vérification de mise à jour à chaque chargement de la page
+    registration.update();
+
+    // Updatefound
+    registration.addEventListener('updatefound', () =>
+    {
+      console.log('Nouvelle version, installation en cours.');
+      const newWorker = registration.installing;
+      newWorker.addEventListener('statechange', () =>
+      {
+        if (newWorker.state === 'installed')
+        {
+          console.log('Installée');
+          gInstalled = true;
+        }
+      });
+    });
+  }).catch(error =>
+  {
+    console.log("SW erreur");
+  });
+}
+
 //----- Gestionnaires d'événements DOM -----
 document.addEventListener('DOMContentLoaded', async () =>
 {
-  console.log("Version :", VERSION);
+  console.log("Version actuelle :", VERSION);
   const lVersion = VERSION.substring(0, 2) + " " + VERSION.substring(2, 4) + " " +VERSION.substring(5, 10);
 
   pid('TxtOlyway').innerHTML = "Olyway \n" + lVersion + "</span>";
@@ -76,48 +110,30 @@ function pid(id)
 
 
 //--------------------------------------------------------------------------------------------------
-// Service Worker
+// Vérification nouvelle version
+// Renvoie true si pas de nouvelle version
+// Renvoie false si une nouvelle version a été installée
 //--------------------------------------------------------------------------------------------------
-let gSWRegistration = null;
-
-function EnregistrerServiceWorker()
+function IsNotInstalled()
 {
-  if ('serviceWorker' in navigator)
+  let lReturn = true;
+  if (gInstalled)
   {
-    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
-      .then(registration =>
-      {
-        gSWRegistration = registration;
-        registration.update();
-
-        registration.addEventListener('updatefound', () =>
-        {
-          const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () =>
-          {
-            if (newWorker.state === 'installed')
-            {
-              console.log("Installed");
-
-              AfficherEcran('EcranNouvelleVersion');
-              SpeechStop();
-              Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
-            }
-          });
-        });
-      })
-      .catch(error => console.log("Erreur SW :", error));
+    gInstalled = false;
+    AfficherEcran('EcranNouvelleVersion');
+    SpeechStop();
+    Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
+    let lReturn = false;
   }
 }
 
 
 //--------------------------------------------------------------------------------------------------
 // Bouton démarrage
+// On lance l'installation du Service Worker maintenant
 //--------------------------------------------------------------------------------------------------
 function ButDemarrageClick()
 {
-  // On lance l'installation du Service Worker maintenant
-  EnregistrerServiceWorker();
   if (gVoixInterface) Speech("Bienvenue sur Olyway.");
   AfficherEcranPrincipal();
 }

@@ -7,9 +7,12 @@
 async function AfficherEcranPrincipal()
 {
   SpeechStop();
-  if (gVoixInterface) Speech("écran principal");
   if (!gModeSimulation)
     openFullscreen();
-  AfficherEcran("EcranPrincipal");
+  if (IsNotInstalled())
+  {
+    if (gVoixInterface) Speech("écran principal");
+    AfficherEcran("EcranPrincipal");
+  }
 }
 

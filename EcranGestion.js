@@ -8,8 +8,11 @@
 function AfficherEcranGestion()
 {
   SpeechStop();
-  if (gVoixInterface) Speech("écran gestion");
-  AfficherEcran('EcranGestion');
+  if (IsNotInstalled())
+  {
+    if (gVoixInterface) Speech("écran gestion");
+    AfficherEcran('EcranGestion');
+  }
 }
 
 

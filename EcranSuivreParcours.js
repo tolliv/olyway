@@ -9,10 +9,13 @@ let gSuiviParcoursChoix = '';
 function AfficherEcranSuivreParcours()
 {
   SpeechStop();
-  if (gVoixInterface) Speech("Suivre un parcours");
-  CallSelectionOK = SuivreParcoursSelectionne;
-  CallSelectionAnnuler = AfficherEcranPrincipal;
-  AfficherEcranSelection();
+  if (IsNotInstalled())
+  {
+    if (gVoixInterface) Speech("Suivre un parcours");
+    CallSelectionOK = SuivreParcoursSelectionne;
+    CallSelectionAnnuler = AfficherEcranPrincipal;
+    AfficherEcranSelection();
+  }
 }
 
 //----- Parcours sélectionné -----

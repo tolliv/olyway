@@ -7,17 +7,20 @@
 //--------------------------------------------------------------------------------------------------
 function AfficherEcranNouveauParcours()
 {
-  if (gVoixInterface) Speech("écran nouveau");
+  if (IsNotInstalled())
+  {
+    if (gVoixInterface) Speech("écran nouveau");
 
-  // Reinit l'affichage avant d'afficher la fenêtre
-  pid('ButNouveauParcoursDemarrer').style.display = 'none';
-  pid('TxtAttentePrecisionEnregistrement').innerHTML = "";
-  AfficherEcran('EcranNouveauParcours');
+    // Reinit l'affichage avant d'afficher la fenêtre
+    pid('ButNouveauParcoursDemarrer').style.display = 'none';
+    pid('TxtAttentePrecisionEnregistrement').innerHTML = "";
+    AfficherEcran('EcranNouveauParcours');
 
-  // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
-  ActiverWakeLock();
-  gStateEnregistrement = 'DEMARRAGE';
-  StateMachineEnregistrement();
+    // La machine d'état est démarrée et le restera jusqu'à la fermeture de l'application
+    ActiverWakeLock();
+    gStateEnregistrement = 'DEMARRAGE';
+    StateMachineEnregistrement();
+  }
 }
 
 //--------------------------------------------------------------------------------------------------

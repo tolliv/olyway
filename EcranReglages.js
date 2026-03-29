@@ -8,17 +8,20 @@
 function AfficherEcranReglages()
 {
   SpeechStop();
-  if (gVoixInterface) Speech("écran réglages");
+  if (IsNotInstalled())
+  {
+    if (gVoixInterface) Speech("écran réglages");
 
-  if (gVoixInterface)  ButVoixInterfaceOn();
-  else                 ButVoixInterfaceOff();
+    if (gVoixInterface)  ButVoixInterfaceOn();
+    else                 ButVoixInterfaceOff();
 
-  if (gVoixNavigation) ButVoixNavigationOn();
-  else                 ButVoixNavigationOff();
+    if (gVoixNavigation) ButVoixNavigationOn();
+    else                 ButVoixNavigationOff();
 
-  if (gCouleur)        ButCouleurOn();
-  else                 ButCouleurOff();
-  AfficherEcran("EcranReglages");
+    if (gCouleur)        ButCouleurOn();
+    else                 ButCouleurOff();
+    AfficherEcran("EcranReglages");
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
