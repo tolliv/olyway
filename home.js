@@ -125,6 +125,7 @@ function IsNotInstalled()
     Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
     let lReturn = false;
   }
+  return(lReturn);
 }
 
 
