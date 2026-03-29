@@ -49,10 +49,6 @@ if ('serviceWorker' in navigator)
             SpeechStop();
             Speech("Une nouvelle version a été installée. Appuyer sur redémarrer");
           }
-
-          // Pas encore redémarré
-          else
-            pid('TxtInstallation').innerHTML = "+";
         }
       });
     });
