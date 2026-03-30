@@ -123,7 +123,7 @@ function IsNotInstalled()
     AfficherEcran('EcranNouvelleVersion');
     SpeechStop();
     Speech("Une nouvelle version a été installée. Appuyer sur redémarrer pour l'activer.");
-    lReturn = false;  // Nouvelle version
+    lReturn = false;  // Nouvelle version, il ne faut pas exécuter le reste de l'application
   }
   return(lReturn);
 }
