@@ -236,6 +236,14 @@ function StateMachineSuivi()
       // POINT_ATTEINT : point atteint, il faut se tourner vers le prochain
       case 'POINT_ATTEINT':
       {
+        pid('TitreSuivreParcours').innerHTML = "Aller vers point 2";
+      }
+      break;
+
+      //--------------------------------------------------------------------------------------------
+      // POINT_SUIVANT : point atteint, il faut se tourner vers le prochain
+      case 'POINT_ATTEINT':
+      {
       }
       break;
 
@@ -386,11 +394,14 @@ function ActualiserBoussole(pAngle)
   {
     if (lText.id === 'h' + lHeure)
     {
-      lText.setAttribute('fill', '#FF6'); // Jaune vif pour le point visé
+      lText.textContent = lHeure;
     }
     else
     {
-      lText.setAttribute('fill', '#222'); // Gris foncé pour les autres
+      lText.textContent = "";
     }
   });
+
+  // Pour afficher le SVG après la rotation
+  pid('BoussoleSVG').style.visibility = 'visible';
 }

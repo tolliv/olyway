@@ -31,9 +31,8 @@ function AfficherEcranNom()
 //--------------------------------------------------------------------------------------------------
 // Validation du nom
 // lNom contient le nom choisi par l'utilisateur
-// gDateNomFichier est l'identificateur pour :
-// - le nom dans le LocalStorage
-// - le nom du fichier GPX
+// gDateNomFichier est l'identificateur pour la clé pour le LocalStorage
+// lNom est le nom de fichier GPX
 //--------------------------------------------------------------------------------------------------
 function ButNomValiderClick()
 {
@@ -53,6 +52,10 @@ function ButNomValiderClick()
   const lParcoursJson = JSON.stringify(lParcours);
   localStorage.setItem(gDateNomFichier, lParcoursJson);
 
+  // Nettoyage de la trace
+  NettoyageParcours(gDateNomFichier);
+
+  // Revient à l'écran principal
   AfficherEcranPrincipal();
 }
 

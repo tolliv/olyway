@@ -136,7 +136,7 @@ function IsNotInstalled()
 function ButDemarrageClick()
 {
   if (gVoixInterface) Speech("Bienvenue sur Olyway.");
-  AfficherEcranPrincipal();
+  AfficherEcranPrincipal();          // DEBUG:commenter , RELEASE:activer
 }
 
 

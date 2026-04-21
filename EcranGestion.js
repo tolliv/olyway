@@ -181,8 +181,12 @@ function ImporterContenuGPX(xmlString, nomFichier)
 
     // Sauvegarde dans le localStorage
     localStorage.setItem(cle, JSON.stringify(objetParcours));
+
+    // Nettoyage de la trace
+    NettoyageParcours(cle);
+
     AfficherEcranGestion();
-    console.error("Importation OK");
+    console.log("Importation OK");
   }
   catch (erreur)
   {
@@ -206,4 +210,162 @@ function ButGestionInfosClick()
 function GestionParcoursInfosSelectionne(pCle)
 {
   AfficherEcranParcoursInfos(pCle);
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Nettoyage du parcours pour supprimer les mauvais points et faire des segments plus longs
+// [IN] lParcours = nom du parcours (date) en local storage
+//--------------------------------------------------------------------------------------------------
+function NettoyageParcours(lParcours)
+{
+  let lDonneesJSON = localStorage.getItem(lParcours);
+  let lObjetParcours = JSON.parse(lDonneesJSON);
+  const lNomParcours = lObjetParcours.nom;
+  const lDistanceTotale = lObjetParcours.distance;
+  const lBrutPoints = lObjetParcours.points;  // Tableau avec les positions brutes
+  let lAvgPoints    = lBrutPoints;            // Tableau avec les positions moyennées
+  let lNewPoints    = [];                     // Tableau avec les positions filtrées
+
+  const lCONFIGFiltrage = 5;
+
+  //----- Lissage par moyenne glissante sur 3 points ----------------------------------------------
+  if (lCONFIGFiltrage == 3)
+  {
+    for (let i = 1; i < lAvgPoints.length - 1; i++)
+    {
+      let pPrec1 = lAvgPoints[i - 1];
+      let pCurr  = lAvgPoints[i];
+      let pSuiv1 = lAvgPoints[i + 1];
+
+      // Calcul de la moyenne pour Lat et Lon (Altitude non modifiée)
+      pCurr.lat = (pPrec1.lat + pCurr.lat + pSuiv1.lat) / 3;
+      pCurr.lon = (pPrec1.lon + pCurr.lon + pSuiv1.lon) / 3;
+
+      // Re-écriture du point
+      lAvgPoints[i] = pCurr;
+    }
+  }
+
+  //----- Lissage par moyenne glissante sur 5 points ----------------------------------------------
+  if (lCONFIGFiltrage == 5)
+  {
+    for (let i = 2; i < lAvgPoints.length - 2; i++)
+    {
+      let pPrec2 = lAvgPoints[i - 2];
+      let pPrec1 = lAvgPoints[i - 1];
+      let pCurr  = lAvgPoints[i];
+      let pSuiv1 = lAvgPoints[i + 1];
+      let pSuiv2 = lAvgPoints[i + 2];
+
+      // Calcul de la moyenne pour Lat et Lon (Altitude non modifiée)
+      pCurr.lat = (pPrec2.lat + pPrec1.lat + pCurr.lat + pSuiv1.lat + pSuiv2.lat) / 5;
+      pCurr.lon = (pPrec2.lon + pPrec1.lon + pCurr.lon + pSuiv1.lon + pSuiv2.lon) / 5;
+
+      // Re-écriture du point
+      lAvgPoints[i] = pCurr;
+    }
+  }
+
+  // Création du GPX MOYENNE
+  const lNomMoyenne = lNomParcours + "_moyenne";
+  SaveGPX(lAvgPoints, lNomMoyenne);
+
+
+  //----- Création du nouveau tableau filtré -------------------------------------------------------
+  // Ajout systématique du premier point
+  lNewPoints.push(
+  {
+    lat: lAvgPoints[0].lat,
+    lon: lAvgPoints[0].lon,
+    ele: lAvgPoints[0].ele
+  });
+
+  // Index du  point de référence qui est le premier point pour commencer
+  let lPointReference = lAvgPoints[0];
+
+  //-- Parcourt tous les points filtrés --
+  let lCompteurPoint = 0;
+  const lLimite = lAvgPoints.length;
+  for (let i = 1; i < lLimite - 1; i++)
+  {
+    // Calcul de la distance approximative avec le point de référence
+    let lDistLat = (lAvgPoints[i].lat - lPointReference.lat) * 111111;
+    let lDistLon = (lAvgPoints[i].lon - lPointReference.lon) * 111111 * Math.cos(lAvgPoints[i].lat * Math.PI / 180);
+    let lDistanceReference = Math.sqrt(lDistLat * lDistLat + lDistLon * lDistLon);
+
+    // Direction par rapport au point de référence
+    let dy0 = lAvgPoints[i].lat - lPointReference.lat;
+    let dx0 = lAvgPoints[i].lon - lPointReference.lon;
+    let angleDeg0 = Math.atan2(dx0, dy0) * (180 / Math.PI);
+    if (angleDeg0 < 0)
+      angleDeg0 += 360;
+
+    // Direction du point suivant (i -> i+1)
+    let dyS = lAvgPoints[i + 1].lat - lAvgPoints[i].lat;
+    let dxS = lAvgPoints[i + 1].lon - lAvgPoints[i].lon;
+    let angleDegS = Math.atan2(dxS, dyS) * (180 / Math.PI);
+    if (angleDegS < 0)
+      angleDegS += 360;
+
+    // Vérifie si changement de direction >= 30°
+    let lDifference = Math.abs(angleDegS - angleDeg0);
+    if (lDifference > 180)
+      lDifference = 360 - lDifference;
+
+    // Détection du changement de direction
+    // Il faut au moins 1 point d'écart pour se rapprocher d'une vraie trace qui tourne à 90°
+    if ( (lDifference >= 20) && (lCompteurPoint > 1) )
+    {
+      lNewPoints.push(
+      {
+        lat: lAvgPoints[i].lat,
+        lon: lAvgPoints[i].lon,
+        ele: lAvgPoints[i].ele
+      });
+      lPointReference = lAvgPoints[i];
+      lCompteurPoint = 0;
+    }
+
+    // Point intermédiaire, même si c'est une ligne droite (~30m maximum entre 2 points)
+    else if (lDistanceReference >= 30)
+    {
+      lNewPoints.push(
+      {
+        lat: lAvgPoints[i].lat,
+        lon: lAvgPoints[i].lon,
+        ele: lAvgPoints[i].ele
+      });
+      lPointReference = lAvgPoints[i];
+      lCompteurPoint = 0;
+    }
+
+    // Incrémentation du compteur de points qui sert à ne pas avoir de points trop rapprochés
+    lCompteurPoint++;
+  }
+
+  // Sortie de la boucle, on ajoute le dernier point systématiquement
+  lNewPoints.push(
+  {
+    lat: lAvgPoints[lLimite - 1].lat,
+    lon: lAvgPoints[lLimite - 1].lon,
+    ele: lAvgPoints[lLimite - 1].ele
+  });
+
+
+  // Remplacement du tableau brut par le nouveau tableau filtré
+  objetParcours =
+  {
+   nom: lNomParcours,
+   distance: lDistanceTotale,
+   points: lNewPoints
+  };
+
+  // Sauvegarde dans le localStorage avec la clé (lParcours)
+  localStorage.setItem(lParcours, JSON.stringify(objetParcours));
+
+  // Création du GPX CLEAN
+  const lNomNClean = lNomParcours + "_clean";
+  SaveGPX(lNewPoints, lNomNClean);
+  console.log("Nettoyage terminé : " + lBrutPoints.length + " points réduits à " + lNewPoints.length);
 }
