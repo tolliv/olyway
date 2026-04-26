@@ -75,9 +75,9 @@ function ButSuivreParcoursCommon(pChoix, pTexte)
 }
 
 //--------------------------------------------------------------------------------------------------
-// Annulation du suivi de parcours
+// Arrêt du suivi de parcours
 //--------------------------------------------------------------------------------------------------
-function ButSuivreParcoursAnnulerClick()
+function ButSuivreParcoursArreterClick()
 {
   // Arrêt de la machine d'état
   gStateSuivi = 'ARRET';

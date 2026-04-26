@@ -48,9 +48,20 @@ function GeolocalisationWatch()
   if (gModeSimulation)
   {
     // Définition de la fonction de répétition
-    const simulationStep = () => {
-      gGeoLatitude = 43.536156;
-      gGeoLongitude = 1.413939 + gGeoStatus * 0.00001;
+    const simulationStep = () =>
+    {
+      console.log(gGeoStatus);
+      if (gGeoStatus < 35)
+      {
+        gGeoLatitude = 43.536156;
+        gGeoLongitude = 1.413939 + gGeoStatus * 0.00001;
+      }
+      else
+      {
+        gGeoLatitude = 43.536156 - (gGeoStatus - 45) * 0.00001;
+        gGeoLongitude = 1.414380;
+      }
+
       gGeoAccuracy = Math.floor(10 - (gGeoStatus*10));
       if (gGeoAccuracy < 4)
         gGeoAccuracy = 4;
