@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () =>
   // Ne sert qu'à la mise au point
   if (gModeSimulation)
   {
-    //AfficherEcranPrincipal(); // DEBUG:activer , RELEASE:commenter
+//    AfficherEcranPrincipal(); // DEBUG:activer , RELEASE:commenter
   }
 });
 

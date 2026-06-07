@@ -43,7 +43,7 @@
 
 <!----- ECRAN PRINCIPAL ----->
 <div id='EcranPrincipal' style='display: none;'>
-  <span class='classTitre'>Ecran Principal</span>
+  <span class='classTitre'>Menu Principal</span>
   <button class='classBouton' id='ButSuivreParcours' onclick='AfficherEcranSuivreParcours();'>Suivre</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButNouveauParcours' onclick='AfficherEcranNouveauParcours();'>Nouveau</button>
@@ -60,7 +60,7 @@
 
 <!----- Ecran SUIVRE PARCOURS ----->
 <div id='EcranSuivreParcours_Choix' style='display: none;'>
-  <span class='classTitre'>Ecran Depuis</span>
+  <span class='classTitre'>Choix début</span>
   <button class='classBouton' id='ButSuivreParcoursAuDepart' onclick='ButSuivreParcoursAuDepartClick();'>Depuis départ</button>
   <div class='classEspace'></div>
   <button class='classBouton' id='ButSuivreParcoursAuPlusPres' onclick='ButSuivreParcoursAuPlusPresClick();'>Depuis ici</button>
@@ -71,7 +71,7 @@
 <div id='EcranSuivreParcours' style='display: none;'>
   <span class='classTitre' id='TitreSuivreParcours'></span>
   <div id='ConteneurBoussole' style="text-align: center; background: transparent; padding: 20px; display: block;">
-    <svg id='BoussoleSVG' viewBox='0 0 100 100' width='300' height='300' style='visibility: hidden;'>
+    <svg id='BoussoleSVG' viewBox='0 0 120 120' width='300' height='300' style='visibility: hidden;'>
       <g id='GroupeHeures' fill='var(--SUBCOLOR)' font-size='20' font-weight='bold' text-anchor='middle'>
         <text id='h12' x="50" y="16"></text>
         <text id='h1' x="72" y="20"></text>
@@ -167,7 +167,7 @@
 
 <!----- Ecran SELECTION ----->
 <div id='EcranSelection' style='display: none;'>
-  <span class='classTitre'>Ecran Sélection</span>
+  <span class='classTitre'>Sélection Parcours</span>
   <button class='classSelectionListe' id='ListeElement0' onclick='Selection(0);'></button>
   <button class='classSelectionListe' id='ListeElement1' onclick='Selection(1);'></button>
   <button class='classSelectionListe' id='ListeElement2' onclick='Selection(2);'></button>

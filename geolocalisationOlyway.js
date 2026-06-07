@@ -50,7 +50,6 @@ function GeolocalisationWatch()
     // Définition de la fonction de répétition
     const simulationStep = () =>
     {
-      console.log(gGeoStatus);
       if (gGeoStatus < 35)
       {
         gGeoLatitude = 43.536156;

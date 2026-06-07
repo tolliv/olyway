@@ -15,6 +15,8 @@ let gPointToGo = { lat: 0, lon: 0, index: 0 };
 let gIndexFin = 0;
 const gSymboleSuivi = "⏩";
 let gVoixPrev = "";
+let gDateSpeech = 0;
+let gForceSpeech = 0;
 
 //--------------------------------------------------------------------------------------------------
 // Démarrage du suivi avec le bouton Démarrer
@@ -70,7 +72,7 @@ function StateMachineSuivi()
         GeolocalisationWatch();
         StartCompass();
         SpeechStop();
-        if (gVoixNavigation) Speech("Localisation en cours, précision de");
+        if (gVoixNavigation) Speech("Attente précision localisation");
         gStateSuivi = 'DEMARRAGE_ATTENTE';
         break;
 
@@ -121,8 +123,7 @@ function StateMachineSuivi()
             // Quand seuil atteint, on peut rallier le point choisi
             if (gGeoCompteurPrecisionOKSuivi >= gPARAM_NprecisionOK)
             {
-              if (gVoixNavigation) Speech("Précision de " + gPARAM_PrecisionDemarrage + "m atteinte. Vous pouvez vous diriger vers le point.");
-              gVoixPrev = "";
+              if (gVoixNavigation) Speech("Précision atteinte.");
 
               // Si on veut aller au point de départ                                                // Mémorisation du point suivant : DEPART
               if (gSuiviParcoursChoix == 'AU_DEPART')
@@ -130,6 +131,10 @@ function StateMachineSuivi()
                 gPointToGo.lat = gTableauMesures[0].lat;
                 gPointToGo.lon = gTableauMesures[0].lon;
                 gPointToGo.index = 0;
+                pid('TitreSuivreParcours').innerHTML = "Aller au départ";
+                if (gVoixNavigation) Speech("Aller au point de départ.");
+                gVoixPrev = "";
+                gForceSpeech = 1;
               }
 
               // Si on veut aller au point le plus proche                                           // Mémorisation du point suivant : PLUS_PRES
@@ -140,6 +145,9 @@ function StateMachineSuivi()
                 gPointToGo.lon = gTableauMesures[lRetour.index].lon;
                 gPointToGo.index = lRetour.index;
                 pid('TitreSuivreParcours').innerHTML = "Aller au point " + gPointToGo.index;
+                if (gVoixNavigation) Speech("Allez au  point " + gPointToGo.index);
+                gVoixPrev = "";
+                gForceSpeech = 1;
               }
 
               // Effacement texte pour le prochain affichage
@@ -156,7 +164,7 @@ function StateMachineSuivi()
             // On  vocalise si la valeur est différente
             else
             {
-              // Vocalise que si la phrase précédente est finie pour ne pas empiler toutes les distances
+              // Vocalise que si la phrase précédente est finie pour ne pas empiler
               if (!SpeechSpeaking())
               {
                 const lVoixPrecision = gGeoAccuracy + "m";
@@ -195,13 +203,13 @@ function StateMachineSuivi()
             // Calcul de la distance entre la position actuelle et le point de passage à atteindre
             const lPositionActuelle = { lat: gGeoLatitude, lon: gGeoLongitude };
             const lProchainPoint = { lat: gPointToGo.lat, lon: gPointToGo.lon };
-            const lDistance = 1000*CalculDistance(lPositionActuelle, lProchainPoint);
+            const lDistance = (1000*CalculDistance(lPositionActuelle, lProchainPoint)).toFixed(0);
             const lAngle = CalculDirectionVers(gPointToGo.lat, gPointToGo.lon);
 
             // Affichage
-            pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance.toFixed(0) + "m\n";
+            pid('TxtAttentePrecisionSuivi').innerHTML  = "Distance " + lDistance + "m\n";
             pid('ConteneurBoussole').style.display = 'block';                                       // Affichage boussole
-            ActualiserBoussole(lAngle.relative);
+            const lHeureBoussole = ActualiserBoussole(lAngle.relative);
 
             // Vérifie si on est assez près du point de départ
             if (lDistance <= gPARAM_PrecisionDemarrage)
@@ -212,17 +220,38 @@ function StateMachineSuivi()
             // Point non encore atteint
             else
             {
-              if (!SpeechSpeaking())
+              // Vocalise si :
+              // - option cochée
+              // - la phrase précédente est finie
+              // - la phase est différente de la précédente
+              // - pas trop près dela précédente
+              // - si multiple de 5 mètres
+              const lVoixDistance = lHeureBoussole + " heures " + lDistance + "m";
+              const lMaintenant = Date.now();
+
+              // Vocalise forcée
+              if (gForceSpeech == 1)
               {
-                const lVoixDistance = lDistance + "m";
-                if (gVoixPrev != lVoixDistance)
+                gForceSpeech = 0;
+                if (gVoixNavigation)
                 {
-                  if (gVoixNavigation && !SpeechSpeaking()) Speech(lDistance + "m");
+                  Speech(lVoixDistance);
+                  gDateSpeech = lMaintenant;
+                  gVoixPrev = lVoixDistance;
+                }
+              }
+
+              // Vocalise conditionnée
+              else
+              {
+                if (gVoixNavigation && !SpeechSpeaking() && (lVoixDistance != gVoixPrev) && (lMaintenant - gDateSpeech >= 5000) && (lDistance %5 == 0))
+                {
+                  Speech(lVoixDistance);
+                  gDateSpeech = lMaintenant;
                   gVoixPrev = lVoixDistance;
                 }
               }
             }
-
           }
         }
         break;
@@ -236,29 +265,31 @@ function StateMachineSuivi()
         // Si on vient de franchir l'arrivée
         if (gPointToGo.index == gIndexFin)
         {
-          if (gVoixNavigation) Speech("Vous avez fini.");
+          if (gVoixNavigation) Speech("Point d'arrivée atteint. Le parcours est terminé.");
           gStateSuivi = 'ARRET';
-          AfficheEcranPrincipal();
+          AfficherEcranPrincipal();
         }
 
-        // Le prochain point est l'arrivée
-        else if ( lProchainIndex == gIndexFin)
-        {
-          pid('TitreSuivreParcours').innerHTML = "Aller vers l'arrivée";
-          gPointToGo.lat = gTableauMesures[lProchainIndex].lat;
-          gPointToGo.lon = gTableauMesures[lProchainIndex].lon;
-          gPointToGo.index = lProchainIndex;
-          gStateSuivi = 'RALLIEMENT';
-        }
-
-        // On passe au prochain point
+        // Pas encore l'arrivée
         else
         {
+          // Si c'est le point de départ
+          if (gPointToGo.index == 0)
+          {
+            if (gVoixNavigation) Speech("Point de départ atteint.");
+          }
+          else
+          {
+            if (gVoixNavigation) Speech("Point " + gPointToGo.index + " atteint.");
+          }
           pid('TitreSuivreParcours').innerHTML = "Aller au point " + lProchainIndex;
           gPointToGo.lat = gTableauMesures[lProchainIndex].lat;
           gPointToGo.lon = gTableauMesures[lProchainIndex].lon;
           gPointToGo.index = lProchainIndex;
           gStateSuivi = 'RALLIEMENT';
+
+          // Force la vocalisation pour indiquer la nouvelle direction
+          gForceSpeech = 1;
         }
       }
       break;
@@ -421,4 +452,5 @@ function ActualiserBoussole(pAngle)
   // Pour afficher le SVG après la rotation
   pid('BoussoleSVG').style.visibility = 'visible';
   pid('ConteneurBoussole').style.display = 'block';                                                 // Affichage boussole
+  return(lHeure);
 }

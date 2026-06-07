@@ -3,7 +3,7 @@
 // Contient la machine à état pour enregistrer un parcours
 //==================================================================================================
 
-gPARAM_TempsPause      = 4*11; // DEBUG:activer , RELEASE:commenter
+// gPARAM_TempsPause      = 4*11; // DEBUG:activer , RELEASE:commenter
 
 
 //----- Variables globales à cet écran -----
@@ -47,7 +47,7 @@ function EnregistrementDemarrer()
 //--------------------------------------------------------------------------------------------------
 function EcranEnregistrementClick()
 {
-  AfficheReleves(true);
+  AfficheReleves(gVoixNavigation);
   gCounterPause = gPARAM_TempsPause;
   gStateEnregistrement = 'ALLUMAGE';
   AfficherEcran('EcranPause');
@@ -179,7 +179,6 @@ function StateMachineEnregistrement()
           AfficherEcran('EcranEnregistrement');
           gCounterIndicateurEnregistrement = 0;
           gStateEnregistrement = 'EXTINCTION';
-          if (gVoixInterface) Speech("Ecran désactivé.");
         }
         break;
 

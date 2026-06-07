@@ -13,7 +13,7 @@ async function AfficherEcranPrincipal()
   // On continue s'il n'y a pas de nouvelle version
   if (IsNotInstalled())
   {
-    if (gVoixInterface) Speech("écran principal");
+    if (gVoixInterface) Speech("Menu principal.");
     AfficherEcran("EcranPrincipal");
   }
 }
